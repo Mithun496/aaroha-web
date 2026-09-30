@@ -1,29 +1,43 @@
 /* AAROHA premium visual system. Loaded after the legacy stylesheet. */
 :root {
   color-scheme: light;
-  --aaroha-deep: #063B35;
-  --aaroha-forest: #0B5147;
-  --aaroha-teal: #16685B;
-  --aaroha-gold: #D6A43A;
-  --aaroha-gold-bright: #E7BA4E;
-  --aaroha-ivory: #FBF8F0;
-  --aaroha-sand: #F2EBDD;
-  --aaroha-ink: #12322E;
-  --aaroha-muted: #61716C;
+  --aaroha-forest-950: #06241F;
+  --aaroha-forest-900: #07332C;
+  --aaroha-forest-800: #0B453B;
+  --aaroha-forest-700: #12564A;
+  --aaroha-emerald: #176B5B;
+  --aaroha-sage-700: #4F6C63;
+  --aaroha-sage-500: #819891;
+  --aaroha-sage-200: #D9E2DD;
+  --aaroha-sage-100: #EAF0EC;
+  --aaroha-ivory: #F7F4EA;
+  --aaroha-ivory-soft: #EFEDE3;
+  --aaroha-gold: #D4A83B;
+  --aaroha-gold-soft: #E2BE64;
+  --aaroha-text-dark: #092E28;
+  /* Darkened slightly so muted copy still meets normal-text contrast on sage/ivory. */
+  --aaroha-text-muted: #526A62;
   --aaroha-white: #FFFFFF;
-  --text-primary: var(--aaroha-ink);
-  --text-secondary: var(--aaroha-muted);
-  --text-muted: var(--aaroha-muted);
+  --aaroha-deep: var(--aaroha-forest-950);
+  --aaroha-forest: var(--aaroha-forest-800);
+  --aaroha-teal: var(--aaroha-emerald);
+  --aaroha-gold-bright: var(--aaroha-gold-soft);
+  --aaroha-sand: var(--aaroha-ivory-soft);
+  --aaroha-ink: var(--aaroha-text-dark);
+  --aaroha-muted: var(--aaroha-text-muted);
+  --text-primary: var(--aaroha-text-dark);
+  --text-secondary: var(--aaroha-forest-700);
+  --text-muted: var(--aaroha-text-muted);
   --text-on-dark: var(--aaroha-white);
   --text-on-accent: var(--aaroha-deep);
   --text-gold-on-light: #765819;
-  --surface: var(--aaroha-white);
-  --surface-soft: var(--aaroha-sand);
-  --border: #e2dac8;
-  --brand-teal: var(--aaroha-forest);
-  --brand-teal-dark: var(--aaroha-deep);
+  --surface: var(--aaroha-sage-100);
+  --surface-soft: var(--aaroha-ivory-soft);
+  --border: var(--aaroha-sage-200);
+  --brand-teal: var(--aaroha-emerald);
+  --brand-teal-dark: var(--aaroha-forest-950);
   --brand-gold: var(--aaroha-gold);
-  --brand-gold-soft: var(--aaroha-sand);
+  --brand-gold-soft: var(--aaroha-ivory-soft);
   --aroha-ink: var(--text-primary);
   --aroha-teal: var(--aaroha-teal);
   --aroha-teal-deep: var(--aaroha-deep);
@@ -643,4 +657,150 @@ textarea { min-height:100px; }
   .home-page .hero-buttons a, .home-page .hero-search { max-width:100%; }
   .home-page .hero-search { width:100%!important; }
   .home-page .hero-search input, .home-page .hero-search button { width:100%!important; }
+}
+
+/* Final AAROHA forest palette: green surfaces lead, sage and ivory provide rest. */
+body, .traveler-page, .partner-dashboard-page, .admin-page { background:var(--aaroha-sage-100); color:var(--aaroha-text-dark); }
+.navbar, .site-header { background:rgba(247,244,234,.97); color:var(--aaroha-text-dark); border-color:var(--aaroha-sage-200); }
+.brand img, .site-brand img { width:140px; max-height:62px; }
+.auth-page .auth-logo { width:112px; max-height:56px; }
+.navbar nav a, .site-header nav a, .admin-header-actions a { color:var(--aaroha-text-dark); }
+.navbar nav a:hover, .site-header nav a:hover, .site-header nav a.active { color:var(--aaroha-emerald); }
+.site-header nav a.active::after { background:var(--aaroha-gold); }
+.login-button, .login-link, .site-actions .login-link { background:var(--aaroha-forest-900); color:var(--aaroha-ivory); }
+.login-button:hover, .login-link:hover { background:var(--aaroha-forest-800); }
+.notifications-link { background:var(--aaroha-sage-200); color:var(--aaroha-forest-950); }
+.home-page .navbar .mobile-nav-action { background:var(--aaroha-sage-100); color:var(--aaroha-forest-900); }
+
+.hero { background-image:linear-gradient(90deg,rgba(6,36,31,.90) 0%,rgba(7,51,44,.66) 48%,rgba(7,51,44,.14) 100%),url("../images/hampi-hero.jpg"); }
+.hero::after { background:linear-gradient(transparent,rgba(6,36,31,.32)); }
+.hero h1 { color:var(--aaroha-ivory); }
+.hero p { color:rgba(247,244,234,.92); }
+.eyebrow, .section-heading span, .culture-content > span, .offline-section > div > span { color:var(--aaroha-gold-soft); }
+.hero .primary-button { background:var(--aaroha-gold); color:var(--aaroha-forest-950); }
+.hero .primary-button:hover { background:var(--aaroha-gold-soft); }
+.secondary-button { border-color:rgba(247,244,234,.82); color:var(--aaroha-ivory); }
+.secondary-button:hover { background:var(--aaroha-ivory); color:var(--aaroha-forest-950); }
+.hero-search { background:rgba(6,36,31,.94); border-color:rgba(226,190,100,.32); }
+.hero-search label { color:var(--aaroha-sage-200); }
+.hero-search input { background:var(--aaroha-ivory)!important; color:var(--aaroha-text-dark)!important; }
+.hero-search input::placeholder { color:#668078; }
+.hero-search button { background:var(--aaroha-gold); color:var(--aaroha-forest-950); }
+.hero-search button:hover { background:var(--aaroha-gold-soft); }
+
+.features { background:var(--aaroha-sage-100); }
+.planner { background:var(--aaroha-ivory-soft); }
+.section-heading h2, .culture-content h2, .offline-section h2, .cta h2 { color:var(--aaroha-forest-950); }
+.section-heading p, .culture-content p, .offline-section p { color:var(--aaroha-sage-700); }
+.section-heading span, .culture-content > span, .offline-section > div > span { color:var(--aaroha-forest-700); }
+.feature-card { background:var(--aaroha-sage-100); border-color:var(--aaroha-sage-200); box-shadow:0 10px 28px rgba(6,36,31,.09); }
+.feature-card:nth-child(4n+1), .feature-card:nth-child(4n+2) { background:var(--aaroha-forest-900); border-color:var(--aaroha-forest-800); }
+.feature-card:nth-child(4n+3) { background:var(--aaroha-forest-800); border-color:var(--aaroha-forest-700); }
+.feature-card:nth-child(4n+1) h3, .feature-card:nth-child(4n+2) h3, .feature-card:nth-child(4n+3) h3 { color:var(--aaroha-ivory); }
+.feature-card:nth-child(4n+1) p, .feature-card:nth-child(4n+2) p, .feature-card:nth-child(4n+3) p { color:var(--aaroha-sage-200); }
+.feature-card:nth-child(4n+1) .home-card-kicker, .feature-card:nth-child(4n+2) .home-card-kicker, .feature-card:nth-child(4n+3) .home-card-kicker { color:var(--aaroha-gold-soft); }
+.feature-card:nth-child(4n+1) .icon, .feature-card:nth-child(4n+2) .icon, .feature-card:nth-child(4n+3) .icon { background:rgba(217,226,221,.12); color:var(--aaroha-gold-soft); }
+.feature-card:nth-child(4n+1) .home-card-link, .feature-card:nth-child(4n+2) .home-card-link, .feature-card:nth-child(4n+3) .home-card-link { color:var(--aaroha-ivory); }
+.feature-card .home-card-link b { color:var(--aaroha-gold); }
+.feature-card:nth-child(4n+4) h3 { color:var(--aaroha-forest-950); }
+.feature-card:nth-child(4n+4) p { color:var(--aaroha-sage-700); }
+.feature-card:nth-child(4n+4) .home-card-kicker { color:var(--aaroha-forest-700); }
+.feature-card:nth-child(4n+4) .icon { background:var(--aaroha-sage-200); color:var(--aaroha-forest-800); }
+.feature-card:nth-child(4n+4) .home-card-link { color:var(--aaroha-forest-800); }
+.culture-section { background:var(--aaroha-ivory-soft); }
+.culture-content ul { color:var(--aaroha-forest-700); }
+.culture-section::after { background-image:linear-gradient(0deg,rgba(6,36,31,.22),rgba(6,36,31,.05)),url("https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1200&q=82"),url("../images/hampi-hero.jpg"); }
+.home-culture-note { background-image:linear-gradient(0deg,rgba(6,36,31,.91),rgba(7,51,44,.18)),url("https://images.unsplash.com/photo-1561361058-c24cecae35ca?auto=format&fit=crop&w=1200&q=82"),url("../images/hampi-hero.jpg"); }
+.home-culture-note span { color:var(--aaroha-gold-soft); }
+.home-culture-note a { color:var(--aaroha-ivory); }
+.home-offline { background:var(--aaroha-forest-800); color:var(--aaroha-ivory); }
+.home-offline h2 { color:var(--aaroha-ivory); }
+.home-offline p { color:var(--aaroha-sage-200); }
+.home-offline > div > span { color:var(--aaroha-gold-soft); }
+.cta { background:var(--aaroha-forest-900); color:var(--aaroha-ivory); }
+.cta h2 { color:var(--aaroha-ivory); }
+.cta p { color:var(--aaroha-sage-200); }
+body > footer { background:var(--aaroha-forest-950); }
+
+.traveler-shell { background:transparent; }
+.page-hero h1 { color:var(--aaroha-forest-950); }
+.page-hero > span { color:var(--aaroha-forest-700); }
+.page-hero p { color:var(--aaroha-sage-700); }
+.destination-card { border-color:rgba(217,226,221,.26); }
+.guide-card { background:var(--aaroha-forest-900); border-color:var(--aaroha-forest-800); }
+.guide-card h2, .guide-card h3 { color:var(--aaroha-ivory); }
+.guide-card p, .guide-card .guide-location, .guide-card .guide-service-meta span, .guide-card-footer small { color:var(--aaroha-sage-200); }
+.guide-card .verified-label { color:var(--aaroha-gold-soft); }
+.guide-card .guide-rating { color:var(--aaroha-gold-soft); }
+.guide-card .guide-rating span { color:var(--aaroha-sage-200); }
+.guide-card .tag-list span { background:rgba(217,226,221,.14); color:var(--aaroha-ivory); }
+.guide-card .guide-service-meta strong, .guide-card-footer span { color:var(--aaroha-ivory); }
+.guide-card-footer { border-color:rgba(217,226,221,.2); }
+.guide-card-footer a { color:var(--aaroha-gold-soft); }
+.info-card, .culture-grid article, .emergency-card { background:var(--aaroha-sage-100); border-color:var(--aaroha-sage-200); }
+.culture-grid article:nth-child(even) { background:var(--aaroha-forest-800); border-color:var(--aaroha-forest-700); }
+.culture-grid article:nth-child(even) h2, .culture-grid article:nth-child(even) h3 { color:var(--aaroha-ivory); }
+.culture-grid article:nth-child(even) p { color:var(--aaroha-sage-200); }
+.destination-detail-hero { background-image:linear-gradient(0deg,rgba(6,36,31,.90),rgba(6,36,31,.12)),url("https://images.unsplash.com/photo-1600100397608-f010e04c7a7a?auto=format&fit=crop&w=1800&q=85"),url("../images/hampi-hero.jpg"); }
+.destination-detail-fact, .guide-detail-fact { background:var(--aaroha-sage-100); border-color:var(--aaroha-sage-200); }
+.destination-detail-fact strong, .guide-detail-fact strong { color:var(--aaroha-forest-950); }
+.booking-row { background:var(--aaroha-sage-100); border-color:var(--aaroha-sage-200); }
+.booking-row h2 { color:var(--aaroha-forest-950); }
+.booking-row p, .booking-row small { color:var(--aaroha-sage-700); }
+.booking-type-mark { background:var(--aaroha-forest-800); color:var(--aaroha-ivory); }
+.status-pill.confirmed, .status-pill.accepted, .status-pill.active { background:#d5e9df; color:#145541; }
+.booking-amount { color:var(--aaroha-forest-800); }
+.planner-intro { background:linear-gradient(115deg,var(--aaroha-forest-900),var(--aaroha-forest-800)); color:var(--aaroha-ivory); }
+.planner-intro h1, .planner-intro h2 { color:var(--aaroha-ivory); }
+.planner-intro p { color:var(--aaroha-sage-200); }
+.planner-form { background:var(--aaroha-sage-100); border-color:var(--aaroha-sage-200); }
+.choice, .choice-chip { background:var(--aaroha-sage-100); border-color:var(--aaroha-sage-200); color:var(--aaroha-forest-900); }
+.choice:has(input:checked), .choice-chip.selected { background:var(--aaroha-forest-800); border-color:var(--aaroha-forest-700); color:var(--aaroha-ivory); }
+.choice:has(input:checked) span, .choice-chip.selected { color:var(--aaroha-ivory); }
+.day-card { background:var(--aaroha-forest-900); border-color:var(--aaroha-forest-800); }
+.day-card h2, .day-card h3, .day-card strong { color:var(--aaroha-ivory); }
+.day-card p, .day-card li, .day-card span { color:var(--aaroha-sage-200); }
+.day-index { background:var(--aaroha-emerald); color:var(--aaroha-ivory); }
+.planner-notes { background:var(--aaroha-forest-800); color:var(--aaroha-sage-200); }
+.planner-notes strong { color:var(--aaroha-gold-soft); }
+.planner-summary span, .tags span, .tag-list span, .country-code { background:var(--aaroha-sage-200); color:var(--aaroha-forest-900); }
+.profile-hero { background:linear-gradient(110deg,var(--aaroha-forest-950),var(--aaroha-forest-800)); color:var(--aaroha-ivory); }
+
+.partner-dashboard-header { background:var(--aaroha-forest-900); color:var(--aaroha-ivory); border-color:var(--aaroha-forest-800); }
+.partner-dashboard-main { background:var(--aaroha-sage-100); }
+.partner-sidebar { background:var(--aaroha-forest-950); }
+.partner-dashboard-section, .dashboard-stat, .dashboard-content-card, .dashboard-profile-card, .dashboard-price-card { background:var(--aaroha-ivory-soft); border-color:var(--aaroha-sage-200); }
+.partner-dashboard-section h1, .partner-dashboard-section h2, .partner-dashboard-section h3 { color:var(--aaroha-forest-950); }
+.admin-header { background:var(--aaroha-forest-900); color:var(--aaroha-ivory); border-color:var(--aaroha-forest-800); }
+.admin-header-brand img { padding:4px 8px; border-radius:9px; background:var(--aaroha-ivory); }
+.admin-header-brand span, .admin-header-actions span, .admin-header-actions a { color:var(--aaroha-ivory); }
+.admin-header-actions a:hover { color:var(--aaroha-gold-soft); }
+.admin-dashboard { color:var(--aaroha-text-dark); }
+.admin-page h1, .admin-page h2 { color:var(--aaroha-forest-950); }
+.admin-section, .admin-detail-card, .admin-application-card, .admin-stat-card { background:var(--aaroha-ivory-soft); border-color:var(--aaroha-sage-200); }
+.admin-section-heading > div > span { color:var(--aaroha-forest-700); }
+.admin-filter { border-color:var(--aaroha-sage-200); color:var(--aaroha-forest-700); background:var(--aaroha-sage-100); }
+.admin-empty-state > div { border-color:var(--aaroha-sage-200); color:var(--aaroha-emerald); }
+.admin-empty-state h3 { color:var(--aaroha-forest-950); }
+.admin-empty-state p { color:var(--aaroha-sage-700); }
+.admin-stat-card.pending strong { color:#795D1D; }
+.admin-stat-card.approved strong { color:#145541; }
+.admin-stat-card.changes strong { color:#704E2A; }
+.admin-stat-card.rejected strong { color:#8B3833; }
+.admin-table-wrap { background:var(--aaroha-sage-100); border-color:var(--aaroha-sage-200); }
+.admin-table th { background:var(--aaroha-sage-200); color:var(--aaroha-forest-950); }
+.admin-table td, .admin-table tr:nth-child(even) td { color:var(--aaroha-forest-900); background:var(--aaroha-ivory-soft); }
+.admin-table tr:nth-child(odd) td { background:var(--aaroha-sage-100); }
+.admin-page-heading > div > span, .admin-page-heading p { color:var(--aaroha-sage-700); }
+.admin-view-button, .admin-back-link { color:var(--aaroha-forest-800); }
+
+.form-input, .form-textarea, input:not([type=checkbox]):not([type=radio]):not([type=hidden]), select, textarea { border-color:var(--aaroha-sage-500); background:var(--aaroha-ivory); color:var(--aaroha-text-dark); }
+.form-input:focus, input:focus, select:focus, textarea:focus { border-color:var(--aaroha-emerald); box-shadow:0 0 0 3px rgba(23,107,91,.18); }
+.sos-section, .sos-content { color:var(--aaroha-ivory); }
+.sos-content h2, .sos-content p { color:var(--aaroha-ivory); }
+
+@media (max-width:640px) {
+  .brand img, .site-brand img { width:112px; max-height:52px; }
+  .feature-card { min-height:190px; }
+  .admin-header-brand img { max-width:110px; }
 }
