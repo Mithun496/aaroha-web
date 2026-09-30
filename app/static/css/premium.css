@@ -2,6 +2,7 @@
 :root {
   color-scheme: light;
   --aaroha-forest-950: #06241F;
+  --aaroha-forest-brand: #063B35;
   --aaroha-forest-900: #07332C;
   --aaroha-forest-800: #0B453B;
   --aaroha-forest-700: #12564A;
@@ -9,7 +10,7 @@
   --aaroha-sage-700: #4F6C63;
   --aaroha-sage-500: #819891;
   --aaroha-sage-200: #D9E2DD;
-  --aaroha-sage-100: #EAF0EC;
+  --aaroha-sage-100: #EEF3EF;
   --aaroha-ivory: #F7F4EA;
   --aaroha-ivory-soft: #EFEDE3;
   --aaroha-gold: #D4A83B;
@@ -803,4 +804,98 @@ body > footer { background:var(--aaroha-forest-950); }
   .brand img, .site-brand img { width:112px; max-height:52px; }
   .feature-card { min-height:190px; }
   .admin-header-brand img { max-width:110px; }
+}
+
+/* Locked AAROHA identity: forest headers and one cohesive green card family. */
+.navbar, .site-header {
+  background:var(--aaroha-forest-brand);
+  color:var(--aaroha-ivory);
+  border-bottom-color:rgba(247,244,234,.14);
+  box-shadow:0 6px 24px rgba(6,36,31,.2);
+}
+.brand img, .site-brand img {
+  width:148px;
+  height:66px;
+  max-height:none;
+  box-sizing:border-box;
+  padding:5px 10px;
+  border:0;
+  border-radius:14px;
+  background:var(--aaroha-ivory);
+  object-fit:contain;
+}
+.navbar nav a, .site-header nav a { color:var(--aaroha-ivory); }
+.navbar nav a:hover, .site-header nav a:hover { color:var(--aaroha-gold-soft); }
+.navbar nav a.active, .site-header nav a.active { color:var(--aaroha-ivory); }
+.site-header nav a.active::after { background:var(--aaroha-gold-soft); }
+.login-button, .login-link, .site-actions .login-link {
+  border:1px solid rgba(226,190,100,.2);
+  background:var(--aaroha-emerald);
+  color:var(--aaroha-ivory);
+  box-shadow:0 6px 16px rgba(6,36,31,.2);
+}
+.login-button:hover, .login-link:hover { background:var(--aaroha-forest-700); }
+.navbar .sos-button, .site-header .sos-link {
+  border-color:rgba(247,244,234,.65);
+  background:transparent;
+  color:var(--aaroha-ivory);
+}
+.navbar .sos-button:hover, .site-header .sos-link:hover { background:rgba(247,244,234,.1); }
+.navbar .notifications-link, .site-header .notifications-link {
+  border:1px solid rgba(247,244,234,.35);
+  background:rgba(247,244,234,.1);
+  color:var(--aaroha-ivory);
+}
+.home-page .navbar .mobile-nav-action { background:rgba(247,244,234,.1); color:var(--aaroha-ivory); }
+.auth-page .auth-header {
+  background:var(--aaroha-forest-brand);
+  border-color:rgba(247,244,234,.14);
+}
+.auth-page .auth-logo {
+  width:126px;
+  height:60px;
+  max-height:none;
+  box-sizing:border-box;
+  padding:5px 10px;
+  border-radius:14px;
+  background:var(--aaroha-ivory);
+  object-fit:contain;
+}
+.auth-page .back-home { color:var(--aaroha-ivory); }
+.auth-page .back-button { border-color:rgba(247,244,234,.35); background:rgba(247,244,234,.1); color:var(--aaroha-ivory); }
+.auth-page .back-button:hover { background:var(--aaroha-ivory); color:var(--aaroha-forest-brand); }
+
+.feature-grid .feature-card {
+  background:var(--aaroha-forest-brand);
+  border-color:rgba(217,226,221,.13);
+  box-shadow:0 10px 28px rgba(6,36,31,.13);
+}
+.feature-grid .feature-card:nth-child(3n+2) { background:var(--aaroha-forest-800); }
+.feature-grid .feature-card:nth-child(3n) { background:var(--aaroha-forest-700); }
+.feature-grid .feature-card h3, .feature-grid .feature-card:nth-child(n) h3 { color:var(--aaroha-ivory); }
+.feature-grid .feature-card p, .feature-grid .feature-card:nth-child(n) p { color:var(--aaroha-sage-200); }
+.feature-grid .feature-card .home-card-kicker, .feature-grid .feature-card:nth-child(n) .home-card-kicker { color:var(--aaroha-gold-soft); }
+.feature-grid .feature-card .icon, .feature-grid .feature-card:nth-child(n) .icon {
+  border:1px solid rgba(247,244,234,.09);
+  background:rgba(247,244,234,.08);
+  color:var(--aaroha-ivory);
+}
+.feature-grid .feature-card:nth-child(3n+2) .icon, .feature-grid .feature-card:nth-child(3n) .icon { color:var(--aaroha-gold-soft); }
+.feature-grid .feature-card .home-card-link, .feature-grid .feature-card:nth-child(n) .home-card-link { color:var(--aaroha-ivory); }
+.feature-grid .feature-card .home-card-link b { color:var(--aaroha-gold); }
+.planner-intro .planner-kicker { color:var(--aaroha-gold-soft); }
+.planner-intro .planner-mark {
+  border:1px solid rgba(247,244,234,.1);
+  background:rgba(247,244,234,.08);
+  color:var(--aaroha-gold-soft);
+}
+
+.partner-dashboard-header { background:var(--aaroha-forest-brand); color:var(--aaroha-ivory); }
+.partner-dashboard-header :is(h1,h2,p,span) { color:var(--aaroha-ivory); }
+.partner-dashboard-header a:not(.primary-button) { color:var(--aaroha-ivory); }
+.admin-header { background:var(--aaroha-forest-brand); }
+
+@media (max-width:640px) {
+  .brand img, .site-brand img { width:126px; height:56px; padding:4px 8px; }
+  .auth-page .auth-logo { width:116px; height:54px; padding:4px 8px; }
 }
