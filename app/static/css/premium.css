@@ -899,3 +899,141 @@ body > footer { background:var(--aaroha-forest-950); }
   .brand img, .site-brand img { width:126px; height:56px; padding:4px 8px; }
   .auth-page .auth-logo { width:116px; height:54px; padding:4px 8px; }
 }
+
+/* Final compact traveler header. Scope to shared public navigation only. */
+.navbar, .site-header {
+  display:grid;
+  grid-template-columns:minmax(100px,1fr) auto minmax(190px,1fr);
+  grid-template-rows:1fr;
+  align-items:center;
+  column-gap:24px;
+  min-height:76px;
+  height:78px;
+  max-height:84px;
+  padding:4px clamp(28px,calc((100vw - 1360px)/2),48px);
+}
+.navbar .brand, .site-header .site-brand { grid-column:1; justify-self:start; align-self:center; display:inline-flex; align-items:center; }
+.brand img, .site-brand img {
+  display:block;
+  width:78px;
+  height:54px;
+  max-height:54px;
+  box-sizing:border-box;
+  padding:3px;
+  border-radius:12px;
+  object-fit:contain;
+}
+.navbar nav, .site-header nav {
+  grid-column:2;
+  grid-row:1;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:clamp(20px,2vw,28px);
+  min-width:0;
+}
+.navbar nav a, .site-header nav a { white-space:nowrap; font-size:15px; font-weight:600; }
+.navbar .nav-actions, .site-header .site-actions {
+  grid-column:3;
+  grid-row:1;
+  justify-self:end;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+.navbar .login-button, .site-header .login-link, .site-actions .login-link {
+  min-height:44px;
+  padding-inline:17px;
+  border-radius:23px;
+  font-size:14px;
+}
+.navbar .sos-button, .site-header .sos-link {
+  min-height:44px;
+  padding-inline:14px;
+  border-radius:23px;
+  font-size:14px;
+}
+.site-header nav a.active::after { margin-top:4px; }
+
+@media (max-width:900px) and (min-width:641px) {
+  .navbar, .site-header {
+    grid-template-columns:minmax(82px,1fr) auto minmax(150px,1fr);
+    column-gap:12px;
+    padding-inline:22px;
+  }
+  .brand img, .site-brand img { width:74px; height:52px; }
+  .navbar nav, .site-header nav { gap:14px; }
+  .navbar nav a, .site-header nav a { font-size:13px; }
+  .navbar .nav-actions, .site-header .site-actions { gap:7px; }
+  .navbar .login-button, .site-header .login-link, .site-actions .login-link { padding-inline:12px; font-size:13px; }
+  .navbar .sos-button, .site-header .sos-link { padding-inline:11px; font-size:13px; }
+}
+@media (max-width:640px) {
+  .navbar, .site-header {
+    display:grid;
+    grid-template-columns:76px minmax(0,1fr);
+    grid-template-rows:48px 22px;
+    align-items:center;
+    column-gap:8px;
+    row-gap:2px;
+    min-height:78px;
+    height:auto;
+    max-height:none;
+    padding:4px 12px 6px;
+  }
+  .navbar .brand, .site-header .site-brand { grid-column:1; grid-row:1; }
+  .brand img, .site-brand img {
+    width:72px;
+    height:48px;
+    max-height:48px;
+    padding:2px;
+    border-radius:11px;
+  }
+  .navbar nav, .site-header nav {
+    grid-column:1/-1;
+    grid-row:2;
+    justify-content:flex-start;
+    align-self:center;
+    gap:16px;
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    height:22px;
+    padding:0;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scrollbar-width:none;
+  }
+  .navbar nav::-webkit-scrollbar, .site-header nav::-webkit-scrollbar { display:none; }
+  .navbar nav a, .site-header nav a { flex:0 0 auto; font-size:12px; line-height:20px; }
+  .site-header nav a.active::after { margin-top:0; }
+  .navbar .nav-actions, .site-header .site-actions {
+    grid-column:2;
+    grid-row:1;
+    justify-self:end;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .navbar .login-button, .site-header .login-link, .site-actions .login-link,
+  .navbar .sos-button, .site-header .sos-link {
+    min-height:38px;
+    padding-inline:12px;
+    border-radius:20px;
+    font-size:12px;
+  }
+  .home-page .navbar { width:100%; min-height:78px; grid-template-columns:76px minmax(0,1fr); grid-template-rows:48px 22px; }
+  .home-page .navbar .login-button { display:inline-flex; }
+  .home-page .navbar .mobile-nav-action {
+    display:inline-flex;
+    align-items:center;
+    min-height:28px;
+    padding:0 9px;
+    border:1px solid rgba(247,244,234,.3);
+    border-radius:16px;
+    background:transparent;
+    color:var(--aaroha-ivory);
+    line-height:20px;
+  }
+}
