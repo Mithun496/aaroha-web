@@ -1,0 +1,21 @@
+<nav class="guide-progress" aria-label="Guide application progress">
+  {% set guide_steps = [
+    ('auth.guide_registration', 'Profile'),
+    ('auth.guide_services', 'Services'),
+    ('auth.guide_pricing', 'Pricing'),
+    ('auth.guide_availability', 'Availability'),
+    ('auth.guide_verification', 'Verification'),
+    ('auth.guide_photos', 'Photos'),
+    ('auth.guide_payout', 'Payout'),
+    ('auth.guide_review', 'Review'),
+    ('auth.guide_submitted', 'Submitted')
+  ] %}
+  <ol>
+    {% for endpoint, label in guide_steps %}
+      <li{% if request.endpoint == endpoint %} class="is-current" aria-current="step"{% endif %}>
+        <span class="guide-progress-dot">{% if loop.index < 8 %}{{ '%02d'|format(loop.index) }}{% else %}✓{% endif %}</span>
+        <span>{{ label }}</span>
+      </li>
+    {% endfor %}
+  </ol>
+</nav>

@@ -1,364 +1,85 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>AAROHA | Your Journey. Our Care.</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d4944">
+  <meta name="description" content="Discover Hampi with trusted local guides, practical trip tools and thoughtful travel support from AAROHA.">
+  <title>AAROHA | Your Hampi travel companion</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}">
 </head>
+<body class="home-page">
+  <header class="navbar" aria-label="Main navigation">
+    <a href="{{ url_for('home.index') }}" class="brand" aria-label="AAROHA home"><img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA — Your Journey. Our Care."></a>
+    <nav aria-label="Primary">
+      <a href="{{ url_for('traveler.explore') }}">Explore</a>
+      <a href="{{ url_for('traveler.guides') }}">Local guides</a>
+      <a href="{{ url_for('traveler.trip_planner') }}">Plan your trip</a>
+      <a href="{{ url_for('traveler.culture_guide') }}">Culture guide</a>
+      <a class="mobile-nav-action" href="{{ url_for('traveler.sos') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}">Safety</a>
+      <a class="mobile-nav-action" href="{{ url_for('traveler.profile') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}">{{ 'My account' if session.get('authenticated') else 'Sign in' }}</a>
+    </nav>
+    <div class="nav-actions">
+      {% if session.get('authenticated') and session.get('account_type') == 'traveler' %}
+        <a class="notifications-link" href="{{ url_for('marketplace.notifications') }}" aria-label="Notifications">♧{% if notification_unread_count %}<span class="notification-badge">{{ notification_unread_count }}</span>{% endif %}</a>
+        <a class="login-button" href="{{ url_for('traveler.profile') }}">My account</a>
+      {% else %}
+        <a class="sos-button" href="{{ url_for('auth.account_type') }}">Safety</a>
+        <a class="login-button" href="{{ url_for('auth.account_type') }}">Sign in</a>
+      {% endif %}
+    </div>
+  </header>
 
-<body>
-
-    <header class="navbar">
-
-        <a href="/" class="brand">
-            <img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
-                 alt="AAROHA">
-        </a>
-
-        <nav>
-            <a href="/">Home</a>
-            <a href="{{ url_for('traveler.explore') }}">Explore</a>
-            <a href="{{ url_for('traveler.guides') }}">Guides</a>
-            <a href="{{ url_for('traveler.bookings') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}">Bookings</a>
-            <a href="{{ url_for('traveler.offline') }}">Offline Pack</a>
-        </nav>
-
-        <div class="nav-actions">
-            <a href="{{ url_for('traveler.sos') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}" class="sos-button">SOS</a>
-            <a href="{{ url_for('auth.account_type') }}" class="login-button">Login</a>
+  <main>
+    <section class="hero" aria-labelledby="home-title">
+      <div class="hero-content">
+        <span class="eyebrow">A THOUGHTFUL WAY TO EXPLORE HAMPI</span>
+        <h1 id="home-title">A slower journey.<br>Closer to the place.</h1>
+        <p>Find your way through ancient landscapes,<br class="mobile-only-break"> meet local guides and keep the<br class="mobile-only-break"> practical details of your trip close at hand.</p>
+        <div class="hero-buttons">
+          <a href="{{ url_for('traveler.explore') }}" class="primary-button">Explore Hampi <span aria-hidden="true">→</span></a>
+          <a href="{{ url_for('traveler.trip_planner') }}" class="secondary-button">Plan your visit</a>
         </div>
-
-    </header>
-
-
-    <main>
-
-        <!-- HERO -->
-
-        <section class="hero">
-
-            <div class="hero-content">
-
-                <span class="eyebrow">
-                    TRAVEL INDIA WITH CONFIDENCE
-                </span>
-
-                <h1>
-                    Discover India.<br>
-                    Travel with Confidence.
-                </h1>
-
-                <p>
-                    AAROHA is your trusted travel companion for discovering
-                    India's culture, destinations, local experiences,
-                    trusted guides and safer journeys.
-                </p>
-
-                <div class="hero-buttons">
-
-                    <a href="{{ url_for('traveler.explore') }}" class="primary-button">
-                        Start Exploring
-                    </a>
-
-                    <a href="{{ url_for('traveler.trip_planner') }}" class="secondary-button">
-                        Plan My Journey
-                    </a>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- FEATURES -->
-
-        <section class="features">
-
-            <div class="section-heading">
-                <span>WHY AAROHA</span>
-
-                <h2>
-                    Everything you need for a better journey.
-                </h2>
-
-                <p>
-                    From discovering places to staying safe,
-                    AAROHA brings your essential travel tools together.
-                </p>
-            </div>
-
-
-            <div class="feature-grid">
-
-                <div class="feature-card">
-                    <div class="icon">🧭</div>
-                    <h3>Explore India</h3>
-                    <p>
-                        Discover temples, heritage sites, nature,
-                        food, adventures and hidden places.
-                    </p>
-                </div>
-
-
-                <div class="feature-card">
-                    <div class="icon">🤖</div>
-                    <h3>AI Travel Planner</h3>
-                    <p>
-                        Create personalised itineraries based on
-                        your interests, time and budget.
-                    </p>
-                </div>
-
-
-                <div class="feature-card">
-                    <div class="icon">👤</div>
-                    <h3>Trusted Local Guides</h3>
-                    <p>
-                        Find and connect with verified local
-                        guides and experiences.
-                    </p>
-                </div>
-
-
-                <div class="feature-card safety-card">
-                    <div class="icon">🚨</div>
-                    <h3>AAROHA SOS</h3>
-                    <p>
-                        Quickly access emergency assistance,
-                        contacts and location sharing when needed.
-                    </p>
-                </div>
-
-
-                <div class="feature-card">
-                    <div class="icon">📴</div>
-                    <h3>Offline Travel Pack</h3>
-                    <p>
-                        Keep essential destination information,
-                        bookings, contacts and emergency details
-                        available even without internet.
-                    </p>
-                </div>
-
-
-                <div class="feature-card">
-                    <div class="icon">🇮🇳</div>
-                    <h3>India Culture Guide</h3>
-                    <p>
-                        Understand local customs, temple etiquette,
-                        dress codes, photography rules and more.
-                    </p>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- CULTURE -->
-
-        <section class="culture-section">
-
-            <div class="culture-content">
-
-                <span>TRAVEL SMARTER</span>
-
-                <h2>
-                    Understand India before you experience it.
-                </h2>
-
-                <p>
-                    AAROHA helps international travellers understand
-                    India's culture and customs before visiting a place.
-                </p>
-
-                <ul>
-                    <li>Temple etiquette</li>
-                    <li>Dress recommendations</li>
-                    <li>Photography restrictions</li>
-                    <li>Opening hours</li>
-                    <li>Religious customs</li>
-                    <li>Local travel tips</li>
-                </ul>
-
-                <a href="{{ url_for('traveler.culture_guide') }}" class="primary-button">
-                    Explore Culture Guide
-                </a>
-
-            </div>
-
-        </section>
-
-
-        <!-- AI PLANNER -->
-
-        <section class="planner">
-
-            <div class="section-heading">
-
-                <span>AI TRAVEL PLANNER</span>
-
-                <h2>
-                    Tell AAROHA how you want to travel.
-                </h2>
-
-                <p>
-                    Your interests + time + budget =
-                    a personalised travel plan.
-                </p>
-
-            </div>
-
-
-            <div class="planner-box">
-
-                <div>
-                    <strong>I'm travelling for</strong>
-
-                    <div class="tags">
-                        <span>History</span>
-                        <span>Spiritual</span>
-                        <span>Adventure</span>
-                        <span>Food</span>
-                        <span>Photography</span>
-                    </div>
-                </div>
-
-
-                <div>
-                    <strong>Trip duration</strong>
-
-                    <p>2.5 Days</p>
-                </div>
-
-
-                <div>
-                    <strong>Budget</strong>
-
-                    <p>₹15,000</p>
-                </div>
-
-
-                <a href="{{ url_for('traveler.trip_planner') }}" class="primary-button">
-                    Create My Plan
-                </a>
-
-            </div>
-
-        </section>
-
-
-        <!-- SOS -->
-
-        <section class="sos-section">
-
-            <div class="sos-content">
-
-                <span>TRAVEL SAFER</span>
-
-                <h2>
-                    When you need help,<br>
-                    AAROHA is there.
-                </h2>
-
-                <p>
-                    Quickly access emergency assistance,
-                    emergency contacts, location sharing,
-                    tourist helplines and important safety information.
-                </p>
-
-                <a href="{{ url_for('traveler.sos') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}" class="sos-large-button">
-                    🚨 AAROHA SOS
-                </a>
-
-            </div>
-
-        </section>
-
-
-        <!-- OFFLINE -->
-
-        <section class="offline-section">
-
-            <div>
-
-                <span>OFFLINE TRAVEL PACK</span>
-
-                <h2>
-                    Your essential travel information,
-                    even without internet.
-                </h2>
-
-                <p>
-                    Download your destination before travelling
-                    and keep essential information available offline.
-                </p>
-
-                <a href="{{ url_for('traveler.offline') }}" class="primary-button">
-                    Download Travel Pack
-                </a>
-
-            </div>
-
-        </section>
-
-
-        <!-- CTA -->
-
-        <section class="cta">
-
-            <h2>
-                Your Journey. Our Care.
-            </h2>
-
-            <p>
-                Discover India with a trusted travel companion.
-            </p>
-
-            <a href="{{ url_for('traveler.explore') }}" class="primary-button">
-                Begin Your Journey
-            </a>
-
-        </section>
-
-    </main>
-
-
-    <footer>
-
-        <div class="footer-brand">
-
-            <img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
-                 alt="AAROHA">
-
-            <p>
-                Your Journey. Our Care. Trusted Travel Companion.
-            </p>
-
-        </div>
-
-
-        <div class="footer-links">
-
-            <a href="#">About AAROHA</a>
-            <a href="#">Contact</a>
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-            <a href="{{ url_for('traveler.support') }}">Help & Support</a>
-
-        </div>
-
-        <p class="copyright">
-            © 2026 AAROHA. All rights reserved.
-        </p>
-
-    </footer>
-
-
+        <form class="hero-search" action="{{ url_for('traveler.explore') }}" method="get" role="search">
+          <label for="destination-search">Where would you like to go?</label>
+          <div><input id="destination-search" name="q" type="search" placeholder="Search Hampi, Anegundi…"><button type="submit" aria-label="Search destinations">Search</button></div>
+        </form>
+      </div>
+      <div class="hero-caption"><span>HAMPI · KARNATAKA</span><span>Heritage, culture & local life</span></div>
+    </section>
+
+    <section class="features home-discovery" aria-labelledby="discover-title">
+      <div class="section-heading">
+        <span>YOUR JOURNEY, IN ONE PLACE</span>
+        <h2 id="discover-title">Make room for the moments that matter.</h2>
+        <p>Explore thoughtfully, find trusted local services and feel prepared before you set out.</p>
+      </div>
+      <div class="feature-grid">
+        <a class="feature-card home-service-card home-card-explore" href="{{ url_for('traveler.explore') }}"><span class="home-card-kicker">01 · PLACES</span><div class="icon" aria-hidden="true">⌖</div><h3>Explore Hampi</h3><p>Discover the heritage region and its surrounding places at your own pace.</p><span class="home-card-link">Explore destinations <b>→</b></span></a>
+        <a class="feature-card home-service-card" href="{{ url_for('traveler.trip_planner') }}"><span class="home-card-kicker">02 · PLAN</span><div class="icon" aria-hidden="true">✳</div><h3>Plan your trip</h3><p>Shape a practical itinerary around your time, budget and interests.</p><span class="home-card-link">Open trip planner <b>→</b></span></a>
+        <a class="feature-card home-service-card" href="{{ url_for('traveler.guides') }}"><span class="home-card-kicker">03 · PEOPLE</span><div class="icon" aria-hidden="true">♙</div><h3>Find a local guide</h3><p>Compare approved guides, their languages, areas and listed rates.</p><span class="home-card-link">Meet the guides <b>→</b></span></a>
+        <a class="feature-card home-service-card" href="{{ url_for('traveler.bikes') }}"><span class="home-card-kicker">04 · GET AROUND</span><div class="icon" aria-hidden="true">↗</div><h3>Rent a bike</h3><p>Browse available rentals from approved local providers.</p><span class="home-card-link">View rentals <b>→</b></span></a>
+        <a class="feature-card home-service-card" href="{{ url_for('marketplace.auto') }}"><span class="home-card-kicker">05 · LOCAL RIDES</span><div class="icon" aria-hidden="true">⌁</div><h3>Book an auto</h3><p>Send a ride request to an approved local auto captain.</p><span class="home-card-link">Request a ride <b>→</b></span></a>
+        <a class="feature-card home-service-card" href="{{ url_for('marketplace.coracles') }}"><span class="home-card-kicker">06 · ON THE RIVER</span><div class="icon" aria-hidden="true">≈</div><h3>Book a coracle</h3><p>See local operators, capacity and available ride details.</p><span class="home-card-link">View coracles <b>→</b></span></a>
+        <a class="feature-card home-service-card" href="{{ url_for('traveler.stays') }}"><span class="home-card-kicker">07 · STAY</span><div class="icon" aria-hidden="true">⌂</div><h3>Stay nearby</h3><p>Explore local resort listings and contact providers directly.</p><span class="home-card-link">Browse stays <b>→</b></span></a>
+        <a class="feature-card home-service-card home-safety-card" href="{{ url_for('traveler.sos') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}"><span class="home-card-kicker">08 · FEEL PREPARED</span><div class="icon" aria-hidden="true">+</div><h3>Travel safely</h3><p>Keep trusted contacts and emergency numbers easy to reach.</p><span class="home-card-link">Open safety tools <b>→</b></span></a>
+      </div>
+    </section>
+
+    <section class="culture-section home-culture">
+      <div class="culture-content"><span>LOCAL CONTEXT</span><h2>Arrive with a little more understanding.</h2><p>Read practical guidance on site etiquette, photography, dress and respecting local spaces.</p><a href="{{ url_for('traveler.culture_guide') }}" class="primary-button">Visit the Culture Guide <span aria-hidden="true">→</span></a></div>
+      <div class="home-culture-note"><span>TRAVEL WITH CARE</span><strong>Know the place.<br>Respect the people.</strong><a href="{{ url_for('traveler.offline') }}">Prepare an offline pack →</a></div>
+    </section>
+
+    <section class="offline-section home-offline">
+      <div><span>READY WHEN YOU ARE</span><h2>Keep the essentials close, even when the signal fades.</h2><p>Download the Hampi essentials pack with destination basics and safety information. It does not include live maps or booking synchronization.</p><a href="{{ url_for('traveler.offline') }}" class="primary-button">View offline travel pack <span aria-hidden="true">→</span></a></div>
+    </section>
+  </main>
+  <footer class="home-footer">
+    <div class="footer-brand"><img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA"><p>Your Journey. Our Care.</p></div>
+    <div class="footer-links"><a href="{{ url_for('traveler.explore') }}">Explore</a><a href="{{ url_for('traveler.support') }}">Help & support</a><a href="{{ url_for('traveler.offline') }}">Offline pack</a><a href="{{ url_for('traveler.sos') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}">Safety</a></div>
+    <p class="copyright">© 2026 AAROHA. Travel with care.</p>
+  </footer>
 </body>
 </html>

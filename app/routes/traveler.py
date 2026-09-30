@@ -169,7 +169,15 @@ def trip_planner():
 @traveler_bp.route("/guides")
 def guides():
     guides = GuideApplication.query.filter_by(status="approved").order_by(GuideApplication.first_name.asc()).all()
-    return render_template("traveler/guides.html", guides=guides)
+    rating_rows = (
+        db.session.query(Review.provider_id, db.func.avg(Review.rating), db.func.count(Review.id))
+        .join(Booking, Review.booking_id == Booking.id)
+        .filter(Booking.booking_type == "guide")
+        .group_by(Review.provider_id)
+        .all()
+    )
+    ratings = {provider_id: {"average": round(float(average), 1), "count": count} for provider_id, average, count in rating_rows}
+    return render_template("traveler/guides.html", guides=guides, ratings=ratings)
 
 
 @traveler_bp.route("/bikes")

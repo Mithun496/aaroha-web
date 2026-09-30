@@ -12,6 +12,7 @@
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}">
 
 </head>
 
@@ -52,22 +53,23 @@
         <form method="POST">
 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-            <div class="otp-container">
+            <label class="otp-label">6-digit verification code</label>
+            <div class="otp-container" role="group" aria-label="Six digit verification code">
 
-                <input maxlength="1" name="otp1">
-                <input maxlength="1" name="otp2">
-                <input maxlength="1" name="otp3">
-                <input maxlength="1" name="otp4">
-                <input maxlength="1" name="otp5">
-                <input maxlength="1" name="otp6">
+                <input maxlength="1" name="otp1" inputmode="numeric" aria-label="Digit 1">
+                <input maxlength="1" name="otp2" inputmode="numeric" aria-label="Digit 2">
+                <input maxlength="1" name="otp3" inputmode="numeric" aria-label="Digit 3">
+                <input maxlength="1" name="otp4" inputmode="numeric" aria-label="Digit 4">
+                <input maxlength="1" name="otp5" inputmode="numeric" aria-label="Digit 5">
+                <input maxlength="1" name="otp6" inputmode="numeric" aria-label="Digit 6">
 
             </div>
 
             <!-- Development helper -->
-            <input
-                type="hidden"
-                id="otp"
-                name="otp">
+                <input
+                    type="hidden"
+                    id="otp"
+                name="otp" autocomplete="one-time-code">
 
             <button
                 type="submit"
@@ -86,9 +88,7 @@
                 Didn't receive the code?
             </span>
 
-            <button type="button">
-                Resend OTP
-            </button>
+            <a href="{{ url_for('auth.phone') }}">Request a new code</a>
 
         </div>
 
