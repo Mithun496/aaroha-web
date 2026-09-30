@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Bike partner dashboard{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+  <div class="page-hero compact">
+    <span>Partner dashboard</span>
+    <h1>{{ partner.business_name }}</h1>
+    <p>Manage your bike fleet and booking requests.</p>
+  </div>
+
+  <div class="dashboard-panel">
+    <div class="dashboard-header">
+      <h2>Fleet</h2>
+      <a class="primary-btn" href="{{ url_for('partner.bike_vehicles') }}">Add vehicle</a>
+    </div>
+    {% if vehicles %}
+      <div class="listing-grid compact-grid">
+        {% for vehicle in vehicles %}
+          <article class="listing-card">
+            <span class="chip">{{ vehicle.vehicle_type|title }}</span>
+            <h3>{{ vehicle.name }}</h3>
+            <p>{{ vehicle.location }}</p>
+            <p>₹{{ '%.0f'|format(vehicle.price) }}/day</p>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>No vehicles added yet.</p>
+    {% endif %}
+  </div>
+
+  <div class="dashboard-panel">
+    <div class="dashboard-header">
+      <h2>Requests</h2>
+    </div>
+    {% if bookings %}
+      {% for booking in bookings %}
+        <div class="booking-row">
+          <div>
+            <strong>{{ booking.traveler_phone }}</strong>
+            <p>{{ booking.booking_date }} · {{ booking.guests }} guest(s)</p>
+            <p>{{ booking.message or 'No note provided.' }}</p>
+          </div>
+          <div class="booking-actions">
+            <form method="post" action="{{ url_for('partner.bike_booking_decision', booking_id=booking.id) }}">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <input type="hidden" name="action" value="accept">
+              <button type="submit" class="primary-btn small">Accept</button>
+            </form>
+            <form method="post" action="{{ url_for('partner.bike_booking_decision', booking_id=booking.id) }}">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <input type="hidden" name="action" value="reject">
+              <button type="submit" class="secondary-btn small">Reject</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No bike requests are waiting.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

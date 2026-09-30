@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Guide Services | AAROHA</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body class="auth-page">
+
+<main class="partner-registration-page">
+
+    <div class="auth-container partner-container">
+
+
+        <!-- ================= BACK ================= -->
+
+        <a
+            href="{{ url_for('auth.guide_registration') }}"
+            class="back-button"
+            aria-label="Back to guide profile"
+        >
+            ←
+        </a>
+
+
+        <!-- ================= BRAND ================= -->
+
+        <div class="auth-brand">
+
+            <img
+                src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+                alt="AAROHA"
+            >
+
+        </div>
+
+
+        <!-- ================= PROGRESS ================= -->
+
+        <div class="registration-progress">
+
+            <div class="registration-step completed">
+
+                <span>✓</span>
+
+                <small>
+                    Profile
+                </small>
+
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step active">
+
+                <span>2</span>
+
+                <small>
+                    Services
+                </small>
+
+            </div>
+
+            <div class="registration-line"></div>
+
+            <div class="registration-step">
+
+                <span>3</span>
+
+                <small>
+                    Pricing
+                </small>
+
+            </div>
+
+            <div class="registration-line"></div>
+
+            <div class="registration-step">
+
+                <span>4</span>
+
+                <small>
+                    Verification
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= HEADING ================= -->
+
+        <div class="auth-heading">
+
+            <span class="eyebrow">
+                GUIDE PARTNER
+            </span>
+
+            <h1>
+                Define your<br>
+                guide services.
+            </h1>
+
+            <p>
+                Tell travelers what kind of experiences you provide
+                and the places you know best.
+            </p>
+
+        </div>
+
+
+        {% if error %}
+
+            <div class="form-error">
+                {{ error }}
+            </div>
+
+        {% endif %}
+
+
+        <!-- ================= FORM ================= -->
+
+        <form
+            method="POST"
+            class="partner-form"
+        >
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+
+            <!-- ================= SERVICES ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        01
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Guide Services
+                        </h2>
+
+                        <p>
+                            Select all services you currently offer.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="service-check-grid">
+
+
+                    <!-- HERITAGE -->
+
+                    <label class="service-check">
+
+                        <input
+                            type="checkbox"
+                            name="services"
+                            value="heritage"
+                        >
+
+                        <span>
+
+                            <strong>
+                                🏛 Heritage Tours
+                            </strong>
+
+                            <small>
+                                Historical monuments, ruins and heritage sites.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <!-- TEMPLE -->
+
+                    <label class="service-check">
+
+                        <input
+                            type="checkbox"
+                            name="services"
+                            value="temple"
+                        >
+
+                        <span>
+
+                            <strong>
+                                🛕 Temple Tours
+                            </strong>
+
+                            <small>
+                                Temple history, culture and respectful visits.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <!-- PHOTOGRAPHY -->
+
+                    <label class="service-check">
+
+                        <input
+                            type="checkbox"
+                            name="services"
+                            value="photography"
+                        >
+
+                        <span>
+
+                            <strong>
+                                📸 Photography Tours
+                            </strong>
+
+                            <small>
+                                Scenic viewpoints and photography locations.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <!-- FOOD -->
+
+                    <label class="service-check">
+
+                        <input
+                            type="checkbox"
+                            name="services"
+                            value="food"
+                        >
+
+                        <span>
+
+                            <strong>
+                                🍛 Food Tours
+                            </strong>
+
+                            <small>
+                                Local food, markets and regional cuisine.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <!-- SUNSET -->
+
+                    <label class="service-check">
+
+                        <input
+                            type="checkbox"
+                            name="services"
+                            value="sunrise_sunset"
+                        >
+
+                        <span>
+
+                            <strong>
+                                🌅 Sunrise / Sunset Tours
+                            </strong>
+
+                            <small>
+                                Scenic morning and evening experiences.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <!-- WALKING -->
+
+                    <label class="service-check">
+
+                        <input
+                            type="checkbox"
+                            name="services"
+                            value="walking"
+                        >
+
+                        <span>
+
+                            <strong>
+                                🚶 Walking Tours
+                            </strong>
+
+                            <small>
+                                Local streets, stories and hidden places.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <!-- CULTURAL -->
+
+                    <label class="service-check">
+
+                        <input
+                            type="checkbox"
+                            name="services"
+                            value="cultural"
+                        >
+
+                        <span>
+
+                            <strong>
+                                🎭 Cultural Experiences
+                            </strong>
+
+                            <small>
+                                Local traditions, arts and cultural stories.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <!-- CUSTOM -->
+
+                    <label class="service-check">
+
+                        <input
+                            type="checkbox"
+                            name="services"
+                            value="custom"
+                        >
+
+                        <span>
+
+                            <strong>
+                                ✨ Custom Tours
+                            </strong>
+
+                            <small>
+                                Personalized tours based on traveler requests.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= AREAS ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        02
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Areas You Cover
+                        </h2>
+
+                        <p>
+                            Select destinations where you actively provide guiding services.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="area-selection-grid">
+
+
+                    <label class="area-selection-card">
+
+                        <input
+                            type="checkbox"
+                            name="areas"
+                            value="hampi"
+                        >
+
+                        <span>
+
+                            <strong>
+                                Hampi
+                            </strong>
+
+                            <small>
+                                Karnataka
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="area-selection-card">
+
+                        <input
+                            type="checkbox"
+                            name="areas"
+                            value="vijayanagara"
+                        >
+
+                        <span>
+
+                            <strong>
+                                Vijayanagara
+                            </strong>
+
+                            <small>
+                                Karnataka
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="area-selection-card">
+
+                        <input
+                            type="checkbox"
+                            name="areas"
+                            value="badami"
+                        >
+
+                        <span>
+
+                            <strong>
+                                Badami
+                            </strong>
+
+                            <small>
+                                Karnataka
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="area-selection-card">
+
+                        <input
+                            type="checkbox"
+                            name="areas"
+                            value="aihole"
+                        >
+
+                        <span>
+
+                            <strong>
+                                Aihole
+                            </strong>
+
+                            <small>
+                                Karnataka
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="area-selection-card">
+
+                        <input
+                            type="checkbox"
+                            name="areas"
+                            value="pattadakal"
+                        >
+
+                        <span>
+
+                            <strong>
+                                Pattadakal
+                            </strong>
+
+                            <small>
+                                Karnataka
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="area-selection-card">
+
+                        <input
+                            type="checkbox"
+                            name="areas"
+                            value="other"
+                        >
+
+                        <span>
+
+                            <strong>
+                                Other Area
+                            </strong>
+
+                            <small>
+                                Add later
+                            </small>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= GROUP SIZE ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        03
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Group Size
+                        </h2>
+
+                        <p>
+                            What's the largest group you normally guide?
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <select
+                    name="max_group_size"
+                    class="form-select"
+                    required
+                >
+
+                    <option value="">
+                        Select maximum group size
+                    </option>
+
+                    <option value="1">
+                        1 traveler
+                    </option>
+
+                    <option value="2_4">
+                        2–4 travelers
+                    </option>
+
+                    <option value="5_8">
+                        5–8 travelers
+                    </option>
+
+                    <option value="9_15">
+                        9–15 travelers
+                    </option>
+
+                    <option value="16_plus">
+                        16+ travelers
+                    </option>
+
+                </select>
+
+            </section>
+
+
+            <!-- ================= CONTINUE ================= -->
+
+            <button
+                type="submit"
+                class="primary-button profile-submit"
+            >
+
+                Save & Continue
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+
+            <p class="profile-note">
+
+                You can review and edit your services before submitting
+                your application.
+
+            </p>
+
+        </form>
+
+    </div>
+
+</main>
+
+</body>
+</html>

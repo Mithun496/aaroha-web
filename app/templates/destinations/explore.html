@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Explore India | AAROHA</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/explore.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <a href="/" class="brand">
+        <img
+            src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+            alt="AAROHA"
+        >
+    </a>
+
+    <nav class="nav-links">
+
+        <a href="/">Home</a>
+
+        <a href="/explore" class="active">
+            Explore
+        </a>
+
+        <a href="/guides">
+            Guides
+        </a>
+
+        <a href="/bookings">
+            Bookings
+        </a>
+
+        <a href="/offline">
+            Offline Pack
+        </a>
+
+    </nav>
+
+    <div class="nav-actions">
+
+        <a href="/sos" class="sos-btn">
+            SOS
+        </a>
+
+        <a href="/login" class="login-btn">
+            Login
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="explore-hero">
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+
+        <span class="eyebrow">
+            DISCOVER INDIA
+        </span>
+
+        <h1>
+            Explore India<br>
+            Your Way.
+        </h1>
+
+        <p>
+            Discover places, experiences, culture, food and adventures
+            that match the way you love to travel.
+        </p>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-box">
+
+            <span class="search-icon">⌕</span>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search places, temples, experiences..."
+            >
+
+            <button onclick="searchPlaces()">
+                Search
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CATEGORY SECTION ================= -->
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <div>
+            <span class="small-title">
+                FIND YOUR EXPERIENCE
+            </span>
+
+            <h2>
+                What are you looking for?
+            </h2>
+        </div>
+
+    </div>
+
+
+    <div class="categories">
+
+        <button class="category active"
+                onclick="filterCategory('all', this)">
+            <span>✦</span>
+            All
+        </button>
+
+        <button class="category"
+                onclick="filterCategory('heritage', this)">
+            <span>🏛</span>
+            Heritage
+        </button>
+
+        <button class="category"
+                onclick="filterCategory('spiritual', this)">
+            <span>🛕</span>
+            Spiritual
+        </button>
+
+        <button class="category"
+                onclick="filterCategory('nature', this)">
+            <span>🌿</span>
+            Nature
+        </button>
+
+        <button class="category"
+                onclick="filterCategory('adventure', this)">
+            <span>🏔</span>
+            Adventure
+        </button>
+
+        <button class="category"
+                onclick="filterCategory('food', this)">
+            <span>🍛</span>
+            Food
+        </button>
+
+        <button class="category"
+                onclick="filterCategory('beach', this)">
+            <span>🏖</span>
+            Beaches
+        </button>
+
+        <button class="category"
+                onclick="filterCategory('photography', this)">
+            <span>📸</span>
+            Photography
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= POPULAR DESTINATIONS ================= -->
+
+<section class="section destinations-section">
+
+    <div class="section-heading">
+
+        <div>
+
+            <span class="small-title">
+                INDIA AWAITS
+            </span>
+
+            <h2>
+                Popular destinations
+            </h2>
+
+            <p>
+                Places travellers are discovering with AAROHA.
+            </p>
+
+        </div>
+
+        <button class="view-all"
+                onclick="showAllDestinations()">
+            View all →
+        </button>
+
+    </div>
+
+
+    <div class="destination-grid" id="destinationGrid">
+
+
+        <!-- HAMPI -->
+
+        <article class="destination-card"
+                 data-category="heritage photography adventure">
+
+            <div class="card-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1600100397608-f010e04c7a7a?auto=format&fit=crop&w=1200&q=85"
+                    alt="Hampi"
+                    loading="lazy"
+                >
+
+                <button class="save-btn"
+                        onclick="toggleSave(this)">
+                    ♡
+                </button>
+
+                <span class="location-tag">
+                    Karnataka
+                </span>
+
+            </div>
+
+            <div class="card-content">
+
+                <div class="card-title-row">
+
+                    <h3>
+                        Hampi
+                    </h3>
+
+                    <span class="rating">
+                        ★ 4.8
+                    </span>
+
+                </div>
+
+                <p>
+                    Ancient ruins, temples and breathtaking landscapes.
+                </p>
+
+                <div class="card-meta">
+
+                    <span>
+                        📍 Karnataka
+                    </span>
+
+                    <span>
+                        ₹₹
+                    </span>
+
+                </div>
+
+                <a href="/destination/hampi"
+                   class="card-btn">
+                    Explore Hampi →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- VARANASI -->
+
+        <article class="destination-card"
+                 data-category="spiritual heritage food photography">
+
+            <div class="card-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1561361058-c24cecae35ca?auto=format&fit=crop&w=1200&q=85"
+                    alt="Varanasi"
+                    loading="lazy"
+                >
+
+                <button class="save-btn"
+                        onclick="toggleSave(this)">
+                    ♡
+                </button>
+
+                <span class="location-tag">
+                    Uttar Pradesh
+                </span>
+
+            </div>
+
+            <div class="card-content">
+
+                <div class="card-title-row">
+
+                    <h3>
+                        Varanasi
+                    </h3>
+
+                    <span class="rating">
+                        ★ 4.7
+                    </span>
+
+                </div>
+
+                <p>
+                    Sacred ghats, spiritual traditions and living culture.
+                </p>
+
+                <div class="card-meta">
+
+                    <span>
+                        📍 Uttar Pradesh
+                    </span>
+
+                    <span>
+                        ₹₹
+                    </span>
+
+                </div>
+
+                <a href="/destination/varanasi"
+                   class="card-btn">
+                    Explore Varanasi →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- KERALA -->
+
+        <article class="destination-card"
+                 data-category="nature food beach couple">
+
+            <div class="card-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1200&q=85"
+                    alt="Kerala"
+                    loading="lazy"
+                >
+
+                <button class="save-btn"
+                        onclick="toggleSave(this)">
+                    ♡
+                </button>
+
+                <span class="location-tag">
+                    Kerala
+                </span>
+
+            </div>
+
+            <div class="card-content">
+
+                <div class="card-title-row">
+
+                    <h3>
+                        Kerala
+                    </h3>
+
+                    <span class="rating">
+                        ★ 4.9
+                    </span>
+
+                </div>
+
+                <p>
+                    Backwaters, tropical landscapes and unforgettable food.
+                </p>
+
+                <div class="card-meta">
+
+                    <span>
+                        📍 Kerala
+                    </span>
+
+                    <span>
+                        ₹₹₹
+                    </span>
+
+                </div>
+
+                <a href="/destination/kerala"
+                   class="card-btn">
+                    Explore Kerala →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- RAJASTHAN -->
+
+        <article class="destination-card"
+                 data-category="heritage photography luxury family">
+
+            <div class="card-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1200&q=85"
+                    alt="Rajasthan"
+                    loading="lazy"
+                >
+
+                <button class="save-btn"
+                        onclick="toggleSave(this)">
+                    ♡
+                </button>
+
+                <span class="location-tag">
+                    Rajasthan
+                </span>
+
+            </div>
+
+            <div class="card-content">
+
+                <div class="card-title-row">
+
+                    <h3>
+                        Rajasthan
+                    </h3>
+
+                    <span class="rating">
+                        ★ 4.8
+                    </span>
+
+                </div>
+
+                <p>
+                    Forts, palaces, deserts and India's royal heritage.
+                </p>
+
+                <div class="card-meta">
+
+                    <span>
+                        📍 Rajasthan
+                    </span>
+
+                    <span>
+                        ₹₹₹
+                    </span>
+
+                </div>
+
+                <a href="/destination/rajasthan"
+                   class="card-btn">
+                    Explore Rajasthan →
+                </a>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TRAVEL STYLE ================= -->
+
+<section class="travel-style">
+
+    <div class="style-content">
+
+        <span class="small-title">
+            TRAVEL YOUR WAY
+        </span>
+
+        <h2>
+            Tell AAROHA what<br>
+            kind of traveller you are.
+        </h2>
+
+        <p>
+            Instead of showing everyone the same destinations,
+            AAROHA can build recommendations around your interests,
+            time, budget and travel style.
+        </p>
+
+        <a href="/trip-planner"
+           class="primary-btn">
+            Plan My Journey →
+        </a>
+
+    </div>
+
+
+    <div class="style-options">
+
+        <button>
+            🏛
+            <span>History</span>
+        </button>
+
+        <button>
+            🛕
+            <span>Spiritual</span>
+        </button>
+
+        <button>
+            🏔
+            <span>Adventure</span>
+        </button>
+
+        <button>
+            🍛
+            <span>Food</span>
+        </button>
+
+        <button>
+            📸
+            <span>Photography</span>
+        </button>
+
+        <button>
+            🌿
+            <span>Nature</span>
+        </button>
+
+        <button>
+            🎒
+            <span>Backpacker</span>
+        </button>
+
+        <button>
+            💎
+            <span>Luxury</span>
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= AAROHA DIFFERENCE ================= -->
+
+<section class="section">
+
+    <div class="section-heading centered">
+
+        <span class="small-title">
+            MORE THAN A TRAVEL GUIDE
+        </span>
+
+        <h2>
+            Travel India with confidence.
+        </h2>
+
+        <p>
+            AAROHA is designed around the problems travellers actually face.
+        </p>
+
+    </div>
+
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🛡
+            </div>
+
+            <h3>
+                Travel Safety
+            </h3>
+
+            <p>
+                Quick access to emergency assistance, trusted contacts
+                and important safety information.
+            </p>
+
+            <a href="/sos">
+                Explore SOS →
+            </a>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                📴
+            </div>
+
+            <h3>
+                Offline Travel Pack
+            </h3>
+
+            <p>
+                Keep essential travel information available even
+                when your internet connection disappears.
+            </p>
+
+            <a href="/offline">
+                Download a Pack →
+            </a>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🧭
+            </div>
+
+            <h3>
+                Smart Trip Planning
+            </h3>
+
+            <p>
+                Build an itinerary based on your time, interests,
+                budget, distance and opening hours.
+            </p>
+
+            <a href="/trip-planner">
+                Plan a Journey →
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CTA ================= -->
+
+<section class="cta">
+
+    <span class="small-title">
+        YOUR INDIA JOURNEY STARTS HERE
+    </span>
+
+    <h2>
+        Where will you go next?
+    </h2>
+
+    <p>
+        Let AAROHA help you discover India beyond the ordinary.
+    </p>
+
+    <div class="cta-buttons">
+
+        <a href="/trip-planner"
+           class="primary-btn">
+            Plan My Journey
+        </a>
+
+        <a href="/sos"
+           class="secondary-btn">
+            Emergency Help
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-brand">
+
+        <img
+            src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+            alt="AAROHA"
+        >
+
+        <p>
+            Your Journey. Our Care. Trusted Travel Companion.
+        </p>
+
+    </div>
+
+
+    <div class="footer-links">
+
+        <div>
+            <h4>Explore</h4>
+
+            <a href="/explore">Destinations</a>
+            <a href="/guides">Guides</a>
+            <a href="/trip-planner">Trip Planner</a>
+        </div>
+
+        <div>
+            <h4>Safety</h4>
+
+            <a href="/sos">SOS</a>
+            <a href="/offline">Offline Pack</a>
+            <a href="/support">Support</a>
+        </div>
+
+        <div>
+            <h4>Account</h4>
+
+            <a href="/login">Login</a>
+            <a href="/profile">Profile</a>
+            <a href="/bookings">Bookings</a>
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script src="{{ url_for('static', filename='js/explore.js') }}"></script>
+
+</body>
+</html>

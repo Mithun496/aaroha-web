@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Service discovery{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+  <div class="page-hero compact">
+    <span>Travel services</span>
+    <h1>Choose a Hampi service</h1>
+    <p>Guides, bikes, stays and local transport available from one discovery view.</p>
+  </div>
+
+  <div class="listing-grid compact-grid">
+    <a class="listing-card service-card" href="{{ url_for('traveler.guides') }}">
+      <span class="chip">Guides</span>
+      <h2>{{ total_guides }} approved guides</h2>
+      <p>Heritage walks, local insight and cultural experiences.</p>
+    </a>
+    <a class="listing-card service-card" href="{{ url_for('traveler.bikes') }}">
+      <span class="chip">Bike rentals</span>
+      <h2>{{ total_bikes }} bike partners</h2>
+      <p>Rent scooters or bikes for independent exploration.</p>
+    </a>
+    <a class="listing-card service-card" href="{{ url_for('traveler.stays') }}">
+      <span class="chip">Resorts</span>
+      <h2>{{ total_resorts }} resort listings</h2>
+      <p>Comfortable stays nearby the main heritage points.</p>
+    </a>
+    <a class="listing-card service-card" href="#">
+      <span class="chip">Autos</span>
+      <h2>{{ total_auto }} auto partners</h2>
+      <p>Short local rides around routes in and around Hampi.</p>
+    </a>
+    <a class="listing-card service-card" href="#">
+      <span class="chip">Coracle</span>
+      <h2>{{ total_coracle }} coracle operators</h2>
+      <p>River rides and local experiences on the Tungabhadra.</p>
+    </a>
+  </div>
+</section>
+{% endblock %}

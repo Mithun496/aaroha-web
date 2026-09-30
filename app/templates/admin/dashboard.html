@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>AAROHA Admin Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body class="admin-page">
+
+
+<header class="admin-header">
+
+    <div class="admin-header-brand">
+
+        <img
+            src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+            alt="AAROHA"
+        >
+
+        <span>
+            ADMIN
+        </span>
+
+    </div>
+
+
+    <div class="admin-header-actions">
+
+        <span>
+            {{ session.get("admin_email") }}
+        </span>
+
+        <a
+            href="{{ url_for('admin.logout') }}"
+        >
+            Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+<main class="admin-dashboard">
+
+
+    <!-- ================= HEADER ================= -->
+
+    <section class="admin-page-heading">
+
+        <div>
+
+            <span>
+                AAROHA ADMIN
+            </span>
+
+            <h1>
+                Verification Dashboard
+            </h1>
+
+            <p>
+                Review partner applications and manage
+                verification status.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= STATS ================= -->
+
+    <section class="admin-stat-grid">
+
+
+        <div class="admin-stat-card">
+
+            <small>
+                TOTAL GUIDES
+            </small>
+
+            <strong>
+                {{ total_guides }}
+            </strong>
+
+        </div>
+
+
+        <div class="admin-stat-card pending">
+
+            <small>
+                PENDING
+            </small>
+
+            <strong>
+                {{ pending_guides }}
+            </strong>
+
+        </div>
+
+
+        <div class="admin-stat-card approved">
+
+            <small>
+                APPROVED
+            </small>
+
+            <strong>
+                {{ approved_guides }}
+            </strong>
+
+        </div>
+
+
+        <div class="admin-stat-card changes">
+
+            <small>
+                NEEDS CHANGES
+            </small>
+
+            <strong>
+                {{ needs_changes_guides }}
+            </strong>
+
+        </div>
+
+
+        <div class="admin-stat-card rejected">
+
+            <small>
+                REJECTED
+            </small>
+
+            <strong>
+                {{ rejected_guides }}
+            </strong>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- ================= APPLICATIONS ================= -->
+
+    <div style="margin-bottom:12px;">
+        <a href="{{ url_for('admin.operations') }}" class="admin-view-button">Open operational records →</a>
+        <a href="{{ url_for('admin.partner_applications') }}" class="admin-view-button">View bike, auto, coracle & resort applications →</a>
+    </div>
+
+    <section class="admin-section">
+
+        <div class="admin-section-heading">
+
+            <div>
+
+                <span>
+                    PARTNER MANAGEMENT
+                </span>
+
+                <h2>
+                    Recent Guide Applications
+                </h2>
+
+            </div>
+
+
+            <div class="admin-filter">
+
+                <span>
+                    All Applications
+                </span>
+
+            </div>
+
+        </div>
+
+
+        {% if recent_applications %}
+
+            <div class="admin-application-list">
+
+
+                {% for application in recent_applications %}
+
+                    <article class="admin-application-card">
+
+
+                        <div class="admin-application-main">
+
+                            <div class="admin-application-avatar">
+
+                                {{ application.first_name[:1] | upper }}
+
+                            </div>
+
+
+                            <div>
+
+                                <h3>
+
+                                    {{ application.first_name }}
+
+                                    {{ application.last_name }}
+
+                                </h3>
+
+
+                                <p>
+
+                                    {{ application.location }}
+
+                                </p>
+
+
+                                <small>
+
+                                    Application #{{ application.id }}
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="admin-application-meta">
+
+
+                            <div class="admin-status
+                                status-{{ application.status }}">
+
+                                {{ application.status
+                                    | replace("_", " ")
+                                    | title
+                                }}
+
+                            </div>
+
+
+                            <small>
+
+                                {{ application.created_at.strftime(
+                                    "%d %b %Y"
+                                ) }}
+
+                            </small>
+
+
+                            <a
+    href="{{ url_for('admin.guide_application', application_id=application.id) }}"
+    class="admin-view-button"
+>
+    View
+    →
+</a>
+
+                        </div>
+
+
+                    </article>
+
+                {% endfor %}
+
+
+            </div>
+
+        {% else %}
+
+            <div class="admin-empty-state">
+
+                <div>
+                    ✓
+                </div>
+
+                <h3>
+                    No guide applications yet.
+                </h3>
+
+                <p>
+                    Submitted guide applications will appear here.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+
+</main>
+
+</body>
+</html>

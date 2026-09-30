@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Guide Profile | AAROHA</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body class="auth-page">
+
+<main class="partner-registration-page">
+
+    <div class="auth-container partner-container">
+
+        <!-- ================= BACK ================= -->
+
+        <a
+            href="{{ url_for('auth.partner_category') }}"
+            class="back-button"
+            aria-label="Back to partner category"
+        >
+            ←
+        </a>
+
+
+        <!-- ================= BRAND ================= -->
+
+        <div class="auth-brand">
+
+            <img
+                src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+                alt="AAROHA"
+            >
+
+        </div>
+
+
+        <!-- ================= PROGRESS ================= -->
+
+        <div class="registration-progress">
+
+            <div class="registration-step active">
+
+                <span>1</span>
+
+                <small>
+                    Profile
+                </small>
+
+            </div>
+
+            <div class="registration-line"></div>
+
+            <div class="registration-step">
+
+                <span>2</span>
+
+                <small>
+                    Services
+                </small>
+
+            </div>
+
+            <div class="registration-line"></div>
+
+            <div class="registration-step">
+
+                <span>3</span>
+
+                <small>
+                    Pricing
+                </small>
+
+            </div>
+
+            <div class="registration-line"></div>
+
+            <div class="registration-step">
+
+                <span>4</span>
+
+                <small>
+                    Verification
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= HEADING ================= -->
+
+        <div class="auth-heading">
+
+            <span class="eyebrow">
+                GUIDE PARTNER
+            </span>
+
+            <h1>
+                Create your<br>
+                guide profile.
+            </h1>
+
+            <p>
+                Tell travelers who you are and what makes
+                your local knowledge valuable.
+            </p>
+
+        </div>
+
+
+        <!-- ================= ERROR ================= -->
+
+        {% if error %}
+
+            <div class="form-error">
+                {{ error }}
+            </div>
+
+        {% endif %}
+
+
+        <!-- ================= FORM ================= -->
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            class="partner-form"
+        >
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <!-- ================= PERSONAL PROFILE ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        01
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Personal Profile
+                        </h2>
+
+                        <p>
+                            This information will appear on your public guide profile.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PROFILE PHOTO -->
+
+                <div class="guide-photo-upload">
+
+                    <div class="guide-avatar">
+                        👤
+                    </div>
+
+                    <div class="photo-upload-content">
+
+                        <label for="profile_photo">
+                            Profile Photo
+                        </label>
+
+                        <input
+                            id="profile_photo"
+                            name="profile_photo"
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp"
+                        >
+
+                        <small>
+                            Upload a clear photo of yourself.
+                            JPG, PNG or WebP.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- NAME -->
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="first_name">
+                            First Name
+                        </label>
+
+                        <input
+                            id="first_name"
+                            name="first_name"
+                            type="text"
+                            class="form-input"
+                            placeholder="Enter first name"
+                            value="{{ profile.get('first_name', session.get('first_name', '')) if profile else session.get('first_name', '') }}"
+                            autocomplete="given-name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="last_name">
+                            Last Name
+                        </label>
+
+                        <input
+                            id="last_name"
+                            name="last_name"
+                            type="text"
+                            class="form-input"
+                            placeholder="Enter last name"
+                            value="{{ profile.get('last_name', session.get('last_name', '')) if profile else session.get('last_name', '') }}"
+                            autocomplete="family-name"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        class="form-input"
+                        placeholder="yourname@example.com"
+                        value="{{ profile.get('email', '') if profile else '' }}"
+                        autocomplete="email"
+                    >
+
+                    <div class="field-hint">
+                        Optional for now. You can add it later from your profile.
+                    </div>
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="form-group">
+
+                    <label for="phone_display">
+                        Verified Phone
+                    </label>
+
+                    <input
+                        id="phone_display"
+                        type="text"
+                        class="form-input verified-input"
+                        value="+91 {{ session.get('phone_number', '') }}"
+                        readonly
+                    >
+
+                    <div class="verified-label">
+                        ✓ Phone verified
+                    </div>
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="form-group">
+
+                    <label for="location">
+                        Primary Location
+                    </label>
+
+                    <input
+                        id="location"
+                        name="location"
+                        type="text"
+                        class="form-input"
+                        placeholder="e.g. Hampi, Karnataka"
+                        value="{{ profile.get('location', '') if profile else '' }}"
+                        autocomplete="address-level2"
+                        required
+                    >
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= EXPERIENCE ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        02
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Guiding Experience
+                        </h2>
+
+                        <p>
+                            Help travelers understand your experience level.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="experience_years">
+                        Years of Guiding Experience
+                    </label>
+
+                    <select
+                        id="experience_years"
+                        name="experience_years"
+                        class="form-select"
+                        required
+                    >
+
+                        <option value="">
+                            Select experience
+                        </option>
+
+                        <option value="less_than_1">
+                            Less than 1 year
+                        </option>
+
+                        <option value="1_3">
+                            1–3 years
+                        </option>
+
+                        <option value="3_5">
+                            3–5 years
+                        </option>
+
+                        <option value="5_10">
+                            5–10 years
+                        </option>
+
+                        <option value="10_plus">
+                            10+ years
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="bio">
+                        About You
+                    </label>
+
+                    <textarea
+                        id="bio"
+                        name="bio"
+                        class="form-textarea"
+                        rows="6"
+                        maxlength="1000"
+                        placeholder="Tell travelers about your local knowledge, experience and what you enjoy sharing..."
+                        required
+                    >{{ profile.get('bio', '') if profile else '' }}</textarea>
+
+                    <div class="field-hint">
+                        Maximum 1000 characters.
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= LANGUAGES ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        03
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Languages
+                        </h2>
+
+                        <p>
+                            Select every language you can comfortably use while guiding.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="language-check-grid">
+
+                    <label class="check-card">
+
+                        <input
+                            type="checkbox"
+                            name="languages"
+                            value="english"
+                        >
+
+                        <span>
+                            English
+                        </span>
+
+                    </label>
+
+
+                    <label class="check-card">
+
+                        <input
+                            type="checkbox"
+                            name="languages"
+                            value="kannada"
+                        >
+
+                        <span>
+                            Kannada
+                        </span>
+
+                    </label>
+
+
+                    <label class="check-card">
+
+                        <input
+                            type="checkbox"
+                            name="languages"
+                            value="hindi"
+                        >
+
+                        <span>
+                            Hindi
+                        </span>
+
+                    </label>
+
+
+                    <label class="check-card">
+
+                        <input
+                            type="checkbox"
+                            name="languages"
+                            value="telugu"
+                        >
+
+                        <span>
+                            Telugu
+                        </span>
+
+                    </label>
+
+
+                    <label class="check-card">
+
+                        <input
+                            type="checkbox"
+                            name="languages"
+                            value="tamil"
+                        >
+
+                        <span>
+                            Tamil
+                        </span>
+
+                    </label>
+
+
+                    <label class="check-card">
+
+                        <input
+                            type="checkbox"
+                            name="languages"
+                            value="french"
+                        >
+
+                        <span>
+                            French
+                        </span>
+
+                    </label>
+
+
+                    <label class="check-card">
+
+                        <input
+                            type="checkbox"
+                            name="languages"
+                            value="german"
+                        >
+
+                        <span>
+                            German
+                        </span>
+
+                    </label>
+
+
+                    <label class="check-card">
+
+                        <input
+                            type="checkbox"
+                            name="languages"
+                            value="spanish"
+                        >
+
+                        <span>
+                            Spanish
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= CONTINUE ================= -->
+
+            <button
+                type="submit"
+                class="primary-button profile-submit"
+            >
+
+                Save & Continue
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+
+            <p class="profile-note">
+
+                You can edit your information before
+                submitting your partner application.
+
+            </p>
+
+        </form>
+
+    </div>
+
+</main>
+
+</body>
+</html>

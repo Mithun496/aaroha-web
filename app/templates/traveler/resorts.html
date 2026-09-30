@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Resorts & stays{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+  <div class="page-hero compact">
+    <span>Hampi stays</span>
+    <h1>Resorts and local stays</h1>
+    <p>Browse trusted listings for your Hampi visit.</p>
+  </div>
+
+  <div class="listing-grid">
+    {% for resort in resorts %}
+      <article class="listing-card">
+        <div class="listing-card-header">
+          <span class="chip">Stay</span>
+          <h2>{{ resort.name }}</h2>
+        </div>
+        <p>{{ resort.address }}</p>
+        <ul>
+          <li>{{ resort.description[:140] if resort.description else 'Local stay approved by AAROHA' }}</li>
+          <li>Contact: {{ resort.contact or resort.whatsapp or 'Available on request' }}</li>
+        </ul>
+        <div class="listing-actions">
+          <a href="{{ url_for('traveler.resort_detail', resort_id=resort.id) }}" class="primary-btn">View stay</a>
+        </div>
+      </article>
+    {% else %}
+      <div class="empty-state">
+        <h3>No resort listings are live yet.</h3>
+        <p>Local resorts will appear here as they complete verification.</p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

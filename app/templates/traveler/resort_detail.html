@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{ resort.name }}{% endblock %}
+
+{% block content %}
+<section class="page-shell narrow">
+  <div class="page-hero compact">
+    <span>Resort listing</span>
+    <h1>{{ resort.name }}</h1>
+    <p>{{ resort.address }}</p>
+  </div>
+
+  <div class="detail-card">
+    <div class="detail-row"><strong>Overview:</strong> {{ resort.description or 'Welcome stay with local hospitality.' }}</div>
+    <div class="detail-row"><strong>Contact:</strong> {{ resort.contact or resort.whatsapp or 'Available on request' }}</div>
+    <div class="detail-row"><strong>Location:</strong> {{ resort.address }}</div>
+    {% if resort.amenities %}
+      <div class="detail-row"><strong>Amenities:</strong> {{ resort.amenities | join(', ') }}</div>
+    {% endif %}
+    {% if resort.room_info %}
+      <div class="detail-row"><strong>Room info:</strong> {{ resort.room_info | join(', ') }}</div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

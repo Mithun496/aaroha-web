@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Partner Category | AAROHA</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="auth-page">
+
+    <div class="auth-container wide">
+
+        <a href="{{ url_for('auth.phone') }}"
+           class="back-button">
+            ←
+        </a>
+
+        <div class="auth-heading">
+
+            <span class="eyebrow">
+                PARTNER REGISTRATION
+            </span>
+
+            <h1>
+                What do you offer?
+            </h1>
+
+            <p>
+                Choose the service you want to provide
+                through AAROHA.
+            </p>
+
+        </div>
+
+        {% if error %}
+            <div class="form-error">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="POST">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div class="partner-grid">
+
+                <button
+                    type="submit"
+                    name="category"
+                    value="guide"
+                    class="partner-card">
+
+                    <span class="partner-icon">🧭</span>
+
+                    <strong>Guide</strong>
+
+                    <small>
+                        Offer guided tours and
+                        local experiences.
+                    </small>
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    name="category"
+                    value="bike_rental"
+                    class="partner-card">
+
+                    <span class="partner-icon">🏍️</span>
+
+                    <strong>Bike Rental</strong>
+
+                    <small>
+                        Rent bikes and scooters
+                        to travelers.
+                    </small>
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    name="category"
+                    value="auto_driver"
+                    class="partner-card">
+
+                    <span class="partner-icon">🛺</span>
+
+                    <strong>Auto Driver</strong>
+
+                    <small>
+                        Provide local transportation.
+                    </small>
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    name="category"
+                    value="coracle_operator"
+                    class="partner-card">
+
+                    <span class="partner-icon">🚣</span>
+
+                    <strong>Coracle Operator</strong>
+
+                    <small>
+                        Offer authentic coracle
+                        rides and experiences.
+                    </small>
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    name="category"
+                    value="resort_owner"
+                    class="partner-card">
+
+                    <span class="partner-icon">🏨</span>
+
+                    <strong>Resort Owner</strong>
+
+                    <small>
+                        List and manage your resort.
+                    </small>
+
+                </button>
+
+
+
+
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

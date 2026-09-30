@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Guide Dashboard | AAROHA
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body class="partner-dashboard-page">
+
+
+<!-- =====================================================
+     HEADER
+     ===================================================== -->
+
+<header class="partner-dashboard-header">
+
+    <a
+        href="{{ url_for('home.index') }}"
+        class="partner-dashboard-logo"
+    >
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='images/logo/aaroha-logo.png'
+            ) }}"
+            alt="AAROHA"
+        >
+
+    </a>
+
+
+    <div class="partner-header-right">
+
+        <div class="partner-verification-badge">
+
+            <span>
+                ✓
+            </span>
+
+            Verified Guide
+
+        </div>
+
+        <a
+            href="{{ url_for('home.index') }}"
+            class="partner-home-link"
+        >
+            View AAROHA
+        </a>
+
+    </div>
+
+</header>
+
+
+<div class="partner-dashboard-layout">
+
+
+<!-- =====================================================
+     SIDEBAR
+     ===================================================== -->
+
+<aside class="partner-sidebar">
+
+
+    <div class="partner-profile-mini">
+
+        <div class="partner-avatar">
+
+            {{ application.first_name[:1] | upper }}
+
+        </div>
+
+
+        <div>
+
+            <strong>
+
+                {{ application.first_name }}
+                {{ application.last_name }}
+
+            </strong>
+
+            <span>
+                Guide • {{ application.location }}
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <nav class="partner-navigation">
+
+
+        <a
+            href="#overview"
+            class="partner-nav-item active"
+        >
+            <span>⌂</span>
+            Overview
+        </a>
+
+
+        <a
+            href="#profile"
+            class="partner-nav-item"
+        >
+            <span>◉</span>
+            My Profile
+        </a>
+
+
+        <a
+            href="#services"
+            class="partner-nav-item"
+        >
+            <span>✦</span>
+            Services
+        </a>
+
+
+        <a
+            href="#pricing"
+            class="partner-nav-item"
+        >
+            <span>₹</span>
+            Pricing
+        </a>
+
+
+        <a
+            href="#availability"
+            class="partner-nav-item"
+        >
+            <span>◷</span>
+            Availability
+        </a>
+
+
+        <a
+            href="#bookings"
+            class="partner-nav-item"
+        >
+            <span>▣</span>
+            Bookings
+        </a>
+
+
+        <a
+            href="#messages"
+            class="partner-nav-item"
+        >
+            <span>✉</span>
+            Messages
+        </a>
+
+
+        <a
+            href="#earnings"
+            class="partner-nav-item"
+        >
+            <span>₹</span>
+            Earnings
+        </a>
+
+
+    </nav>
+
+
+    <div class="partner-sidebar-bottom">
+
+        <a href="{{ url_for(
+            'auth.guide_application_status'
+        ) }}">
+            Application Status
+        </a>
+
+        <a href="{{ url_for(
+            'home.index'
+        ) }}">
+            Back to AAROHA
+        </a>
+
+    </div>
+
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+     ===================================================== -->
+
+<main class="partner-dashboard-main">
+
+
+    <!-- ================= OVERVIEW ================= -->
+
+    <section
+        id="overview"
+        class="partner-dashboard-section"
+    >
+
+        <div class="partner-welcome">
+
+            <div>
+
+                <span>
+                    GUIDE PARTNER DASHBOARD
+                </span>
+
+                <h1>
+
+                    Hello,
+                    {{ application.first_name }}.
+
+                </h1>
+
+                <p>
+                    Manage your guide profile and prepare
+                    for upcoming traveler bookings.
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-verified-card">
+
+                <div class="dashboard-verified-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <strong>
+                        Verified
+                    </strong>
+
+                    <small>
+                        Your guide profile is approved.
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="partner-dashboard-stats">
+
+
+            <div class="dashboard-stat">
+
+                <small>
+                    PROFILE STATUS
+                </small>
+
+                <strong>
+                    Active
+                </strong>
+
+                <span>
+                    Verified guide
+                </span>
+
+            </div>
+
+
+            <div class="dashboard-stat">
+
+                <small>
+                    MAX GROUP
+                </small>
+
+                <strong>
+                    {{ application.max_group_size }}
+                </strong>
+
+                <span>
+                    Travelers
+                </span>
+
+            </div>
+
+
+            <div class="dashboard-stat">
+
+                <small>
+                    HOURLY RATE
+                </small>
+
+                <strong>
+                    ₹{{ application.hourly_rate or 0 }}
+                </strong>
+
+                <span>
+                    Per hour
+                </span>
+
+            </div>
+
+
+            <div class="dashboard-stat">
+
+                <small>
+                    EXPERIENCE
+                </small>
+
+                <strong>
+                    {{ application.experience_years }}
+                </strong>
+
+                <span>
+                    Guiding experience
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PROFILE ================= -->
+
+    <section
+        id="profile"
+        class="partner-dashboard-section"
+    >
+
+        <div class="partner-section-heading-dashboard">
+
+            <div>
+
+                <span>
+                    YOUR PROFILE
+                </span>
+
+                <h2>
+                    Guide Profile
+                </h2>
+
+            </div>
+
+
+           <a
+    href="{{ url_for('partner.edit_guide_profile') }}"
+    class="dashboard-secondary-button dashboard-edit-link"
+>
+    Edit Profile
+</a>
+        </div>
+
+
+        <div class="dashboard-profile-card">
+
+
+            <div class="dashboard-profile-avatar">
+
+                {{ application.first_name[:1] | upper }}
+
+                {{ application.last_name[:1] | upper }}
+
+            </div>
+
+
+            <div class="dashboard-profile-main">
+
+                <h3>
+
+                    {{ application.first_name }}
+                    {{ application.last_name }}
+
+                </h3>
+
+                <p>
+                    {{ application.location }}
+                </p>
+
+
+                <div class="dashboard-tags">
+
+                    {% for language in application.languages %}
+
+                        <span>
+                            {{ language }}
+                        </span>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-profile-status">
+
+                <span>
+                    ✓
+                </span>
+
+                Verified
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-info-grid">
+
+
+            <div>
+
+                <small>
+                    ABOUT
+                </small>
+
+                <p>
+                    {{ application.bio }}
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <small>
+                    PHONE
+                </small>
+
+                <strong>
+                    {{ application.phone_number }}
+                </strong>
+
+                <small class="dashboard-info-label">
+                    EMAIL
+                </small>
+
+                <strong>
+                    {{ application.email or "Not provided" }}
+                </strong>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= SERVICES ================= -->
+
+    <section
+        id="services"
+        class="partner-dashboard-section"
+    >
+
+        <div class="partner-section-heading-dashboard">
+
+            <div>
+
+                <span>
+                    WHAT YOU OFFER
+                </span>
+
+                <h2>
+                    Services & Areas
+                </h2>
+
+            </div>
+
+            <a href="{{ url_for('partner.edit_guide_services') }}" class="dashboard-secondary-button dashboard-edit-link">Edit Services</a>
+
+        </div>
+
+
+        <div class="dashboard-content-card">
+
+
+            <div class="dashboard-card-row">
+
+                <div>
+
+                    <small>
+                        SERVICES
+                    </small>
+
+                    <div class="dashboard-tags">
+
+                        {% for service in application.services %}
+
+                            <span>
+
+                                {{ service
+                                    | replace("_", " ")
+                                    | title
+                                }}
+
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-card-row">
+
+                <div>
+
+                    <small>
+                        AREAS YOU COVER
+                    </small>
+
+                    <div class="dashboard-tags">
+
+                        {% for area in application.areas %}
+
+                            <span>
+
+                                {{ area
+                                    | replace("_", " ")
+                                    | title
+                                }}
+
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PRICING ================= -->
+
+    <section
+        id="pricing"
+        class="partner-dashboard-section"
+    >
+
+        <div class="partner-section-heading-dashboard">
+
+            <div>
+
+                <span>
+                    YOUR RATES
+                </span>
+
+                <h2>
+                    Pricing
+                </h2>
+
+            </div>
+
+
+            <a href="{{ url_for('partner.edit_guide_pricing') }}" class="dashboard-secondary-button dashboard-edit-link">Edit Pricing</a>
+
+        </div>
+
+
+        <div class="dashboard-pricing-grid">
+
+
+            <div class="dashboard-price-card">
+
+                <small>
+                    HOURLY
+                </small>
+
+                <strong>
+                    ₹{{ application.hourly_rate or 0 }}
+                </strong>
+
+                <span>
+                    per hour
+                </span>
+
+            </div>
+
+
+            <div class="dashboard-price-card">
+
+                <small>
+                    HALF DAY
+                </small>
+
+                <strong>
+                    ₹{{ application.half_day_rate or 0 }}
+                </strong>
+
+                <span>
+                    half day
+                </span>
+
+            </div>
+
+
+            <div class="dashboard-price-card">
+
+                <small>
+                    FULL DAY
+                </small>
+
+                <strong>
+                    ₹{{ application.full_day_rate or 0 }}
+                </strong>
+
+                <span>
+                    full day
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <p class="dashboard-demo-note">
+            These are your general guide rates. Actual booking
+            pricing may vary according to the trip details.
+        </p>
+
+    </section>
+
+
+    <!-- ================= AVAILABILITY ================= -->
+
+    <section
+        id="availability"
+        class="partner-dashboard-section"
+    >
+
+        <div class="partner-section-heading-dashboard">
+
+            <div>
+
+                <span>
+                    WHEN YOU ARE AVAILABLE
+                </span>
+
+                <h2>
+                    Availability
+                </h2>
+
+            </div>
+
+
+            <a href="{{ url_for('partner.edit_guide_availability') }}" class="dashboard-secondary-button dashboard-edit-link">Manage Availability</a>
+
+        </div>
+
+
+        <div class="dashboard-content-card">
+
+
+            <div class="dashboard-card-row">
+
+                <small>
+                    AVAILABLE DAYS
+                </small>
+
+                <div class="dashboard-tags">
+
+                    {% for day in application.available_days %}
+
+                        <span>
+                            {{ day | title }}
+                        </span>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-card-row">
+
+                <small>
+                    TIME PERIODS
+                </small>
+
+                <div class="dashboard-tags">
+
+                    {% for slot in application.time_slots %}
+
+                        <span>
+
+                            {{ slot
+                                | replace("_", " ")
+                                | title
+                            }}
+
+                        </span>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-availability-bottom">
+
+                <div>
+
+                    <small>
+                        BOOKING NOTICE
+                    </small>
+
+                    <strong>
+
+                        {{ application.booking_notice
+                            | replace("_", " ")
+                            | title
+                        }}
+
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <small>
+                        BOOKING MODE
+                    </small>
+
+                    <strong>
+
+                        {{ application.booking_mode
+                            | title
+                        }}
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= BOOKINGS ================= -->
+
+    <section class="partner-dashboard-section">
+
+        <div class="partner-section-heading-dashboard">
+
+            <div>
+                <span>BOOKINGS</span>
+                <h2>Traveler booking requests</h2>
+            </div>
+
+        </div>
+
+        {% if bookings %}
+            <div class="booking-list">
+                {% for booking in bookings %}
+                    <article class="booking-row">
+                        <div>
+                            <small>{{ booking.booking_date or 'Date TBD' }}{% if booking.booking_time %} · {{ booking.booking_time }}{% endif %}</small>
+                            <h2>{{ booking.destination or 'Hampi trip' }}</h2>
+                            <p>{{ booking.traveler_phone }} · {{ booking.guests }} traveler(s)</p>
+                            {% if booking.message %}
+                                <p class="booking-message">{{ booking.message }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="booking-row-actions">
+                            <span class="status-pill {{ booking.status }}">{{ booking.status|replace('_', ' ')|title }}</span>
+                            {% if booking.status == 'pending' %}
+                                <form method="POST" action="{{ url_for('partner.booking_decision', booking_id=booking.id) }}">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" name="action" value="accept" class="primary-button small-button">Accept</button>
+                                    <button type="submit" name="action" value="reject" class="dashboard-secondary-button small-button">Reject</button>
+                                </form>
+                            {% elif booking.status == 'confirmed' %}
+                                <form method="POST" action="{{ url_for('partner.booking_decision', booking_id=booking.id) }}">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" name="action" value="complete" class="primary-button small-button">Complete</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state info-card">
+                <h2>No booking requests yet</h2>
+                <p>New traveler requests will appear here when they start booking your services.</p>
+            </div>
+        {% endif %}
+
+    </section>
+
+    <section class="dashboard-future-grid">
+
+        <div
+            id="messages"
+            class="dashboard-future-card"
+        >
+
+            <div>
+                ✉
+            </div>
+
+            <span>
+                MESSAGES
+            </span>
+
+            <h3>
+                Traveler messages
+            </h3>
+
+            <p>
+                Communicate with travelers before and
+                after their booking.
+            </p>
+
+            <small>
+                COMING NEXT
+            </small>
+
+        </div>
+
+
+        <div
+            id="earnings"
+            class="dashboard-future-card"
+        >
+
+            <div>
+                ₹
+            </div>
+
+            <span>
+                EARNINGS
+            </span>
+
+            <h3>
+                Your earnings
+            </h3>
+
+            <p>
+                Track completed bookings, payouts and
+                earnings history.
+            </p>
+
+            <small>
+                COMING NEXT
+            </small>
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+</div>
+
+</body>
+</html>

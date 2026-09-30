@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Operations | AAROHA Admin</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="admin-page">
+  <header class="admin-header">
+    <div class="admin-header-brand">
+      <img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA">
+      <span>ADMIN</span>
+    </div>
+    <div class="admin-header-actions">
+      <a href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('admin.audit_logs') }}">Audit logs</a>
+      <a href="{{ url_for('admin.logout') }}">Logout</a>
+    </div>
+  </header>
+  <main class="admin-dashboard">
+    <section class="admin-page-heading">
+      <div>
+        <span>ADMIN OPERATIONS</span>
+        <h1>Recent records</h1>
+        <p>Read-only operational visibility. Each section shows the latest 50 records.</p>
+      </div>
+    </section>
+    {% for dataset in datasets %}
+      <section class="admin-section" aria-labelledby="dataset-{{ loop.index }}">
+        <div class="admin-section-heading">
+          <div><span>OPERATIONS</span><h2 id="dataset-{{ loop.index }}">{{ dataset.title }}</h2></div>
+          <span>{{ dataset.rows|length }} shown</span>
+        </div>
+        <div class="admin-table-wrap" style="overflow-x:auto">
+          <table class="admin-table">
+            <thead><tr>{% for header in dataset.headers %}<th scope="col">{{ header }}</th>{% endfor %}</tr></thead>
+            <tbody>
+              {% for row in dataset.rows %}
+                <tr>{% for value in row %}<td>{{ value }}</td>{% endfor %}</tr>
+              {% else %}
+                <tr><td colspan="{{ dataset.headers|length }}">No records.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    {% endfor %}
+  </main>
+</body>
+</html>

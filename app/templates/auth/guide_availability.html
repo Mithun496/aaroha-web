@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Guide Availability | AAROHA</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body class="auth-page">
+
+<main class="partner-registration-page">
+
+    <div class="auth-container partner-container">
+
+
+        <!-- BACK -->
+
+        <a
+            href="{{ url_for('auth.guide_pricing') }}"
+            class="back-button"
+            aria-label="Back to pricing"
+        >
+            ←
+        </a>
+
+
+        <!-- BRAND -->
+
+        <div class="auth-brand">
+
+            <img
+                src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+                alt="AAROHA"
+            >
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div class="registration-progress">
+
+            <div class="registration-step completed">
+
+                <span>✓</span>
+
+                <small>
+                    Profile
+                </small>
+
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+
+                <span>✓</span>
+
+                <small>
+                    Services
+                </small>
+
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+
+                <span>✓</span>
+
+                <small>
+                    Pricing
+                </small>
+
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step active">
+
+                <span>4</span>
+
+                <small>
+                    Availability
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- HEADING -->
+
+        <div class="auth-heading">
+
+            <span class="eyebrow">
+                GUIDE PARTNER
+            </span>
+
+            <h1>
+                Tell travelers<br>
+                when you're available.
+            </h1>
+
+            <p>
+                Set your normal availability. You can change
+                it later from your partner dashboard.
+            </p>
+
+        </div>
+
+
+        {% if error %}
+
+            <div class="form-error">
+                {{ error }}
+            </div>
+
+        {% endif %}
+
+
+        <form
+            method="POST"
+            class="partner-form"
+        >
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+
+            <!-- ================= DAYS ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        01
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Available Days
+                        </h2>
+
+                        <p>
+                            Select the days you normally accept guide requests.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="availability-days">
+
+                    <label class="availability-day">
+
+                        <input
+                            type="checkbox"
+                            name="available_days"
+                            value="monday"
+                        >
+
+                        <span>
+                            <strong>
+                                Mon
+                            </strong>
+
+                            <small>
+                                Monday
+                            </small>
+                        </span>
+
+                    </label>
+
+
+                    <label class="availability-day">
+
+                        <input
+                            type="checkbox"
+                            name="available_days"
+                            value="tuesday"
+                        >
+
+                        <span>
+                            <strong>
+                                Tue
+                            </strong>
+
+                            <small>
+                                Tuesday
+                            </small>
+                        </span>
+
+                    </label>
+
+
+                    <label class="availability-day">
+
+                        <input
+                            type="checkbox"
+                            name="available_days"
+                            value="wednesday"
+                        >
+
+                        <span>
+                            <strong>
+                                Wed
+                            </strong>
+
+                            <small>
+                                Wednesday
+                            </small>
+                        </span>
+
+                    </label>
+
+
+                    <label class="availability-day">
+
+                        <input
+                            type="checkbox"
+                            name="available_days"
+                            value="thursday"
+                        >
+
+                        <span>
+                            <strong>
+                                Thu
+                            </strong>
+
+                            <small>
+                                Thursday
+                            </small>
+                        </span>
+
+                    </label>
+
+
+                    <label class="availability-day">
+
+                        <input
+                            type="checkbox"
+                            name="available_days"
+                            value="friday"
+                        >
+
+                        <span>
+                            <strong>
+                                Fri
+                            </strong>
+
+                            <small>
+                                Friday
+                            </small>
+                        </span>
+
+                    </label>
+
+
+                    <label class="availability-day">
+
+                        <input
+                            type="checkbox"
+                            name="available_days"
+                            value="saturday"
+                        >
+
+                        <span>
+                            <strong>
+                                Sat
+                            </strong>
+
+                            <small>
+                                Saturday
+                            </small>
+                        </span>
+
+                    </label>
+
+
+                    <label class="availability-day">
+
+                        <input
+                            type="checkbox"
+                            name="available_days"
+                            value="sunday"
+                        >
+
+                        <span>
+                            <strong>
+                                Sun
+                            </strong>
+
+                            <small>
+                                Sunday
+                            </small>
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= TIME ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        02
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Preferred Time
+                        </h2>
+
+                        <p>
+                            Select the periods when you usually accept travelers.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="service-check-grid">
+
+                    <label class="service-check">
+
+                        <input
+                            type="checkbox"
+                            name="time_slots"
+                            value="morning"
+                        >
+
+                        <span>
+
+                            <strong>
+                                🌅 Morning
+                            </strong>
+
+                            <small>
+                                Approximately 6:00 AM – 12:00 PM
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="service-check">
+
+                        <input
+                            type="checkbox"
+                            name="time_slots"
+                            value="afternoon"
+                        >
+
+                        <span>
+
+                            <strong>
+                                ☀️ Afternoon
+                            </strong>
+
+                            <small>
+                                Approximately 12:00 PM – 5:00 PM
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="service-check">
+
+                        <input
+                            type="checkbox"
+                            name="time_slots"
+                            value="evening"
+                        >
+
+                        <span>
+
+                            <strong>
+                                🌇 Evening
+                            </strong>
+
+                            <small>
+                                Approximately 5:00 PM – 9:00 PM
+                            </small>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= NOTICE ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        03
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Booking Notice
+                        </h2>
+
+                        <p>
+                            How much notice do you normally need before a tour?
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <select
+                    name="booking_notice"
+                    class="form-select"
+                    required
+                >
+
+                    <option value="">
+                        Select booking notice
+                    </option>
+
+                    <option value="same_day">
+                        Same day
+                    </option>
+
+                    <option value="24_hours">
+                        At least 24 hours
+                    </option>
+
+                    <option value="48_hours">
+                        At least 48 hours
+                    </option>
+
+                    <option value="72_hours">
+                        At least 72 hours
+                    </option>
+
+                </select>
+
+            </section>
+
+
+            <!-- ================= BOOKING MODE ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        04
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Booking Preference
+                        </h2>
+
+                        <p>
+                            Choose how you want to handle traveler requests.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="booking-mode-grid">
+
+                    <label class="booking-mode-card">
+
+                        <input
+                            type="radio"
+                            name="booking_mode"
+                            value="request"
+                            checked
+                        >
+
+                        <span>
+
+                            <strong>
+                                Review Requests
+                            </strong>
+
+                            <small>
+                                You review each request before confirming it.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="booking-mode-card">
+
+                        <input
+                            type="radio"
+                            name="booking_mode"
+                            value="instant"
+                        >
+
+                        <span>
+
+                            <strong>
+                                Instant Booking
+                            </strong>
+
+                            <small>
+                                Travelers can book when your availability is open.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= SUBMIT ================= -->
+
+            <button
+                type="submit"
+                class="primary-button profile-submit"
+            >
+
+                Save & Continue
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+
+            <p class="profile-note">
+
+                Your availability can be updated later.
+
+            </p>
+
+        </form>
+
+    </div>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Guide Pricing | AAROHA</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body class="auth-page">
+
+<main class="partner-registration-page">
+
+    <div class="auth-container partner-container">
+
+
+        <!-- BACK -->
+
+        <a
+            href="{{ url_for('auth.guide_services') }}"
+            class="back-button"
+            aria-label="Back to guide services"
+        >
+            ←
+        </a>
+
+
+        <!-- BRAND -->
+
+        <div class="auth-brand">
+
+            <img
+                src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+                alt="AAROHA"
+            >
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div class="registration-progress">
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Profile</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Services</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step active">
+                <span>3</span>
+                <small>Pricing</small>
+            </div>
+
+            <div class="registration-line"></div>
+
+            <div class="registration-step">
+                <span>4</span>
+                <small>Availability</small>
+            </div>
+
+        </div>
+
+
+        <!-- HEADING -->
+
+        <div class="auth-heading">
+
+            <span class="eyebrow">
+                GUIDE PARTNER
+            </span>
+
+            <h1>
+                Set your<br>
+                general pricing.
+            </h1>
+
+            <p>
+                Add example rates travelers can use to understand
+                your typical guide pricing.
+            </p>
+
+        </div>
+
+
+        {% if error %}
+
+            <div class="form-error">
+                {{ error }}
+            </div>
+
+        {% endif %}
+
+
+        <!-- FORM -->
+
+        <form
+            method="POST"
+            class="partner-form"
+        >
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+
+            <!-- ================= PRICING TYPE ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        01
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            How do you normally charge?
+                        </h2>
+
+                        <p>
+                            This is a general pricing preference.
+                            Actual booking prices can be calculated later.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="booking-mode-grid">
+
+                    <label class="booking-mode-card">
+
+                        <input
+                            type="radio"
+                            name="pricing_type"
+                            value="per_person"
+                            checked
+                        >
+
+                        <span>
+
+                            <strong>
+                                Per Person
+                            </strong>
+
+                            <small>
+                                Your guide fee is normally calculated
+                                for each traveler.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="booking-mode-card">
+
+                        <input
+                            type="radio"
+                            name="pricing_type"
+                            value="per_group"
+                        >
+
+                        <span>
+
+                            <strong>
+                                Per Group
+                            </strong>
+
+                            <small>
+                                You normally charge one amount
+                                for the whole group.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= DEMO RATES ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        02
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Typical Guide Rates
+                        </h2>
+
+                        <p>
+                            These are sample values. You can change them
+                            to your own rates.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- HOURLY -->
+
+                <div class="form-group">
+
+                    <label for="hourly_rate">
+                        Hourly Guide Rate
+                    </label>
+
+                    <div class="simple-price-input">
+
+                        <span>
+                            ₹
+                        </span>
+
+                        <input
+                            id="hourly_rate"
+                            name="hourly_rate"
+                            type="number"
+                            min="0"
+                            step="1"
+                            value="500"
+                            class="simple-price-field"
+                            required
+                        >
+
+                        <small>
+                            / hour
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- HALF DAY -->
+
+                <div class="form-group">
+
+                    <label for="half_day_rate">
+                        Half-Day Guide Rate
+                    </label>
+
+                    <div class="simple-price-input">
+
+                        <span>
+                            ₹
+                        </span>
+
+                        <input
+                            id="half_day_rate"
+                            name="half_day_rate"
+                            type="number"
+                            min="0"
+                            step="1"
+                            value="1500"
+                            class="simple-price-field"
+                            required
+                        >
+
+                        <small>
+                            / half day
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FULL DAY -->
+
+                <div class="form-group">
+
+                    <label for="full_day_rate">
+                        Full-Day Guide Rate
+                    </label>
+
+                    <div class="simple-price-input">
+
+                        <span>
+                            ₹
+                        </span>
+
+                        <input
+                            id="full_day_rate"
+                            name="full_day_rate"
+                            type="number"
+                            min="0"
+                            step="1"
+                            value="2500"
+                            class="simple-price-field"
+                            required
+                        >
+
+                        <small>
+                            / full day
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= GROUP SIZE ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        03
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Group Size
+                        </h2>
+
+                        <p>
+                            What's the largest group you normally guide?
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="max_group_size">
+                        Maximum Travelers
+                    </label>
+
+                    <input
+                        id="max_group_size"
+                        name="max_group_size"
+                        type="number"
+                        min="1"
+                        max="100"
+                        value="8"
+                        class="form-input"
+                        required
+                    >
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= BOOKING NOTICE ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        04
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Minimum Booking Notice
+                        </h2>
+
+                        <p>
+                            How much advance notice do you usually need?
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <select
+                        id="minimum_booking_notice"
+                        name="minimum_booking_notice"
+                        class="form-select"
+                        required
+                    >
+
+                        <option value="0">
+                            Same day
+                        </option>
+
+                        <option value="24" selected>
+                            At least 24 hours
+                        </option>
+
+                        <option value="48">
+                            At least 48 hours
+                        </option>
+
+                        <option value="72">
+                            At least 72 hours
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= DEMO NOTICE ================= -->
+
+            <div class="pricing-demo-note">
+
+                <span>
+                    ℹ
+                </span>
+
+                <p>
+                    <strong>Sample pricing only.</strong>
+                    These demo values are not fixed AAROHA prices.
+                    You can replace them with your actual rates.
+                </p>
+
+            </div>
+
+
+            <!-- ================= CONTINUE ================= -->
+
+            <button
+                type="submit"
+                class="primary-button profile-submit"
+            >
+
+                Save & Continue
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+
+            <p class="profile-note">
+
+                You can change your pricing information later.
+
+            </p>
+
+        </form>
+
+    </div>
+
+</main>
+
+</body>
+</html>

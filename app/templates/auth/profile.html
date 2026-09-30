@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Traveler Profile | AAROHA</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body class="auth-page">
+
+    <div class="auth-background-glow"></div>
+
+
+    <main class="profile-page">
+
+        <div class="auth-container profile-container">
+
+
+            <!-- ================= BRAND ================= -->
+
+            <div class="auth-brand">
+
+                <img
+                    src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+                    alt="AAROHA"
+                >
+
+            </div>
+
+
+            <!-- ================= PROGRESS ================= -->
+
+            <div class="profile-progress">
+
+                <div class="progress-step completed">
+                    <span>✓</span>
+                </div>
+
+                <div class="progress-line completed"></div>
+
+                <div class="progress-step active">
+                    <span>2</span>
+                </div>
+
+                <div class="progress-line"></div>
+
+                <div class="progress-step">
+                    <span>3</span>
+                </div>
+
+            </div>
+
+
+            <!-- ================= HEADING ================= -->
+
+            <div class="auth-heading">
+
+                <span class="eyebrow">
+                    TRAVELER PROFILE
+                </span>
+
+                <h1>
+                    Tell us<br>
+                    about yourself.
+                </h1>
+
+                <p>
+                    This helps AAROHA personalise your travel
+                    recommendations and trip planning.
+                </p>
+
+            </div>
+
+
+            <!-- ================= ERROR ================= -->
+
+            {% if error %}
+
+                <div class="form-error">
+                    {{ error }}
+                </div>
+
+            {% endif %}
+
+
+            <!-- ================= FORM ================= -->
+
+            <form
+                method="POST"
+                class="profile-form"
+            >
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+
+                <!-- NAME -->
+
+                <div class="form-section">
+
+                    <div class="form-section-title">
+                        Basic Information
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="first_name">
+                                First Name
+                            </label>
+
+                            <input
+                                id="first_name"
+                                name="first_name"
+                                type="text"
+                                class="form-input"
+                                placeholder="Enter first name"
+                                value="{{ session.get('first_name', '') }}"
+                                autocomplete="given-name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="last_name">
+                                Last Name
+                                <small>(Optional)</small>
+                            </label>
+
+                            <input
+                                id="last_name"
+                                name="last_name"
+                                type="text"
+                                class="form-input"
+                                placeholder="Enter last name"
+                                value="{{ session.get('last_name', '') }}"
+                                autocomplete="family-name"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- COUNTRY -->
+
+                    <div class="form-group">
+
+                        <label for="country">
+                            Country / Region
+                        </label>
+
+                        <input
+                            id="country"
+                            name="country"
+                            type="text"
+                            class="form-input"
+                            placeholder="e.g. United Kingdom"
+                            autocomplete="country-name"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- TRAVEL STYLE -->
+
+                <div class="form-section">
+
+                    <div class="form-section-title">
+                        Travel Style
+                    </div>
+
+                    <p class="section-description">
+                        Choose the style that best matches you.
+                    </p>
+
+
+                    <div class="choice-grid">
+
+                        <label class="choice-card">
+
+                            <input
+                                type="radio"
+                                name="travel_style"
+                                value="solo"
+                            >
+
+                            <span class="choice-icon">
+                                🧍
+                            </span>
+
+                            <span class="choice-label">
+                                Solo
+                            </span>
+
+                        </label>
+
+
+                        <label class="choice-card">
+
+                            <input
+                                type="radio"
+                                name="travel_style"
+                                value="couple"
+                            >
+
+                            <span class="choice-icon">
+                                ❤️
+                            </span>
+
+                            <span class="choice-label">
+                                Couple
+                            </span>
+
+                        </label>
+
+
+                        <label class="choice-card">
+
+                            <input
+                                type="radio"
+                                name="travel_style"
+                                value="family"
+                            >
+
+                            <span class="choice-icon">
+                                👨‍👩‍👧
+                            </span>
+
+                            <span class="choice-label">
+                                Family
+                            </span>
+
+                        </label>
+
+
+                        <label class="choice-card">
+
+                            <input
+                                type="radio"
+                                name="travel_style"
+                                value="friends"
+                            >
+
+                            <span class="choice-icon">
+                                👥
+                            </span>
+
+                            <span class="choice-label">
+                                Friends
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TRIP DURATION -->
+
+                <div class="form-section">
+
+                    <div class="form-section-title">
+                        Trip Duration
+                    </div>
+
+
+                    <select
+                        name="trip_duration"
+                        class="form-select"
+                    >
+
+                        <option value="">
+                            Select trip duration
+                        </option>
+
+                        <option value="1-2">
+                            1–2 days
+                        </option>
+
+                        <option value="3-4">
+                            3–4 days
+                        </option>
+
+                        <option value="5-7">
+                            5–7 days
+                        </option>
+
+                        <option value="8-14">
+                            8–14 days
+                        </option>
+
+                        <option value="15+">
+                            15+ days
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- INTERESTS -->
+
+                <div class="form-section">
+
+                    <div class="form-section-title">
+                        What do you enjoy?
+                    </div>
+
+                    <p class="section-description">
+                        Select everything that interests you.
+                    </p>
+
+
+                    <div class="interest-grid">
+
+                        <label class="interest-option">
+                            <input
+                                type="checkbox"
+                                name="interests"
+                                value="history"
+                            >
+                            <span>🏛 History</span>
+                        </label>
+
+
+                        <label class="interest-option">
+                            <input
+                                type="checkbox"
+                                name="interests"
+                                value="spiritual"
+                            >
+                            <span>🛕 Spiritual</span>
+                        </label>
+
+
+                        <label class="interest-option">
+                            <input
+                                type="checkbox"
+                                name="interests"
+                                value="adventure"
+                            >
+                            <span>🏔 Adventure</span>
+                        </label>
+
+
+                        <label class="interest-option">
+                            <input
+                                type="checkbox"
+                                name="interests"
+                                value="food"
+                            >
+                            <span>🍛 Food</span>
+                        </label>
+
+
+                        <label class="interest-option">
+                            <input
+                                type="checkbox"
+                                name="interests"
+                                value="photography"
+                            >
+                            <span>📸 Photography</span>
+                        </label>
+
+
+                        <label class="interest-option">
+                            <input
+                                type="checkbox"
+                                name="interests"
+                                value="nature"
+                            >
+                            <span>🌿 Nature</span>
+                        </label>
+
+
+                        <label class="interest-option">
+                            <input
+                                type="checkbox"
+                                name="interests"
+                                value="culture"
+                            >
+                            <span>🇮🇳 Culture</span>
+                        </label>
+
+
+                        <label class="interest-option">
+                            <input
+                                type="checkbox"
+                                name="interests"
+                                value="nightlife"
+                            >
+                            <span>🌃 Nightlife</span>
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUBMIT -->
+
+                <button
+                    type="submit"
+                    class="primary-button profile-submit"
+                >
+
+                    Continue to AAROHA
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+
+                <p class="profile-note">
+                    You can update these preferences later
+                    from your profile.
+                </p>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Guide Photos | AAROHA</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body class="auth-page">
+
+<main class="partner-registration-page">
+
+    <div class="auth-container partner-container">
+
+
+        <!-- ================= BACK ================= -->
+
+        <a
+            href="{{ url_for('auth.guide_verification') }}"
+            class="back-button"
+            aria-label="Back to verification"
+        >
+            ←
+        </a>
+
+
+        <!-- ================= BRAND ================= -->
+
+        <div class="auth-brand">
+
+            <img
+                src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+                alt="AAROHA"
+            >
+
+        </div>
+
+
+        <!-- ================= PROGRESS ================= -->
+
+        <div class="registration-progress">
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Profile</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Services</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Pricing</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Availability</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Verification</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step active">
+                <span>6</span>
+                <small>Photos</small>
+            </div>
+
+        </div>
+
+
+        <!-- ================= HEADING ================= -->
+
+        <div class="auth-heading">
+
+            <span class="eyebrow">
+                GUIDE PARTNER
+            </span>
+
+            <h1>
+                Show travelers<br>
+                what you know.
+            </h1>
+
+            <p>
+                Add photos that help travelers understand
+                your experience, your destination and your style.
+            </p>
+
+        </div>
+
+
+        {% if error %}
+
+            <div class="form-error">
+                {{ error }}
+            </div>
+
+        {% endif %}
+
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            class="partner-form"
+        >
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+
+            <!-- ================= COVER PHOTO ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        01
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Cover Photo
+                        </h2>
+
+                        <p>
+                            This will be the main image travelers see on your guide profile.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <label
+                    for="cover_photo"
+                    class="large-photo-upload"
+                    id="coverPhotoArea"
+                >
+
+                    <div class="large-upload-icon">
+                        +
+                    </div>
+
+                    <strong>
+                        Add a cover photo
+                    </strong>
+
+                    <small>
+                        Recommended: landscape image with good lighting.
+                    </small>
+
+                    <span class="upload-hint">
+                        JPG, PNG or WebP · Maximum 10 MB
+                    </span>
+
+                    <input
+                        id="cover_photo"
+                        name="cover_photo"
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        hidden
+                    >
+
+                </label>
+
+            </section>
+
+
+            <!-- ================= GALLERY ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        02
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Guide Gallery
+                        </h2>
+
+                        <p>
+                            Add up to 6 photos of places and experiences you guide.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <label
+                    for="gallery_photos"
+                    class="gallery-upload"
+                >
+
+                    <div class="gallery-upload-icon">
+                        +
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Add gallery photos
+                        </strong>
+
+                        <small>
+                            Select multiple images at once.
+                        </small>
+
+                    </div>
+
+                    <input
+                        id="gallery_photos"
+                        name="gallery_photos"
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        multiple
+                        hidden
+                    >
+
+                </label>
+
+
+                <div
+                    class="photo-preview-grid"
+                    id="photoPreviewGrid"
+                ></div>
+
+
+                <div class="photo-counter">
+                    <span id="photoCount">0</span> / 6 photos selected
+                </div>
+
+            </section>
+
+
+            <!-- ================= CONTENT GUIDANCE ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        03
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Photo Guidelines
+                        </h2>
+
+                        <p>
+                            A few simple rules help keep the AAROHA marketplace trustworthy.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="photo-guidelines">
+
+                    <div class="guideline-item">
+                        <span>✓</span>
+                        <p>
+                            Use photos you own or have permission to use.
+                        </p>
+                    </div>
+
+                    <div class="guideline-item">
+                        <span>✓</span>
+                        <p>
+                            Use clear, relevant photos of your destination or services.
+                        </p>
+                    </div>
+
+                    <div class="guideline-item">
+                        <span>✓</span>
+                        <p>
+                            Avoid uploading identity documents or sensitive information.
+                        </p>
+                    </div>
+
+                    <div class="guideline-item">
+                        <span>✓</span>
+                        <p>
+                            Get permission before publishing identifiable photos of other people.
+                        </p>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= CONTINUE ================= -->
+
+            <button
+                type="submit"
+                class="primary-button profile-submit"
+            >
+
+                Continue to Payout
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+
+            <p class="profile-note">
+
+                You can replace or update these photos later from
+                your approved guide profile.
+
+            </p>
+
+        </form>
+
+    </div>
+
+</main>
+
+
+<script>
+
+/* =========================================================
+   COVER PHOTO PREVIEW
+   ========================================================= */
+
+const coverPhoto =
+    document.getElementById("cover_photo");
+
+const coverPhotoArea =
+    document.getElementById("coverPhotoArea");
+
+coverPhoto?.addEventListener("change", function () {
+
+    const file = this.files?.[0];
+
+    if (!file) {
+        return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+        this.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+
+        coverPhotoArea.style.backgroundImage =
+            `linear-gradient(
+                rgba(0,0,0,0.20),
+                rgba(0,0,0,0.45)
+            ), url("${event.target.result}")`;
+
+        coverPhotoArea.classList.add(
+            "has-photo"
+        );
+
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+
+/* =========================================================
+   GALLERY PREVIEW
+   ========================================================= */
+
+const galleryInput =
+    document.getElementById("gallery_photos");
+
+const previewGrid =
+    document.getElementById("photoPreviewGrid");
+
+const photoCount =
+    document.getElementById("photoCount");
+
+
+galleryInput?.addEventListener("change", function () {
+
+    const files = Array.from(
+        this.files || []
+    );
+
+    const selected =
+        files.slice(0, 6);
+
+    previewGrid.innerHTML = "";
+
+    photoCount.textContent =
+        selected.length;
+
+    selected.forEach(file => {
+
+        if (!file.type.startsWith("image/")) {
+            return;
+        }
+
+        const reader =
+            new FileReader();
+
+        reader.onload = function (event) {
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "photo-preview-item";
+
+            item.innerHTML = `
+                <img
+                    src="${event.target.result}"
+                    alt="Guide photo preview"
+                >
+            `;
+
+            previewGrid.appendChild(item);
+
+        };
+
+        reader.readAsDataURL(file);
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>

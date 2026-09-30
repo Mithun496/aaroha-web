@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login | AAROHA</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="auth-page">
+
+    <div class="auth-container">
+
+        <a href="{{ url_for('auth.account_type') }}"
+           class="back-button">
+            ←
+        </a>
+
+        <div class="auth-brand">
+            <img
+                src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+                alt="AAROHA">
+        </div>
+
+        <div class="auth-heading">
+
+            <span class="eyebrow">
+                {{ session.get('account_type', 'traveler')|title }}
+            </span>
+
+            <h1>
+                Enter Your<br>
+                Phone Number
+            </h1>
+
+            <p>
+                We'll send you a verification code
+                on this number.
+            </p>
+
+        </div>
+
+        {% if error %}
+            <div class="form-error">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="POST">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <label>
+                Mobile Number
+            </label>
+
+            <div class="phone-input">
+
+                <div class="country-code">
+                    🇮🇳 +91
+                </div>
+
+                <input
+                    type="tel"
+                    name="phone_number"
+                    placeholder="Enter mobile number"
+                    maxlength="10"
+                    required>
+
+            </div>
+
+            <button
+                type="submit"
+                class="primary-button">
+
+                Send OTP
+                <span>→</span>
+
+            </button>
+
+        </form>
+
+        <p class="terms">
+            By continuing, you agree to our
+            <a href="#">Terms & Conditions</a>
+            and
+            <a href="#">Privacy Policy</a>.
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>

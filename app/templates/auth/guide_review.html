@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Review Guide Application | AAROHA</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body class="auth-page">
+
+<main class="partner-registration-page">
+
+    <div class="auth-container partner-container">
+
+
+        <!-- BACK -->
+
+        <a
+            href="{{ url_for('auth.guide_payout') }}"
+            class="back-button"
+            aria-label="Back to payout details"
+        >
+            ←
+        </a>
+
+
+        <!-- BRAND -->
+
+        <div class="auth-brand">
+
+            <img
+                src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+                alt="AAROHA"
+            >
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div class="registration-progress">
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Profile</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Services</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Pricing</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Availability</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Verification</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Photos</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Payout</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step active">
+                <span>8</span>
+                <small>Review</small>
+            </div>
+
+        </div>
+
+
+        <!-- HEADING -->
+
+        <div class="auth-heading">
+
+            <span class="eyebrow">
+                GUIDE PARTNER
+            </span>
+
+            <h1>
+                Review your<br>
+                application.
+            </h1>
+
+            <p>
+                Check your information carefully before
+                submitting your profile for AAROHA verification.
+            </p>
+
+        </div>
+
+
+        <!-- ================= PROFILE ================= -->
+
+        <section class="review-card">
+
+            <div class="review-card-header">
+
+                <div>
+
+                    <span class="review-number">
+                        01
+                    </span>
+
+                    <h2>
+                        Guide Profile
+                    </h2>
+
+                </div>
+
+                <a
+                    href="{{ url_for('auth.guide_registration') }}"
+                    class="review-edit"
+                >
+                    Edit
+                </a>
+
+            </div>
+
+
+            <div class="review-profile">
+
+                <div class="review-avatar">
+                    👤
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ session.get("guide_profile", {}).get("first_name", "") }}
+                        {{ session.get("guide_profile", {}).get("last_name", "") }}
+                    </strong>
+
+                    <span>
+                        {{ session.get("guide_profile", {}).get("location", "Location not provided") }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="review-detail-grid">
+
+                <div>
+
+                    <small>
+                        Experience
+                    </small>
+
+                    <strong>
+                        {{ session.get("guide_profile", {}).get("experience_years", "Not provided") }}
+                    </strong>
+
+                </div>
+
+                <div>
+
+                    <small>
+                        Languages
+                    </small>
+
+                    <strong>
+                        {{ session.get("guide_profile", {}).get("languages", []) | join(", ") }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="review-bio">
+
+                <small>
+                    About
+                </small>
+
+                <p>
+                    {{ session.get("guide_profile", {}).get("bio", "Not provided") }}
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SERVICES ================= -->
+
+        <section class="review-card">
+
+            <div class="review-card-header">
+
+                <div>
+
+                    <span class="review-number">
+                        02
+                    </span>
+
+                    <h2>
+                        Services & Areas
+                    </h2>
+
+                </div>
+
+                <a
+                    href="{{ url_for('auth.guide_services') }}"
+                    class="review-edit"
+                >
+                    Edit
+                </a>
+
+            </div>
+
+
+            <div class="review-section-label">
+                Services
+            </div>
+
+            <div class="review-tags">
+
+                {% for service in session.get("guide_services", {}).get("services", []) %}
+
+                    <span>
+                        {{ service.replace("_", " ") | title }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div class="review-section-label area-label">
+                Areas
+            </div>
+
+            <div class="review-tags">
+
+                {% for area in session.get("guide_services", {}).get("areas", []) %}
+
+                    <span>
+                        {{ area.replace("_", " ") | title }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div class="review-summary-row">
+
+                <span>
+                    Maximum group size
+                </span>
+
+                <strong>
+                    {{ session.get("guide_services", {}).get("max_group_size", "Not provided") }}
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= PRICING ================= -->
+
+        <section class="review-card">
+
+            <div class="review-card-header">
+
+                <div>
+
+                    <span class="review-number">
+                        03
+                    </span>
+
+                    <h2>
+                        Pricing
+                    </h2>
+
+                </div>
+
+                <a
+                    href="{{ url_for('auth.guide_pricing') }}"
+                    class="review-edit"
+                >
+                    Edit
+                </a>
+
+            </div>
+
+
+            {% set pricing = session.get("guide_pricing", {}) %}
+
+            <div class="pricing-review-grid">
+
+                <div>
+
+                    <small>
+                        Pricing Type
+                    </small>
+
+                    <strong>
+                        {{ pricing.get("pricing_type", "Demo") | replace("_", " ") | title }}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <small>
+                        Hourly
+                    </small>
+
+                    <strong>
+                        ₹{{ pricing.get("hourly_rate", 500) }}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <small>
+                        Half Day
+                    </small>
+
+                    <strong>
+                        ₹{{ pricing.get("half_day_rate", 1500) }}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <small>
+                        Full Day
+                    </small>
+
+                    <strong>
+                        ₹{{ pricing.get("full_day_rate", 2500) }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="review-summary-row">
+
+                <span>
+                    Maximum group size
+                </span>
+
+                <strong>
+                    {{ pricing.get("max_group_size", "Demo") }}
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= AVAILABILITY ================= -->
+
+        <section class="review-card">
+
+            <div class="review-card-header">
+
+                <div>
+
+                    <span class="review-number">
+                        04
+                    </span>
+
+                    <h2>
+                        Availability
+                    </h2>
+
+                </div>
+
+                <a
+                    href="{{ url_for('auth.guide_availability') }}"
+                    class="review-edit"
+                >
+                    Edit
+                </a>
+
+            </div>
+
+
+            {% set availability = session.get("guide_availability", {}) %}
+
+            <div class="review-section-label">
+                Available Days
+            </div>
+
+            <div class="review-tags">
+
+                {% for day in availability.get("available_days", []) %}
+
+                    <span>
+                        {{ day | title }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div class="review-section-label area-label">
+                Preferred Time
+            </div>
+
+            <div class="review-tags">
+
+                {% for slot in availability.get("time_slots", []) %}
+
+                    <span>
+                        {{ slot.replace("_", " ") | title }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div class="review-summary-grid">
+
+                <div>
+
+                    <span>
+                        Booking notice
+                    </span>
+
+                    <strong>
+                        {{ availability.get("booking_notice", "Not provided").replace("_", " ") | title }}
+                    </strong>
+
+                </div>
+
+                <div>
+
+                    <span>
+                        Booking mode
+                    </span>
+
+                    <strong>
+                        {{ availability.get("booking_mode", "request") | title }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= VERIFICATION ================= -->
+
+        <section class="review-card">
+
+            <div class="review-card-header">
+
+                <div>
+
+                    <span class="review-number">
+                        05
+                    </span>
+
+                    <h2>
+                        Verification
+                    </h2>
+
+                </div>
+
+                <a
+                    href="{{ url_for('auth.guide_verification') }}"
+                    class="review-edit"
+                >
+                    Edit
+                </a>
+
+            </div>
+
+
+            {% set verification = session.get("guide_verification", {}) %}
+
+            <div class="verification-status">
+
+                <span class="status-icon">
+                    ✓
+                </span>
+
+                <div>
+
+                    <strong>
+                        Documents provided
+                    </strong>
+
+                    <small>
+                        Your submitted documents will be reviewed
+                        by AAROHA before verification is approved.
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="review-summary-grid">
+
+                <div>
+
+                    <span>
+                        Identity document
+                    </span>
+
+                    <strong>
+                        {{ verification.get("id_type", "Not provided") | replace("_", " ") | title }}
+                    </strong>
+
+                </div>
+
+                <div>
+
+                    <span>
+                        Credential
+                    </span>
+
+                    <strong>
+                        {{ verification.get("credential_type", "Not provided") | replace("_", " ") | title }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= PHOTOS ================= -->
+
+        <section class="review-card">
+
+            <div class="review-card-header">
+
+                <div>
+
+                    <span class="review-number">
+                        06
+                    </span>
+
+                    <h2>
+                        Photos
+                    </h2>
+
+                </div>
+
+                <a
+                    href="{{ url_for('auth.guide_photos') }}"
+                    class="review-edit"
+                >
+                    Edit
+                </a>
+
+            </div>
+
+
+            {% set photos = session.get("guide_photos", {}) %}
+
+            <div class="media-summary">
+
+                <div class="media-status">
+
+                    <span>
+                        ✓
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Cover photo added
+                        </strong>
+
+                        <small>
+                            {{ photos.get("cover_photo", "Not provided") }}
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="media-status">
+
+                    <span>
+                        ✓
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Gallery photos
+                        </strong>
+
+                        <small>
+                            {{ photos.get("gallery_photos", []) | length }} photos selected
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= PAYOUT ================= -->
+
+        <section class="review-card">
+
+            <div class="review-card-header">
+
+                <div>
+
+                    <span class="review-number">
+                        07
+                    </span>
+
+                    <h2>
+                        Payout
+                    </h2>
+
+                </div>
+
+                <a
+                    href="{{ url_for('auth.guide_payout') }}"
+                    class="review-edit"
+                >
+                    Edit
+                </a>
+
+            </div>
+
+
+            {% set payout = session.get("guide_payout", {}) %}
+
+            <div class="payout-review">
+
+                <span class="payout-method-icon">
+                    {% if payout.get("payout_method") == "upi" %}
+                        UPI
+                    {% else %}
+                        🏦
+                    {% endif %}
+                </span>
+
+                <div>
+
+                    <strong>
+                        {{ payout.get("payout_method", "Not provided") | upper }}
+                    </strong>
+
+                    <small>Payout details will be collected only after a secure provider is configured.</small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= FINAL DECLARATION ================= -->
+
+        <form
+            method="POST"
+            action="{{ url_for('auth.guide_submit') }}"
+            class="final-submit-form"
+        >
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <label class="final-confirmation">
+
+                <input
+                    type="checkbox"
+                    name="final_confirmation"
+                    value="yes"
+                    required
+                >
+
+                <span>
+
+                    <strong>
+                        I have reviewed my application.
+                    </strong>
+
+                    <small>
+                        I confirm that the information I submitted is accurate
+                        and I understand that AAROHA will review my application
+                        before granting verified guide status.
+                    </small>
+
+                </span>
+
+            </label>
+
+
+            <button
+                type="submit"
+                class="primary-button profile-submit"
+            >
+
+                Submit Application
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+        </form>
+
+
+        <p class="profile-note">
+
+            Your application will enter verification after submission.
+            You can update eligible profile information later.
+
+        </p>
+
+    </div>
+
+</main>
+
+</body>
+</html>

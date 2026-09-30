@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AAROHA | Your Journey. Our Care.</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <header class="navbar">
+
+        <a href="/" class="brand">
+            <img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+                 alt="AAROHA">
+        </a>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="{{ url_for('traveler.explore') }}">Explore</a>
+            <a href="{{ url_for('traveler.guides') }}">Guides</a>
+            <a href="{{ url_for('traveler.bookings') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}">Bookings</a>
+            <a href="{{ url_for('traveler.offline') }}">Offline Pack</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="{{ url_for('traveler.sos') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}" class="sos-button">SOS</a>
+            <a href="{{ url_for('auth.account_type') }}" class="login-button">Login</a>
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <span class="eyebrow">
+                    TRAVEL INDIA WITH CONFIDENCE
+                </span>
+
+                <h1>
+                    Discover India.<br>
+                    Travel with Confidence.
+                </h1>
+
+                <p>
+                    AAROHA is your trusted travel companion for discovering
+                    India's culture, destinations, local experiences,
+                    trusted guides and safer journeys.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a href="{{ url_for('traveler.explore') }}" class="primary-button">
+                        Start Exploring
+                    </a>
+
+                    <a href="{{ url_for('traveler.trip_planner') }}" class="secondary-button">
+                        Plan My Journey
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FEATURES -->
+
+        <section class="features">
+
+            <div class="section-heading">
+                <span>WHY AAROHA</span>
+
+                <h2>
+                    Everything you need for a better journey.
+                </h2>
+
+                <p>
+                    From discovering places to staying safe,
+                    AAROHA brings your essential travel tools together.
+                </p>
+            </div>
+
+
+            <div class="feature-grid">
+
+                <div class="feature-card">
+                    <div class="icon">🧭</div>
+                    <h3>Explore India</h3>
+                    <p>
+                        Discover temples, heritage sites, nature,
+                        food, adventures and hidden places.
+                    </p>
+                </div>
+
+
+                <div class="feature-card">
+                    <div class="icon">🤖</div>
+                    <h3>AI Travel Planner</h3>
+                    <p>
+                        Create personalised itineraries based on
+                        your interests, time and budget.
+                    </p>
+                </div>
+
+
+                <div class="feature-card">
+                    <div class="icon">👤</div>
+                    <h3>Trusted Local Guides</h3>
+                    <p>
+                        Find and connect with verified local
+                        guides and experiences.
+                    </p>
+                </div>
+
+
+                <div class="feature-card safety-card">
+                    <div class="icon">🚨</div>
+                    <h3>AAROHA SOS</h3>
+                    <p>
+                        Quickly access emergency assistance,
+                        contacts and location sharing when needed.
+                    </p>
+                </div>
+
+
+                <div class="feature-card">
+                    <div class="icon">📴</div>
+                    <h3>Offline Travel Pack</h3>
+                    <p>
+                        Keep essential destination information,
+                        bookings, contacts and emergency details
+                        available even without internet.
+                    </p>
+                </div>
+
+
+                <div class="feature-card">
+                    <div class="icon">🇮🇳</div>
+                    <h3>India Culture Guide</h3>
+                    <p>
+                        Understand local customs, temple etiquette,
+                        dress codes, photography rules and more.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CULTURE -->
+
+        <section class="culture-section">
+
+            <div class="culture-content">
+
+                <span>TRAVEL SMARTER</span>
+
+                <h2>
+                    Understand India before you experience it.
+                </h2>
+
+                <p>
+                    AAROHA helps international travellers understand
+                    India's culture and customs before visiting a place.
+                </p>
+
+                <ul>
+                    <li>Temple etiquette</li>
+                    <li>Dress recommendations</li>
+                    <li>Photography restrictions</li>
+                    <li>Opening hours</li>
+                    <li>Religious customs</li>
+                    <li>Local travel tips</li>
+                </ul>
+
+                <a href="{{ url_for('traveler.culture_guide') }}" class="primary-button">
+                    Explore Culture Guide
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- AI PLANNER -->
+
+        <section class="planner">
+
+            <div class="section-heading">
+
+                <span>AI TRAVEL PLANNER</span>
+
+                <h2>
+                    Tell AAROHA how you want to travel.
+                </h2>
+
+                <p>
+                    Your interests + time + budget =
+                    a personalised travel plan.
+                </p>
+
+            </div>
+
+
+            <div class="planner-box">
+
+                <div>
+                    <strong>I'm travelling for</strong>
+
+                    <div class="tags">
+                        <span>History</span>
+                        <span>Spiritual</span>
+                        <span>Adventure</span>
+                        <span>Food</span>
+                        <span>Photography</span>
+                    </div>
+                </div>
+
+
+                <div>
+                    <strong>Trip duration</strong>
+
+                    <p>2.5 Days</p>
+                </div>
+
+
+                <div>
+                    <strong>Budget</strong>
+
+                    <p>₹15,000</p>
+                </div>
+
+
+                <a href="{{ url_for('traveler.trip_planner') }}" class="primary-button">
+                    Create My Plan
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- SOS -->
+
+        <section class="sos-section">
+
+            <div class="sos-content">
+
+                <span>TRAVEL SAFER</span>
+
+                <h2>
+                    When you need help,<br>
+                    AAROHA is there.
+                </h2>
+
+                <p>
+                    Quickly access emergency assistance,
+                    emergency contacts, location sharing,
+                    tourist helplines and important safety information.
+                </p>
+
+                <a href="{{ url_for('traveler.sos') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}" class="sos-large-button">
+                    🚨 AAROHA SOS
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- OFFLINE -->
+
+        <section class="offline-section">
+
+            <div>
+
+                <span>OFFLINE TRAVEL PACK</span>
+
+                <h2>
+                    Your essential travel information,
+                    even without internet.
+                </h2>
+
+                <p>
+                    Download your destination before travelling
+                    and keep essential information available offline.
+                </p>
+
+                <a href="{{ url_for('traveler.offline') }}" class="primary-button">
+                    Download Travel Pack
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- CTA -->
+
+        <section class="cta">
+
+            <h2>
+                Your Journey. Our Care.
+            </h2>
+
+            <p>
+                Discover India with a trusted travel companion.
+            </p>
+
+            <a href="{{ url_for('traveler.explore') }}" class="primary-button">
+                Begin Your Journey
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <div class="footer-brand">
+
+            <img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+                 alt="AAROHA">
+
+            <p>
+                Your Journey. Our Care. Trusted Travel Companion.
+            </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <a href="#">About AAROHA</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+            <a href="{{ url_for('traveler.support') }}">Help & Support</a>
+
+        </div>
+
+        <p class="copyright">
+            © 2026 AAROHA. All rights reserved.
+        </p>
+
+    </footer>
+
+
+</body>
+</html>

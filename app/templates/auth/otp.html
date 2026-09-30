@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Verify OTP | AAROHA</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="auth-page">
+
+    <div class="auth-container">
+
+        <a href="{{ url_for('auth.phone') }}"
+           class="back-button">
+            ←
+        </a>
+
+        <div class="auth-heading">
+
+            <span class="eyebrow">
+                VERIFICATION
+            </span>
+
+            <h1>
+                Verify OTP
+            </h1>
+
+            <p>
+                Enter the 6-digit code sent to
+                <strong>+91 {{ phone }}</strong>
+            </p>
+
+        </div>
+
+        {% if error %}
+            <div class="form-error">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="POST">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div class="otp-container">
+
+                <input maxlength="1" name="otp1">
+                <input maxlength="1" name="otp2">
+                <input maxlength="1" name="otp3">
+                <input maxlength="1" name="otp4">
+                <input maxlength="1" name="otp5">
+                <input maxlength="1" name="otp6">
+
+            </div>
+
+            <!-- Development helper -->
+            <input
+                type="hidden"
+                id="otp"
+                name="otp">
+
+            <button
+                type="submit"
+                class="primary-button">
+
+                Verify & Continue
+                <span>→</span>
+
+            </button>
+
+        </form>
+
+        <div class="resend">
+
+            <span>
+                Didn't receive the code?
+            </span>
+
+            <button type="button">
+                Resend OTP
+            </button>
+
+        </div>
+
+        <div class="development-note">
+            {% if config.ENVIRONMENT != "production" %}Development OTP is printed in the Flask terminal when OTP_PROVIDER=console.{% endif %}
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const boxes = document.querySelectorAll(
+    ".otp-container input"
+);
+
+const hiddenOtp = document.getElementById("otp");
+
+boxes.forEach((box, index) => {
+
+    box.addEventListener("input", () => {
+
+        box.value = box.value.replace(/\D/g, "");
+
+        if (box.value && index < boxes.length - 1) {
+            boxes[index + 1].focus();
+        }
+
+        hiddenOtp.value =
+            Array.from(boxes)
+                .map(input => input.value)
+                .join("");
+
+    });
+
+    box.addEventListener("keydown", (event) => {
+
+        if (
+            event.key === "Backspace" &&
+            !box.value &&
+            index > 0
+        ) {
+            boxes[index - 1].focus();
+        }
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Application Submitted | AAROHA</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body class="auth-page">
+
+<main class="partner-registration-page">
+
+    <div class="auth-container submission-container">
+
+
+        <div class="auth-brand">
+
+            <img
+                src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+                alt="AAROHA"
+            >
+
+        </div>
+
+
+        <div class="submission-icon">
+            ✓
+        </div>
+
+
+        <div class="auth-heading">
+
+            <span class="eyebrow">
+                APPLICATION RECEIVED
+            </span>
+
+            <h1>
+                You're all set.
+            </h1>
+
+            <p>
+                Your guide application has been submitted to
+                AAROHA for verification.
+            </p>
+
+        </div>
+
+
+        <div class="application-status-card">
+
+            <div>
+
+                <span>
+                    APPLICATION STATUS
+                </span>
+
+                <strong>
+                    Verification Pending
+                </strong>
+
+            </div>
+
+            <div class="pending-dot"></div>
+
+        </div>
+
+
+        <div class="submission-info">
+
+            <div class="submission-info-item">
+
+                <span>
+                    ✓
+                </span>
+
+                <p>
+                    Your profile information has been received.
+                </p>
+
+            </div>
+
+
+            <div class="submission-info-item">
+
+                <span>
+                    ✓
+                </span>
+
+                <p>
+                    Your submitted documents will be reviewed.
+                </p>
+
+            </div>
+
+
+            <div class="submission-info-item">
+
+                <span>
+                    ✓
+                </span>
+
+                <p>
+                    You'll be notified when your verification status changes.
+                </p>
+
+            </div>
+
+        </div>
+
+<a
+    href="{{ url_for('auth.guide_application_status') }}"
+    class="primary-button submission-button"
+>
+    View Application Status
+    <span>→</span>
+</a>
+
+
+        <p class="profile-note">
+            Your guide profile will become available to travelers
+            after the verification process is completed.
+        </p>
+
+    </div>
+
+</main>
+
+</body>
+</html>

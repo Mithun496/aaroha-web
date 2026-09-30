@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Guide Application #{{ application.id }} | AAROHA Admin
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body class="admin-page">
+
+
+<header class="admin-header">
+
+    <div class="admin-header-brand">
+
+        <img
+            src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+            alt="AAROHA"
+        >
+
+        <span>
+            ADMIN
+        </span>
+
+    </div>
+
+
+    <div class="admin-header-actions">
+
+        <span>
+            {{ session.get("admin_email") }}
+        </span>
+
+        <a href="{{ url_for('admin.logout') }}">
+            Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+<main class="admin-dashboard">
+
+
+    <!-- ================= BACK ================= -->
+
+    <a
+        href="{{ url_for('admin.dashboard') }}"
+        class="admin-back-link"
+    >
+        ← Back to Dashboard
+    </a>
+
+
+    <!-- ================= HEADER ================= -->
+
+    <section class="application-detail-header">
+
+        <div>
+
+            <span>
+                GUIDE APPLICATION #{{ application.id }}
+            </span>
+
+            <h1>
+                {{ application.first_name }}
+                {{ application.last_name }}
+            </h1>
+
+            <p>
+                {{ application.location }}
+            </p>
+
+        </div>
+
+
+        <div
+            class="admin-status
+            status-{{ application.status }}"
+        >
+            {{ application.status
+                | replace("_", " ")
+                | title
+            }}
+        </div>
+
+    </section>
+
+    {% with messages = get_flashed_messages(
+    with_categories=true
+) %}
+
+    {% if messages %}
+
+        <div class="admin-flash-container">
+
+            {% for category, message in messages %}
+
+                <div class="admin-flash {{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+{% endwith %}
+
+
+    <!-- ================= PROFILE ================= -->
+
+    <section class="admin-detail-card">
+
+        <div class="admin-detail-title">
+
+            <div>
+
+                <span>
+                    01
+                </span>
+
+                <h2>
+                    Guide Profile
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-detail-grid">
+
+            <div>
+                <small>First Name</small>
+                <strong>
+                    {{ application.first_name }}
+                </strong>
+            </div>
+
+            <div>
+                <small>Last Name</small>
+                <strong>
+                    {{ application.last_name }}
+                </strong>
+            </div>
+
+            <div>
+                <small>Email</small>
+                <strong>
+                    {{ application.email or "Not provided" }}
+                </strong>
+            </div>
+
+            <div>
+                <small>Phone</small>
+                <strong>
+                    {{ application.phone_number }}
+                </strong>
+            </div>
+
+            <div>
+                <small>Location</small>
+                <strong>
+                    {{ application.location }}
+                </strong>
+            </div>
+
+            <div>
+                <small>Experience</small>
+                <strong>
+                    {{ application.experience_years }}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="admin-detail-text">
+
+            <small>
+                About the Guide
+            </small>
+
+            <p>
+                {{ application.bio }}
+            </p>
+
+        </div>
+
+
+        <div class="admin-detail-text">
+
+            <small>
+                Languages
+            </small>
+
+            <div class="admin-detail-tags">
+
+                {% for language in application.languages %}
+
+                    <span>
+                        {{ language }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= SERVICES ================= -->
+
+    <section class="admin-detail-card">
+
+        <div class="admin-detail-title">
+
+            <div>
+
+                <span>
+                    02
+                </span>
+
+                <h2>
+                    Services & Areas
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-detail-text">
+
+            <small>
+                Services
+            </small>
+
+            <div class="admin-detail-tags">
+
+                {% for service in application.services %}
+
+                    <span>
+                        {{ service
+                            | replace("_", " ")
+                            | title
+                        }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-detail-text">
+
+            <small>
+                Areas Covered
+            </small>
+
+            <div class="admin-detail-tags">
+
+                {% for area in application.areas %}
+
+                    <span>
+                        {{ area
+                            | replace("_", " ")
+                            | title
+                        }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-detail-grid">
+
+            <div>
+                <small>Maximum Group Size</small>
+                <strong>
+                    {{ application.max_group_size }}
+                </strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PRICING ================= -->
+
+    <section class="admin-detail-card">
+
+        <div class="admin-detail-title">
+
+            <div>
+
+                <span>
+                    03
+                </span>
+
+                <h2>
+                    General Pricing
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-detail-grid">
+
+            <div>
+                <small>Pricing Type</small>
+                <strong>
+                    {{ application.pricing_type
+                        | replace("_", " ")
+                        | title
+                    }}
+                </strong>
+            </div>
+
+            <div>
+                <small>Hourly</small>
+                <strong>
+                    ₹{{ application.hourly_rate or 0 }}
+                </strong>
+            </div>
+
+            <div>
+                <small>Half Day</small>
+                <strong>
+                    ₹{{ application.half_day_rate or 0 }}
+                </strong>
+            </div>
+
+            <div>
+                <small>Full Day</small>
+                <strong>
+                    ₹{{ application.full_day_rate or 0 }}
+                </strong>
+            </div>
+
+            <div>
+                <small>Maximum Group</small>
+                <strong>
+                    {{ application.pricing_group_size or "—" }}
+                </strong>
+            </div>
+
+            <div>
+                <small>Minimum Booking Notice</small>
+                <strong>
+                    {{ application.minimum_booking_notice or 0 }}
+                    hours
+                </strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= AVAILABILITY ================= -->
+
+    <section class="admin-detail-card">
+
+        <div class="admin-detail-title">
+
+            <div>
+
+                <span>
+                    04
+                </span>
+
+                <h2>
+                    Availability
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-detail-text">
+
+            <small>
+                Available Days
+            </small>
+
+            <div class="admin-detail-tags">
+
+                {% for day in application.available_days %}
+
+                    <span>
+                        {{ day | title }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-detail-text">
+
+            <small>
+                Preferred Time
+            </small>
+
+            <div class="admin-detail-tags">
+
+                {% for slot in application.time_slots %}
+
+                    <span>
+                        {{ slot | title }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-detail-grid">
+
+            <div>
+                <small>Booking Notice</small>
+                <strong>
+                    {{ application.booking_notice
+                        | replace("_", " ")
+                        | title
+                    }}
+                </strong>
+            </div>
+
+            <div>
+                <small>Booking Mode</small>
+                <strong>
+                    {{ application.booking_mode | title }}
+                </strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= VERIFICATION ================= -->
+
+    <section class="admin-detail-card admin-sensitive-card">
+
+        <div class="admin-detail-title">
+
+            <div>
+
+                <span>
+                    05
+                </span>
+
+                <h2>
+                    Verification
+                </h2>
+
+            </div>
+
+            <span class="sensitive-label">
+                SENSITIVE
+            </span>
+
+        </div>
+
+
+        <div class="admin-detail-grid">
+
+            <div>
+                <small>Identity Document Type</small>
+                <strong>
+                    {{ application.id_type
+                        | replace("_", " ")
+                        | title
+                    }}
+                </strong>
+            </div>
+
+            <div>
+                <small>Credential Type</small>
+                <strong>
+                    {{ application.credential_type
+                        or "Not provided"
+                    }}
+                </strong>
+            </div>
+
+            <div>
+                <small>Credential Number</small>
+                <strong>
+                    {{ application.credential_number
+                        or "Not provided"
+                    }}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="admin-document-row">
+
+            <div>
+
+                <strong>
+                    Identity Document
+                </strong>
+
+                <small>
+                    {{ application.identity_document_path
+                        or "Not uploaded"
+                    }}
+                </small>
+
+            </div>
+
+            <span>
+                🔒
+            </span>
+
+        </div>
+
+
+        <div class="admin-document-row">
+
+            <div>
+
+                <strong>
+                    Credential Document
+                </strong>
+
+                <small>
+                    {{ application.credential_document_path
+                        or "Not uploaded"
+                    }}
+                </small>
+
+            </div>
+
+            <span>
+                🔒
+            </span>
+
+        </div>
+
+
+        <p class="admin-sensitive-warning">
+
+            Sensitive verification information should only be
+            accessible to authorized AAROHA administrators.
+
+        </p>
+
+    </section>
+
+
+    <!-- ================= PHOTOS ================= -->
+
+    <section class="admin-detail-card">
+
+        <div class="admin-detail-title">
+
+            <div>
+
+                <span>
+                    06
+                </span>
+
+                <h2>
+                    Photos
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-document-row">
+
+            <div>
+
+                <strong>
+                    Cover Photo
+                </strong>
+
+                <small>
+                    {{ application.cover_photo_path
+                        or "Not uploaded"
+                    }}
+                </small>
+
+            </div>
+
+            <span>
+                🖼
+            </span>
+
+        </div>
+
+
+        <div class="admin-detail-text">
+
+            <small>
+                Gallery
+            </small>
+
+            <div class="admin-detail-tags">
+
+                {% for photo in application.gallery_photo_paths %}
+
+                    <span>
+                        {{ photo }}
+                    </span>
+
+                {% else %}
+
+                    <span>
+                        No gallery photos
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PAYOUT ================= -->
+
+    <section class="admin-detail-card">
+
+        <div class="admin-detail-title">
+
+            <div>
+
+                <span>
+                    07
+                </span>
+
+                <h2>
+                    Payout
+                </h2>
+
+            </div>
+
+            <span class="sensitive-label">
+                SENSITIVE
+            </span>
+
+        </div>
+
+
+        <div class="admin-detail-grid">
+
+            <div>
+
+                <small>
+                    Payout Method
+                </small>
+
+                <strong>
+                    {{ application.payout_method
+                        | upper
+                    }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <p class="admin-sensitive-warning">
+
+            Financial information is intentionally not displayed
+            on this administration page during development.
+
+        </p>
+
+    </section>
+
+
+    <!-- ================= ACTIONS ================= -->
+
+    <section class="admin-decision-card">
+
+        <div>
+
+            <span>
+                FINAL REVIEW
+            </span>
+
+            <h2>
+                What would you like to do?
+            </h2>
+
+            <p>
+                Choose an action after reviewing the application.
+            </p>
+
+        </div>
+
+{% if application.status in ["pending", "under_review", "needs_changes"] %}
+
+    <div class="admin-decision-actions">
+
+        <form
+            method="POST"
+            action="{{ url_for(
+                'admin.guide_application_decision',
+                application_id=application.id
+            ) }}"
+        >
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <input
+                type="hidden"
+                name="action"
+                value="approve"
+            >
+
+            <button
+                type="submit"
+                class="admin-action approve"
+            >
+                ✓ Approve Guide
+            </button>
+
+        </form>
+
+
+        <form
+            method="POST"
+            action="{{ url_for(
+                'admin.guide_application_decision',
+                application_id=application.id
+            ) }}"
+        >
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <input
+                type="hidden"
+                name="action"
+                value="changes"
+            >
+
+            <button
+                type="submit"
+                class="admin-action changes"
+            >
+                ↻ Request Changes
+            </button>
+
+        </form>
+
+
+        <form
+            method="POST"
+            action="{{ url_for(
+                'admin.guide_application_decision',
+                application_id=application.id
+            ) }}"
+        >
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <input
+                type="hidden"
+                name="action"
+                value="reject"
+            >
+
+            <button
+                type="submit"
+                class="admin-action reject"
+            >
+                × Reject Application
+            </button>
+
+        </form>
+
+    </div>
+
+{% else %}
+
+    <div class="admin-final-status">
+
+        {% if application.status == "approved" %}
+
+            <span class="final-status-icon approved">
+                ✓
+            </span>
+
+            <div>
+                <strong>
+                    Guide Approved
+                </strong>
+
+                <p>
+                    This guide has been approved and no further
+                    verification decision is required.
+                </p>
+            </div>
+
+        {% elif application.status == "rejected" %}
+
+            <span class="final-status-icon rejected">
+                ×
+            </span>
+
+            <div>
+                <strong>
+                    Application Rejected
+                </strong>
+
+                <p>
+                    This application has been rejected and is
+                    no longer awaiting a decision.
+                </p>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+{% endif %}
+
+        <small class="admin-coming-note">
+            Decision actions will be connected to the database next.
+        </small>
+
+    </section>
+
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Guide Payout | AAROHA</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body class="auth-page">
+
+<main class="partner-registration-page">
+
+    <div class="auth-container partner-container">
+
+        <!-- BACK -->
+
+        <a
+            href="{{ url_for('auth.guide_photos') }}"
+            class="back-button"
+            aria-label="Back to guide photos"
+        >
+            ←
+        </a>
+
+
+        <!-- BRAND -->
+
+        <div class="auth-brand">
+
+            <img
+                src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+                alt="AAROHA"
+            >
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div class="registration-progress">
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Profile</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Services</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Pricing</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Availability</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Verification</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Photos</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step active">
+                <span>7</span>
+                <small>Payout</small>
+            </div>
+
+        </div>
+
+
+        <!-- HEADING -->
+
+        <div class="auth-heading">
+
+            <span class="eyebrow">
+                GUIDE PARTNER
+            </span>
+
+            <h1>
+                Set up your<br>
+                payout details.
+            </h1>
+
+            <p>
+                Choose a preferred method for future payout setup. AAROHA does not collect bank or UPI credentials in this release.
+            </p>
+
+        </div>
+
+
+        {% if error %}
+
+            <div class="form-error">
+                {{ error }}
+            </div>
+
+        {% endif %}
+
+
+        <!-- FORM -->
+
+        <form
+            method="POST"
+            class="partner-form"
+        >
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+
+            <!-- ================= PAYMENT METHOD ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        01
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Payout Method
+                        </h2>
+
+                        <p>
+                            This preference does not activate or configure payouts.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="payout-method-grid">
+
+                    <label class="payout-method-card">
+
+                        <input
+                            type="radio"
+                            name="payout_method"
+                            value="bank"
+                            checked
+                        >
+
+                        <span>
+
+                            <strong>
+                                🏦 Bank Account
+                            </strong>
+
+                            <small>
+                                Preferred method for a future secure setup.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="payout-method-card">
+
+                        <input
+                            type="radio"
+                            name="payout_method"
+                            value="upi"
+                        >
+
+                        <span>
+
+                            <strong>
+                                UPI
+                            </strong>
+
+                            <small>
+                                Preferred method for a future secure setup.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= BANK DETAILS ================= -->
+
+            <section
+                class="partner-form-section"
+                id="bankDetailsSection"
+                hidden
+            >
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        02
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Bank Details
+                        </h2>
+
+                        <p>
+                            Enter the account details that match your partner identity.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="account_holder">
+                        Account Holder Name
+                    </label>
+
+                    <input
+                        id="account_holder"
+                        name="account_holder"
+                        type="text"
+                        class="form-input"
+                        placeholder="Enter account holder name"
+                        autocomplete="name"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="account_number">
+                        Account Number
+                    </label>
+
+                    <input
+                        id="account_number"
+                        name="account_number"
+                        type="password"
+                        class="form-input"
+                        placeholder="Enter account number"
+                        inputmode="numeric"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="ifsc">
+                        IFSC Code
+                    </label>
+
+                    <input
+                        id="ifsc"
+                        name="ifsc"
+                        type="text"
+                        class="form-input"
+                        placeholder="e.g. ABCD0123456"
+                        maxlength="11"
+                        autocomplete="off"
+                        style="text-transform: uppercase;"
+                    >
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= UPI ================= -->
+
+            <section
+                class="partner-form-section payout-upi-section"
+                id="upiDetailsSection"
+                hidden
+            >
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        02
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            UPI Details
+                        </h2>
+
+                        <p>
+                            Enter the UPI identifier linked to your payout account.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="upi_id">
+                        UPI ID
+                    </label>
+
+                    <input
+                        id="upi_id"
+                        name="upi_id"
+                        type="text"
+                        class="form-input"
+                        placeholder="example@upi"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= IMPORTANT ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="payout-security-note">
+
+                    <span>
+                        🔒
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Bank account and UPI credentials are not collected here.
+                        </strong>
+
+                        <p>
+                            A secure payout-provider integration is required before payout details can be accepted.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= SUBMIT ================= -->
+
+            <button
+                type="submit"
+                class="primary-button profile-submit"
+            >
+
+                Continue to Review
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+
+            <p class="profile-note">
+
+                Only your preferred payout method is included with this application.
+
+            </p>
+
+        </form>
+
+    </div>
+
+</main>
+
+
+<script>
+
+const payoutMethods =
+    document.querySelectorAll(
+        'input[name="payout_method"]'
+    );
+
+const bankSection =
+    document.getElementById(
+        "bankDetailsSection"
+    );
+
+const upiSection =
+    document.getElementById(
+        "upiDetailsSection"
+    );
+
+
+function updatePayoutMethod() {
+    bankSection.hidden = true;
+    upiSection.hidden = true;
+}
+
+
+payoutMethods.forEach(method => {
+
+    method.addEventListener(
+        "change",
+        updatePayoutMethod
+    );
+
+});
+
+
+updatePayoutMethod();
+
+</script>
+
+</body>
+</html>

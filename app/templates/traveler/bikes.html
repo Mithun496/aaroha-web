@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Bike Rentals in Hampi{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+  <div class="page-hero compact">
+    <span>Hampi transport</span>
+    <h1>Bike & scooter rentals</h1>
+    <p>Book a trusted local ride for the day or the next few hours.</p>
+  </div>
+
+  <div class="listing-grid">
+    {% for partner in partners %}
+      {% for vehicle in partner.vehicles if partner.vehicles %}
+        <article class="listing-card">
+          <div class="listing-card-header">
+            <span class="chip">{{ vehicle.vehicle_type|title }}</span>
+            <h2>{{ vehicle.name }}</h2>
+          </div>
+          <p>{{ partner.business_name }}</p>
+          <ul>
+            <li>Pickup: {{ vehicle.location }}</li>
+            <li>From ₹{{ '%.0f'|format(vehicle.price) }} / day</li>
+            <li>Owner: {{ partner.owner_name }}</li>
+          </ul>
+          <div class="listing-actions">
+            <a href="{{ url_for('traveler.bike_detail', vehicle_id=vehicle.id) }}" class="primary-btn">View details</a>
+          </div>
+        </article>
+      {% else %}
+        <article class="listing-card">
+          <div class="listing-card-header">
+            <span class="chip">Bike rental</span>
+            <h2>{{ partner.business_name }}</h2>
+          </div>
+          <p>{{ partner.location }}</p>
+          <ul>
+            <li>Pickup: {{ partner.location }}</li>
+            <li>Verified local partner</li>
+          </ul>
+          <div class="listing-actions">
+            <a href="#" class="secondary-btn disabled">Contact partner</a>
+          </div>
+        </article>
+      {% endfor %}
+    {% else %}
+      <div class="empty-state">
+        <h3>No bike fleet is live yet.</h3>
+        <p>Check back soon as local Hampi partners list their scooters and bikes.</p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

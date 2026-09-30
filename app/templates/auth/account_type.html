@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Continue As | AAROHA</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body class="auth-page">
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="auth-header">
+
+        <a
+            href="{{ url_for('home.index') }}"
+            class="auth-logo-link"
+        >
+
+            <img
+                src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+                alt="AAROHA"
+                class="auth-logo"
+            >
+
+        </a>
+
+
+        <a
+            href="{{ url_for('home.index') }}"
+            class="back-home"
+        >
+            ← Back to Home
+        </a>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="account-type-page">
+
+        <section class="account-container">
+
+
+            <!-- HEADING -->
+
+            <div class="account-heading">
+
+                <span class="eyebrow">
+                    AAROHA
+                </span>
+
+                <h1>
+                    Continue As
+                </h1>
+
+                <p>
+                    Choose how you want to use AAROHA.
+                </p>
+
+            </div>
+
+
+            <!-- ERROR -->
+
+            {% if error %}
+
+                <div class="form-error">
+                    {{ error }}
+                </div>
+
+            {% endif %}
+
+
+            <!-- ================= ACCOUNT OPTIONS ================= -->
+
+            <div class="account-cards">
+
+
+                <!-- ================= TRAVELER ================= -->
+
+                <form
+                    method="POST"
+                    class="account-form"
+                >
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                    <input
+                        type="hidden"
+                        name="account_type"
+                        value="traveler"
+                    >
+
+                    <button
+                        type="submit"
+                        class="account-card traveler-card"
+                    >
+
+                        <div class="account-icon">
+                            ✈
+                        </div>
+
+
+                        <div class="account-card-content">
+
+                            <h2>
+                                Traveler
+                            </h2>
+
+                            <p>
+                                Explore India, discover experiences,
+                                plan your journey and book trusted
+                                local services.
+                            </p>
+
+                        </div>
+
+
+                        <div class="card-arrow">
+                            →
+                        </div>
+
+                    </button>
+
+                </form>
+
+
+                <!-- ================= PARTNER ================= -->
+
+                <form
+                    method="POST"
+                    class="account-form"
+                >
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                    <input
+                        type="hidden"
+                        name="account_type"
+                        value="partner"
+                    >
+
+                    <button
+                        type="submit"
+                        class="account-card partner-card"
+                    >
+
+                        <div class="account-icon">
+                            ◈
+                        </div>
+
+
+                        <div class="account-card-content">
+
+                            <h2>
+                                Partner
+                            </h2>
+
+                            <p>
+                                Offer your services and grow your
+                                local tourism business with AAROHA.
+                            </p>
+
+                        </div>
+
+
+                        <div class="card-arrow">
+                            →
+                        </div>
+
+                    </button>
+
+                </form>
+
+
+                <!-- ================= GUEST ================= -->
+
+                <form
+                    method="POST"
+                    class="account-form"
+                >
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                    <input
+                        type="hidden"
+                        name="account_type"
+                        value="guest"
+                    >
+
+                    <button
+                        type="submit"
+                        class="account-card guest-card"
+                    >
+
+                        <div class="account-icon">
+                            ◉
+                        </div>
+
+
+                        <div class="account-card-content">
+
+                            <h2>
+                                Continue as Guest
+                            </h2>
+
+                            <p>
+                                Explore destinations and discover
+                                India without creating an account.
+                            </p>
+
+                        </div>
+
+
+                        <div class="card-arrow">
+                            →
+                        </div>
+
+                    </button>
+
+                </form>
+
+
+            </div>
+
+
+            <!-- FOOTER -->
+
+            <div class="account-footer">
+
+                <p>
+                    You can create an account anytime.
+                </p>
+
+                <span>
+                    Your Journey. Our Care.
+                    Trusted Travel Companion.
+                </span>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- DECORATIVE GLOWS -->
+
+    <div class="auth-glow glow-one"></div>
+
+    <div class="auth-glow glow-two"></div>
+
+
+</body>
+
+</html>

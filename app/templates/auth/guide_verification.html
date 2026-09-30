@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Guide Verification | AAROHA</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body class="auth-page">
+
+<main class="partner-registration-page">
+
+    <div class="auth-container partner-container">
+
+
+        <!-- ================= BACK ================= -->
+
+        <a
+            href="{{ url_for('auth.guide_availability') }}"
+            class="back-button"
+            aria-label="Back to availability"
+        >
+            ←
+        </a>
+
+
+        <!-- ================= BRAND ================= -->
+
+        <div class="auth-brand">
+
+            <img
+                src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+                alt="AAROHA"
+            >
+
+        </div>
+
+
+        <!-- ================= PROGRESS ================= -->
+
+        <div class="registration-progress">
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Profile</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Services</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Pricing</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step completed">
+                <span>✓</span>
+                <small>Availability</small>
+            </div>
+
+            <div class="registration-line completed"></div>
+
+            <div class="registration-step active">
+                <span>5</span>
+                <small>Verification</small>
+            </div>
+
+        </div>
+
+
+        <!-- ================= HEADING ================= -->
+
+        <div class="auth-heading">
+
+            <span class="eyebrow">
+                GUIDE PARTNER
+            </span>
+
+            <h1>
+                Verify your<br>
+                guide profile.
+            </h1>
+
+            <p>
+                Verification helps travelers know that
+                AAROHA has reviewed your identity and credentials.
+            </p>
+
+        </div>
+
+
+        {% if error %}
+
+            <div class="form-error">
+                {{ error }}
+            </div>
+
+        {% endif %}
+
+
+        <!-- ================= FORM ================= -->
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            class="partner-form"
+        >
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+
+            <!-- ================= IDENTITY ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        01
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Identity Verification
+                        </h2>
+
+                        <p>
+                            Provide a valid government-issued identity document.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="id_type">
+                        Identity Document
+                    </label>
+
+                    <select
+                        id="id_type"
+                        name="id_type"
+                        class="form-select"
+                        required
+                    >
+
+                        <option value="">
+                            Select document type
+                        </option>
+
+                        <option value="aadhaar">
+                            Aadhaar Card
+                        </option>
+
+                        <option value="passport">
+                            Passport
+                        </option>
+
+                        <option value="driving_license">
+                            Driving Licence
+                        </option>
+
+                        <option value="voter_id">
+                            Voter ID
+                        </option>
+
+                        <option value="other">
+                            Other government ID
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="id_number">
+                        Document Number
+                    </label>
+
+                    <input
+                        id="id_number"
+                        name="id_number"
+                        type="text"
+                        class="form-input"
+                        placeholder="Enter document number"
+                        autocomplete="off"
+                        required
+                    >
+
+                    <div class="field-hint">
+                        Your document number is used only for verification.
+                    </div>
+
+                </div>
+
+
+                <!-- ID UPLOAD -->
+
+                <div class="document-upload">
+
+                    <div class="document-icon">
+                        🪪
+                    </div>
+
+                    <div class="document-upload-content">
+
+                        <label for="identity_document">
+                            Upload Identity Document
+                        </label>
+
+                        <input
+                            id="identity_document"
+                            name="identity_document"
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp,application/pdf"
+                            required
+                        >
+
+                        <small>
+                            JPG, PNG, WebP or PDF. Maximum 10 MB.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= GUIDE CREDENTIAL ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        02
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Guide Credentials
+                        </h2>
+
+                        <p>
+                            Add your guide certification or other supporting credentials.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="credential-info">
+
+                    <span class="credential-info-icon">
+                        ✓
+                    </span>
+
+                    <p>
+                        If your guiding activity requires a certificate,
+                        licence or local authorization, you can upload it here.
+                    </p>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="credential_type">
+                        Credential Type
+                    </label>
+
+                    <select
+                        id="credential_type"
+                        name="credential_type"
+                        class="form-select"
+                    >
+
+                        <option value="">
+                            Select credential type
+                        </option>
+
+                        <option value="guide_certificate">
+                            Guide Certificate
+                        </option>
+
+                        <option value="tourism_license">
+                            Tourism Licence
+                        </option>
+
+                        <option value="local_authorization">
+                            Local Authorization
+                        </option>
+
+                        <option value="other">
+                            Other
+                        </option>
+
+                        <option value="not_applicable">
+                            Not Applicable
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="credential_number">
+                        Credential Number
+                        <small>(Optional)</small>
+                    </label>
+
+                    <input
+                        id="credential_number"
+                        name="credential_number"
+                        type="text"
+                        class="form-input"
+                        placeholder="Enter certificate or licence number"
+                    >
+
+                </div>
+
+
+                <div class="document-upload">
+
+                    <div class="document-icon">
+                        📄
+                    </div>
+
+                    <div class="document-upload-content">
+
+                        <label for="credential_document">
+                            Upload Credential
+                            <small>(Optional)</small>
+                        </label>
+
+                        <input
+                            id="credential_document"
+                            name="credential_document"
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp,application/pdf"
+                        >
+
+                        <small>
+                            JPG, PNG, WebP or PDF. Maximum 10 MB.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= DECLARATION ================= -->
+
+            <section class="partner-form-section">
+
+                <div class="partner-section-heading">
+
+                    <span class="section-number">
+                        03
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Verification Declaration
+                        </h2>
+
+                        <p>
+                            Please confirm the information you have provided.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <label class="declaration-option">
+
+                    <input
+                        type="checkbox"
+                        name="information_confirmed"
+                        value="yes"
+                        required
+                    >
+
+                    <span>
+
+                        <strong>
+                            I confirm that my information is accurate.
+                        </strong>
+
+                        <small>
+                            I understand that AAROHA may review the
+                            submitted information and documents.
+                        </small>
+
+                    </span>
+
+                </label>
+
+
+                <label class="declaration-option">
+
+                    <input
+                        type="checkbox"
+                        name="verification_consent"
+                        value="yes"
+                        required
+                    >
+
+                    <span>
+
+                        <strong>
+                            I agree to verification.
+                        </strong>
+
+                        <small>
+                            I consent to AAROHA verifying my submitted
+                            identity and professional information.
+                        </small>
+
+                    </span>
+
+                </label>
+
+            </section>
+
+
+            <!-- ================= CONTINUE ================= -->
+
+            <button
+                type="submit"
+                class="primary-button profile-submit"
+            >
+
+                Continue to Photos
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+
+            <p class="profile-note">
+
+                Your documents will be reviewed before your
+                guide profile receives verified status.
+
+            </p>
+
+        </form>
+
+    </div>
+
+</main>
+
+</body>
+</html>

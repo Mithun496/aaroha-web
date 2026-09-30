@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AAROHA{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <a href="/" class="brand">
+            <img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA">
+        </a>
+        <nav>
+            <a href="/">Home</a>
+            <a href="{{ url_for('traveler.explore') }}">Explore</a>
+            <a href="{{ url_for('traveler.guides') }}">Guides</a>
+            <a href="{{ url_for('traveler.services') }}">Services</a>
+            <a href="{{ url_for('marketplace.auto') }}">Auto</a>
+            <a href="{{ url_for('marketplace.coracles') }}">Coracle</a>
+            <a href="{{ url_for('traveler.bookings') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}">Bookings</a>
+            {% if session.get('authenticated') and session.get('account_type') == 'traveler' %}<a href="{{ url_for('marketplace.notifications') }}">Notifications</a><a href="{{ url_for('marketplace.emergency_contacts') }}">Contacts</a>{% endif %}
+        </nav>
+        <div class="nav-actions">
+            {% if session.get('authenticated') and session.get('account_type') == 'traveler' %}
+                <a href="{{ url_for('marketplace.notifications') }}" class="notifications-link" aria-label="Notifications">
+                    🔔
+                    {% if notification_unread_count %}<span class="notification-badge">{{ notification_unread_count }}</span>{% endif %}
+                </a>
+            {% endif %}
+            <a href="{{ url_for('traveler.sos') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}" class="sos-button">SOS</a>
+            {% if session.get('authenticated') %}
+                <form method="post" action="{{ url_for('auth.logout') }}" class="nav-logout-form">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="login-button">Logout</button>
+                </form>
+            {% else %}
+                <a href="{{ url_for('auth.account_type') }}" class="login-button">Login</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-stack">
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

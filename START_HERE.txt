@@ -1,0 +1,6 @@
+AAROHA Production MVP — Start Here
+
+Local: copy .env.example to .env, set APP_ENV=development and OTP_PROVIDER=console, then run python run.py.
+Production: set APP_ENV=production, DATABASE_URL to PostgreSQL, a strong SECRET_KEY, ADMIN credentials, persistent/private uploads, and a real OTP provider.
+Start production with: gunicorn -c gunicorn.conf.py wsgi:app
+Health check: /health

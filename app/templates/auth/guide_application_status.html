@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Application Status | AAROHA</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body class="auth-page">
+
+<main class="partner-registration-page">
+
+    <div class="auth-container partner-container">
+
+
+        <!-- BRAND -->
+
+        <div class="auth-brand">
+
+            <img
+                src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}"
+                alt="AAROHA"
+            >
+
+        </div>
+
+
+        <!-- HEADING -->
+
+        <div class="auth-heading">
+
+            <span class="eyebrow">
+                GUIDE PARTNER
+            </span>
+
+            <h1>
+                Your application<br>
+                status.
+            </h1>
+
+            <p>
+                Track the verification progress of your
+                AAROHA guide application.
+            </p>
+
+        </div>
+
+
+        <!-- ================= STATUS ================= -->
+
+        <section
+            class="application-status-hero
+            status-{{ application.status }}"
+        >
+
+            {% if application.status == "pending" %}
+
+                <div class="status-hero-icon">
+                    •
+                </div>
+
+                <span class="status-label">
+                    APPLICATION STATUS
+                </span>
+
+                <h2>
+                    Verification Pending
+                </h2>
+
+                <p>
+                    Your application has been submitted successfully
+                    and is waiting for AAROHA verification.
+                </p>
+
+
+            {% elif application.status == "under_review" %}
+
+                <div class="status-hero-icon">
+                    ◌
+                </div>
+
+                <span class="status-label">
+                    APPLICATION STATUS
+                </span>
+
+                <h2>
+                    Under Review
+                </h2>
+
+                <p>
+                    An AAROHA administrator is currently reviewing
+                    your application.
+                </p>
+
+
+            {% elif application.status == "approved" %}
+
+                <div class="status-hero-icon">
+                    ✓
+                </div>
+
+                <span class="status-label">
+                    APPLICATION STATUS
+                </span>
+
+                <h2>
+                    You're Verified
+                </h2>
+
+                <p>
+                    Your guide application has been approved.
+                    Your verified guide profile can now be activated.
+                </p>
+
+
+            {% elif application.status == "needs_changes" %}
+
+                <div class="status-hero-icon">
+                    !
+                </div>
+
+                <span class="status-label">
+                    ACTION REQUIRED
+                </span>
+
+                <h2>
+                    Changes Requested
+                </h2>
+
+                <p>
+                    AAROHA needs you to update some information
+                    before your application can be approved.
+                </p>
+
+
+            {% elif application.status == "rejected" %}
+
+                <div class="status-hero-icon">
+                    ×
+                </div>
+
+                <span class="status-label">
+                    APPLICATION STATUS
+                </span>
+
+                <h2>
+                    Application Not Approved
+                </h2>
+
+                <p>
+                    Your current guide application was not approved.
+                    Please review any instructions provided by AAROHA.
+                </p>
+
+
+            {% else %}
+
+                <div class="status-hero-icon">
+                    …
+                </div>
+
+                <span class="status-label">
+                    APPLICATION STATUS
+                </span>
+
+                <h2>
+                    {{ application.status
+                    | replace("_", " ")
+                    | title }}
+                </h2>
+
+                <p>
+                    Your application status has been updated.
+                </p>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- ================= PROGRESS ================= -->
+
+        <section class="application-progress-card">
+
+            <div class="progress-card-heading">
+
+                <div>
+
+                    <span>
+                        APPLICATION PROGRESS
+                    </span>
+
+                    <h2>
+                        Verification journey
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="application-timeline">
+
+
+                <div class="timeline-item complete">
+
+                    <div class="timeline-marker">
+                        ✓
+                    </div>
+
+                    <div>
+                        <strong>
+                            Application Submitted
+                        </strong>
+
+                        <small>
+                            Your application has been received.
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <div class="timeline-line"></div>
+
+
+                <div
+                    class="timeline-item
+                    {% if application.status in [
+                        'under_review',
+                        'approved',
+                        'needs_changes',
+                        'rejected'
+                    ] %}
+                        complete
+                    {% else %}
+                        current
+                    {% endif %}"
+                >
+
+                    <div class="timeline-marker">
+
+                        {% if application.status in [
+                            "under_review",
+                            "approved",
+                            "needs_changes",
+                            "rejected"
+                        ] %}
+                            ✓
+                        {% else %}
+                            •
+                        {% endif %}
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            AAROHA Verification
+                        </strong>
+
+                        <small>
+                            Profile and submitted information are reviewed.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="timeline-line"></div>
+
+
+                <div
+                    class="timeline-item
+                    {% if application.status == 'approved' %}
+                        complete
+                    {% elif application.status in [
+                        'needs_changes',
+                        'rejected'
+                    ] %}
+                        stopped
+                    {% else %}
+                        pending
+                    {% endif %}"
+                >
+
+                    <div class="timeline-marker">
+
+                        {% if application.status == "approved" %}
+                            ✓
+                        {% elif application.status == "needs_changes" %}
+                            !
+                        {% elif application.status == "rejected" %}
+                            ×
+                        {% else %}
+                            3
+                        {% endif %}
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Verification Decision
+                        </strong>
+
+                        <small>
+
+                            {% if application.status == "approved" %}
+
+                                Guide approved.
+
+                            {% elif application.status == "needs_changes" %}
+
+                                Updates are required.
+
+                            {% elif application.status == "rejected" %}
+
+                                Application closed.
+
+                            {% else %}
+
+                                Waiting for verification decision.
+
+                            {% endif %}
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= APPLICATION INFO ================= -->
+
+        <section class="application-info-card">
+
+            <div class="application-info-row">
+
+                <span>
+                    Application ID
+                </span>
+
+                <strong>
+                    #{{ application.id }}
+                </strong>
+
+            </div>
+
+
+            <div class="application-info-row">
+
+                <span>
+                    Guide
+                </span>
+
+                <strong>
+                    {{ application.first_name }}
+                    {{ application.last_name }}
+                </strong>
+
+            </div>
+
+
+            <div class="application-info-row">
+
+                <span>
+                    Location
+                </span>
+
+                <strong>
+                    {{ application.location }}
+                </strong>
+
+            </div>
+
+
+            <div class="application-info-row">
+
+                <span>
+                    Submitted
+                </span>
+
+                <strong>
+                    {{ application.submitted_at.strftime(
+                        "%d %b %Y"
+                    ) if application.submitted_at else "—" }}
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ACTION ================= -->
+
+        {% if application.status == "needs_changes" %}
+
+            <a
+                href="{{ url_for('auth.guide_registration') }}"
+                class="primary-button profile-submit status-action-button"
+            >
+                Review & Update
+                <span>→</span>
+            </a>
+
+     {% elif application.status == "approved" %}
+
+    <a
+        href="{{ url_for('partner.dashboard') }}"
+        class="primary-button profile-submit status-action-button"
+    >
+        Open Guide Dashboard
+        <span>→</span>
+    </a>
+
+        {% else %}
+
+            <a
+                href="{{ url_for('home.index') }}"
+                class="secondary-status-button"
+            >
+                Back to AAROHA
+            </a>
+
+        {% endif %}
+
+
+    </div>
+
+</main>
+
+</body>
+</html>

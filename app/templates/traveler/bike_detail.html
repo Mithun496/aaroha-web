@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Bike rental details{% endblock %}
+
+{% block content %}
+<section class="page-shell narrow">
+  <div class="page-hero compact">
+    <span>Vehicle details</span>
+    <h1>{{ vehicle.name if vehicle else 'Bike rental' }}</h1>
+    <p>{{ (partner.business_name if partner else 'Local rental partner') }}</p>
+  </div>
+
+  {% if vehicle %}
+    <div class="detail-card">
+      <div class="detail-row"><strong>Type:</strong> {{ vehicle.vehicle_type|title }}</div>
+      <div class="detail-row"><strong>Pickup:</strong> {{ vehicle.location }}</div>
+      <div class="detail-row"><strong>Price:</strong> ₹{{ '%.0f'|format(vehicle.price) }} / day</div>
+      {% if vehicle.registration_number %}<div class="detail-row"><strong>Registration:</strong> {{ vehicle.registration_number }}</div>{% endif %}
+      <div class="detail-row"><strong>Owner:</strong> {{ partner.owner_name if partner else 'Local partner' }}</div>
+    </div>
+
+    <form method="post" class="auth-form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="form-row">
+        <label>Booking date</label>
+        <input type="date" name="booking_date" min="{{ min_date }}" required>
+      </div>
+      <div class="form-row two-col">
+        <div>
+          <label>Duration (days)</label>
+          <input type="number" name="duration_days" min="1" value="1" required>
+        </div>
+        <div>
+          <label>Guests</label>
+          <input type="number" name="guests" min="1" value="1" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <label>Preferred pickup time</label>
+        <input type="time" name="booking_time">
+      </div>
+      <div class="form-row">
+        <label>Notes</label>
+        <textarea name="message" rows="4" placeholder="Any pickup instructions or preferred route?"></textarea>
+      </div>
+      <button type="submit" class="primary-btn">Request this bike</button>
+    </form>
+  {% else %}
+    <div class="empty-state">
+      <h3>This rental partner is not yet automated for direct bike booking.</h3>
+      <p>Use the contact information in the partner listing to confirm the vehicle and rental details.</p>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

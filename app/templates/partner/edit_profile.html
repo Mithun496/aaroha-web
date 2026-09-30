@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Edit Guide Profile | AAROHA</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for(
+            'static',
+            filename='css/style.css'
+        ) }}"
+    >
+
+</head>
+
+
+<body class="partner-dashboard-page">
+
+
+<header class="partner-dashboard-header">
+
+    <a
+        href="{{ url_for('partner.dashboard') }}"
+        class="partner-dashboard-logo"
+    >
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='images/logo/aaroha-logo.png'
+            ) }}"
+            alt="AAROHA"
+        >
+
+    </a>
+
+
+    <div class="partner-header-right">
+
+        <div class="partner-verification-badge">
+            <span>✓</span>
+            Verified Guide
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="partner-profile-edit-page">
+
+    <div class="profile-edit-container">
+
+
+        <a
+            href="{{ url_for('partner.dashboard') }}"
+            class="profile-edit-back"
+        >
+            ← Back to Dashboard
+        </a>
+
+
+        <div class="profile-edit-heading">
+
+            <span>
+                GUIDE PROFILE
+            </span>
+
+            <h1>
+                Edit your profile.
+            </h1>
+
+            <p>
+                Keep your public guide information
+                up to date for travelers.
+            </p>
+
+        </div>
+
+
+        {% if error %}
+
+            <div class="form-error">
+                {{ error }}
+            </div>
+
+        {% endif %}
+
+
+        <form
+            method="POST"
+            class="profile-edit-form"
+        >
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+
+            <!-- ================= BASIC INFO ================= -->
+
+            <section class="profile-edit-card">
+
+                <div class="profile-edit-section-heading">
+
+                    <span>01</span>
+
+                    <div>
+                        <h2>
+                            Basic Information
+                        </h2>
+
+                        <p>
+                            This information appears on your guide profile.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="profile-edit-grid">
+
+                    <div class="form-group">
+
+                        <label for="first_name">
+                            First Name
+                        </label>
+
+                        <input
+                            id="first_name"
+                            name="first_name"
+                            type="text"
+                            class="form-input"
+                            value="{{ application.first_name }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="last_name">
+                            Last Name
+                        </label>
+
+                        <input
+                            id="last_name"
+                            name="last_name"
+                            type="text"
+                            class="form-input"
+                            value="{{ application.last_name }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email
+                        </label>
+
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            class="form-input"
+                            value="{{ application.email or '' }}"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="location">
+                            Primary Location
+                        </label>
+
+                        <input
+                            id="location"
+                            name="location"
+                            type="text"
+                            class="form-input"
+                            value="{{ application.location }}"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= BIO ================= -->
+
+            <section class="profile-edit-card">
+
+                <div class="profile-edit-section-heading">
+
+                    <span>02</span>
+
+                    <div>
+                        <h2>
+                            About You
+                        </h2>
+
+                        <p>
+                            Tell travelers what makes you
+                            a great local guide.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="bio">
+                        Guide Bio
+                    </label>
+
+                    <textarea
+                        id="bio"
+                        name="bio"
+                        class="form-textarea"
+                        rows="6"
+                        maxlength="1200"
+                        required
+                    >{{ application.bio }}</textarea>
+
+                    <small class="profile-field-note">
+                        Maximum 1200 characters.
+                    </small>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= LANGUAGES ================= -->
+
+            <section class="profile-edit-card">
+
+                <div class="profile-edit-section-heading">
+
+                    <span>03</span>
+
+                    <div>
+                        <h2>
+                            Languages
+                        </h2>
+
+                        <p>
+                            Select the languages you can comfortably
+                            use with travelers.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="edit-language-grid">
+
+
+                    {% set language_options = [
+                        "English",
+                        "Hindi",
+                        "Kannada",
+                        "Telugu",
+                        "Tamil",
+                        "Malayalam",
+                        "Bengali",
+                        "Marathi",
+                        "French",
+                        "German",
+                        "Spanish"
+                    ] %}
+
+
+                    {% for language in language_options %}
+
+                        <label class="edit-language-option">
+
+                            <input
+                                type="checkbox"
+                                name="languages"
+                                value="{{ language }}"
+                                {% if language in application.languages %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                {{ language }}
+                            </span>
+
+                        </label>
+
+                    {% endfor %}
+
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= PROTECTED INFO ================= -->
+
+            <section class="profile-protected-card">
+
+                <div class="profile-protected-icon">
+                    🔒
+                </div>
+
+                <div>
+
+                    <strong>
+                        Verified information is protected.
+                    </strong>
+
+                    <p>
+                        Identity verification, submitted credentials
+                        and payout information cannot be edited here.
+                        Contact AAROHA support if those details need
+                        to be changed.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= ACTIONS ================= -->
+
+            <div class="profile-edit-actions">
+
+                <a
+                    href="{{ url_for('partner.dashboard') }}"
+                    class="dashboard-secondary-button profile-cancel-button"
+                >
+                    Cancel
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="primary-button profile-save-button"
+                >
+                    Save Changes
+                    <span>→</span>
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</main>
+
+</body>
+</html>
