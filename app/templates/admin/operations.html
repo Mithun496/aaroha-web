@@ -35,12 +35,12 @@
         </div>
         <div class="admin-table-wrap" style="overflow-x:auto">
           <table class="admin-table">
-            <thead><tr>{% for header in dataset.headers %}<th scope="col">{{ header }}</th>{% endfor %}</tr></thead>
+            <thead><tr>{% for header in dataset.headers %}<th scope="col">{{ header }}</th>{% endfor %}{% if dataset.title == 'Payment transactions' %}<th scope="col">Action</th>{% endif %}</tr></thead>
             <tbody>
               {% for row in dataset.rows %}
-                <tr>{% for value in row %}<td>{{ value }}</td>{% endfor %}</tr>
+                <tr>{% for value in row %}<td>{{ value }}</td>{% endfor %}{% if dataset.title == 'Payment transactions' %}<td>{% if row[5] == 'paid' and not row[6] %}<form method="post" action="{{ url_for('admin.refund_payment_action', transaction_id=row[0]|int) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="admin-refund-button" type="submit">Refund payment</button></form>{% else %}—{% endif %}</td>{% endif %}</tr>
               {% else %}
-                <tr><td colspan="{{ dataset.headers|length }}">No records.</td></tr>
+                <tr><td colspan="{{ dataset.headers|length + (1 if dataset.title == 'Payment transactions' else 0) }}">No records.</td></tr>
               {% endfor %}
             </tbody>
           </table>

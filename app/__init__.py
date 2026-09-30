@@ -42,7 +42,7 @@ def create_app(config_object=Config):
     app.register_blueprint(marketplace_bp)
     app.register_blueprint(media_bp)
 
-    from app.models import AuditLog, Booking, Destination, DestinationImage, GuideApplication, Notification, PartnerApplication, PaymentTransaction, Review, SOSIncident, TravelerProfile, User  # noqa: F401
+    from app.models import AuditLog, Booking, Destination, DestinationImage, GuideApplication, Notification, PartnerApplication, PaymentTransaction, PaymentWebhookEvent, Review, SOSIncident, TravelerProfile, User  # noqa: F401
 
     @app.cli.command("seed-destinations")
     def seed_destinations_command():

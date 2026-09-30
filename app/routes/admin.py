@@ -16,7 +16,8 @@ from werkzeug.security import check_password_hash
 
 from app.extensions import db
 from app.models.guide import GuideApplication
-from app.models.platform import AuditLog
+from app.models.platform import AuditLog, PaymentTransaction
+from app.services.payment import PaymentError, refund_payment
 from app.services.storage import get_private_file, get_private_file_bytes
 
 
@@ -514,11 +515,29 @@ def operations():
         section("SOS incidents", ["ID", "Traveler", "Mode", "Status", "Location text", "Created"], SOSIncident, ["id", "traveler_phone", "mode", "status", "location_text", "created_at"]),
         section("Reviews", ["ID", "Booking ID", "Traveler", "Provider ID", "Rating", "Review", "Created"], Review, ["id", "booking_id", "traveler_phone", "provider_id", "rating", "text", "created_at"]),
         section("Notifications", ["ID", "Recipient", "Type", "Title", "Message", "Read", "Created"], Notification, ["id", "recipient_phone", "notification_type", "title", "message", "is_read", "created_at"]),
-        section("Payment transactions", ["ID", "Booking reference", "Amount", "Currency", "Gateway reference", "Status", "Created"], PaymentTransaction, ["id", "booking_reference", "amount", "currency", "gateway_reference", "status", "created_at"]),
+        section("Payment transactions", ["ID", "Booking reference", "Amount", "Currency", "Payment reference", "Status", "Refund status", "Created"], PaymentTransaction, ["id", "booking_reference", "amount", "currency", "gateway_reference", "status", "refund_status", "created_at"]),
         section("Emergency contacts", ["ID", "Traveler", "Contact", "Phone", "Relationship", "Created"], EmergencyContact, ["id", "user_phone", "name", "phone", "relationship", "created_at"]),
         section("Audit logs", ["ID", "Actor", "Action", "Object", "Created"], AuditLog, ["id", "actor_email", "action", "object_type", "created_at"]),
     ]
     return render_template("admin/operations.html", datasets=datasets)
+
+
+@admin_bp.route("/payments/<int:transaction_id>/refund", methods=["POST"])
+@admin_required
+def refund_payment_action(transaction_id):
+    transaction = db.session.get(PaymentTransaction, transaction_id)
+    if transaction is None:
+        return render_template("errors/404.html"), 404
+    try:
+        before_status = transaction.refund_status
+        refund_payment(transaction, session.get("admin_email", "unknown"))
+        if before_status:
+            flash("A refund is already in progress or has been completed.", "info")
+        else:
+            flash("Refund submitted to the configured payment provider.", "success")
+    except PaymentError as error:
+        flash(str(error), "error")
+    return redirect(url_for("admin.operations"))
 
 
 @admin_bp.route("/private-file/<path:relative_path>")

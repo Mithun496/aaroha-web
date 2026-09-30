@@ -17,11 +17,20 @@ from app.models.otp import OTPChallenge
 from app.models.platform import AutoCaptain, BikeVehicle, Booking, CoracleOperator, EmergencyContact, Notification, PartnerApplication, PaymentTransaction, RentalPartner, Review, SOSIncident, TravelerProfile
 from app.models.user import User
 from app.services.storage import get_private_file, get_public_media_bytes, save_image, save_private_file
+from config import Config
 
 
 class AuthFlowTests(unittest.TestCase):
+    class TestConfig(Config):
+        TESTING = True
+        WTF_CSRF_ENABLED = False
+        ENVIRONMENT = "testing"
+        SQLALCHEMY_DATABASE_URI = "sqlite://"
+        SQLALCHEMY_TRACK_MODIFICATIONS = False
+        AUTO_CREATE_TABLES = False
+
     def setUp(self):
-        self.app = create_app()
+        self.app = create_app(self.TestConfig)
         self.app.config.update(TESTING=True, WTF_CSRF_ENABLED=False)
         self.client = self.app.test_client()
         with self.app.app_context():
@@ -67,12 +76,14 @@ class AuthFlowTests(unittest.TestCase):
                 self.assertEqual(self.client.get(path).status_code, 200)
 
     def test_csrf_rejects_state_change_without_token(self):
-        csrf_app = create_app()
+        csrf_app = create_app(self.TestConfig)
         csrf_app.config.update(TESTING=True, WTF_CSRF_ENABLED=True)
         client = csrf_app.test_client()
         response = client.post('/auth/account-type', data={'account_type': 'traveler'})
         self.assertEqual(response.status_code, 400)
         self.assertEqual(client.post('/auth/account-type', data={'account_type': 'traveler', 'csrf_token': 'invalid'}).status_code, 400)
+        self.assertEqual(client.post('/payments/AAR-CSRF/verify').status_code, 400)
+        self.assertEqual(client.post('/admin/payments/1/refund').status_code, 400)
         with client.session_transaction() as session:
             session.update(authenticated=True, account_type='partner', partner_category='bike_rental', phone_number='+919700000001')
         self.assertEqual(client.post('/partner/bike/vehicles', data={'name': 'Bike'}).status_code, 400)
@@ -104,6 +115,18 @@ class AuthFlowTests(unittest.TestCase):
         mock = subprocess.run(command, env=environment, capture_output=True, text=True)
         self.assertNotEqual(mock.returncode, 0)
         self.assertIn('not allowed in production', mock.stderr)
+
+        environment['PAYMENT_PROVIDER'] = 'razorpay'
+        incomplete_razorpay = subprocess.run(command, env=environment, capture_output=True, text=True)
+        self.assertNotEqual(incomplete_razorpay.returncode, 0)
+        self.assertIn('Razorpay key and webhook credentials are required', incomplete_razorpay.stderr)
+        environment.update({
+            'RAZORPAY_KEY_ID': 'rzp_test_configuration_key',
+            'RAZORPAY_KEY_SECRET': 'test-only-secret',
+            'RAZORPAY_WEBHOOK_SECRET': 'test-only-webhook-secret',
+        })
+        valid_razorpay = subprocess.run(command, env=environment, capture_output=True, text=True)
+        self.assertEqual(valid_razorpay.returncode, 0, valid_razorpay.stderr)
 
         environment['PAYMENT_PROVIDER'] = 'disabled'
         environment['RATELIMIT_STORAGE_URI'] = 'memory://'
@@ -320,6 +343,16 @@ class AuthFlowTests(unittest.TestCase):
             self.assertIn('wait before requesting another code', second.get_data(as_text=True))
             self.assertEqual(send_code.call_count, 1)
 
+    def test_otp_displays_normalized_phone_number_once(self):
+        phone = "+919800000081"
+        with self.client.session_transaction() as session:
+            session["phone_number"] = phone
+        response = self.client.get("/auth/otp")
+        body = response.get_data(as_text=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(phone, body)
+        self.assertNotIn("+91 " + phone, body)
+
     def test_invalid_otp_is_rejected(self):
         with patch('app.routes.auth.generate_code', return_value='123456'), patch('app.routes.auth.send_code', return_value=True):
             self.client.post('/auth/account-type', data={'account_type': 'traveler'}, follow_redirects=False)
@@ -360,11 +393,11 @@ class AuthFlowTests(unittest.TestCase):
             self.assertIn('already been used', response.get_data(as_text=True))
 
     def test_logout_routes_do_not_mutate_on_get_and_require_csrf(self):
-        csrf_app = create_app()
+        csrf_app = create_app(self.TestConfig)
         csrf_app.config.update(TESTING=True, WTF_CSRF_ENABLED=True)
         client = csrf_app.test_client()
         with client.session_transaction() as session:
-            session.update(authenticated=True, account_type='traveler', admin_authenticated=True)
+            session.update(admin_authenticated=True)
 
         self.assertEqual(client.get('/auth/logout').status_code, 405)
         self.assertEqual(client.post('/auth/logout').status_code, 400)

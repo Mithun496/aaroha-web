@@ -1,6 +1,6 @@
 # AAROHA Deployment
 
-This guide describes the deployment code and required external services. The repository is not currently deployable as a full paid production service because it has no real payment adapter or refund implementation.
+This guide describes the deployment code and required external services. Production payment code is implemented for Razorpay, but live payment processing still requires merchant credentials and an external sandbox validation.
 
 ## Local Development
 
@@ -36,6 +36,10 @@ Configure all of the following in the deployment environment, not in a committed
 | `STORAGE_REGION` | Optional when the S3 SDK environment supplies a region. |
 | `STORAGE_ACCESS_KEY` / `STORAGE_SECRET_KEY` | Optional when using an IAM/default credential provider chain; never commit credentials. |
 | `STORAGE_PUBLIC_BASE_URL` | Optional URL for public media only. Never point private identity keys at a public origin. |
+| `PAYMENT_PROVIDER` | Set `razorpay` for production checkout or `disabled` to keep payments unavailable. Production rejects `mock`. |
+| `RAZORPAY_KEY_ID` | Public Checkout key ID. Required when `PAYMENT_PROVIDER=razorpay`. |
+| `RAZORPAY_KEY_SECRET` | Server-side API and Checkout signature secret. Required when `PAYMENT_PROVIDER=razorpay`. |
+| `RAZORPAY_WEBHOOK_SECRET` | Secret configured for AAROHA's webhook URL. Required when `PAYMENT_PROVIDER=razorpay`. |
 | `MAX_UPLOAD_BYTES` | Optional upload cap; defaults to 10 MiB. |
 | `WTF_CSRF_ENABLED` | Must remain enabled. |
 | `UPLOAD_DIR` | Writable local staging/root path; production private/public objects use S3. |
@@ -48,7 +52,7 @@ Configure all of the following in the deployment environment, not in a committed
 | `GUNICORN_TIMEOUT` | Optional worker timeout in seconds; defaults to `60`. |
 | `GUNICORN_LOG_LEVEL` | Optional Gunicorn log level; defaults to `info`. |
 
-`PAYMENT_PROVIDER=disabled` is the only production-compatible setting currently accepted. The mock is development-only, and any named non-mock provider is rejected because no real adapter exists. Payments must remain unavailable until a provider adapter and verified callback/refund workflow are implemented.
+Keep `PAYMENT_PROVIDER=disabled` until the Razorpay merchant account, credentials and HTTPS webhook configuration are ready. Setting `PAYMENT_PROVIDER=razorpay` fails startup validation unless all three Razorpay variables are set. The adapter creates INR Orders, verifies checkout signatures and captured state server-to-server, and handles signed callbacks at `/payments/razorpay/webhook`. Configure `payment.captured`, `payment.failed` and `refund.processed`. Full refunds are admin initiated; pending refunds complete after a validated webhook. Validate the integration with Razorpay test credentials and test events before enabling live mode.
 
 ## Startup and Health
 
@@ -80,6 +84,6 @@ The Docker image uses Gunicorn and applies migrations before starting the server
 - Use a supported production plan with backups, persistent PostgreSQL, and monitoring.
 - Configure Twilio Verify, shared rate-limit storage, and private S3-compatible object storage.
 - Keep identity documents private; use the administrator-only download route.
-- Keep payment collection disabled until a real adapter exists.
+- Keep payment collection disabled until Razorpay test credentials and HTTPS webhook configuration have been validated in an external sandbox.
 - Run tests, clean-database migrations, and an external-service smoke test in the deployment environment.
 - Do not claim PostgreSQL, Twilio, Redis, S3, or payment-provider verification based only on local tests.

@@ -1,19 +1,21 @@
 from datetime import date, datetime, timedelta, timezone
 from functools import wraps
 
-from flask import Blueprint, flash, redirect, render_template, request, session, url_for
+from flask import Blueprint, current_app, flash, jsonify, redirect, render_template, request, session, url_for
+from flask_wtf.csrf import generate_csrf
 from sqlalchemy import and_, or_
 
-from app.extensions import db
+from app.extensions import csrf, db
 from app.models.platform import (
     AutoCaptain,
     Booking,
     CoracleOperator,
     EmergencyContact,
     Notification,
+    PaymentTransaction,
     Review,
 )
-from app.services.payment import create_transaction, verify_transaction
+from app.services.payment import PaymentError, create_transaction, process_webhook, refund_payment, verify_transaction, verify_webhook
 
 marketplace_bp = Blueprint("marketplace", __name__)
 
@@ -203,7 +205,7 @@ def start_payment(booking_reference):
         return redirect(url_for("traveler.bookings"))
     try:
         transaction = create_transaction(booking)
-    except RuntimeError as error:
+    except PaymentError as error:
         flash(str(error), "error")
         return redirect(url_for("traveler.bookings"))
     # In development the explicit confirmation button invokes only the mock
@@ -211,7 +213,54 @@ def start_payment(booking_reference):
     if transaction.status == "pending" and request.form.get("confirm_mock") == "1":
         if not verify_transaction(transaction):
             flash("Payment verification failed.", "error")
+    elif transaction.status == "pending" and transaction.provider_order_id:
+        return render_template(
+            "traveler/payment_checkout.html",
+            booking=booking,
+            transaction=transaction,
+            razorpay_key_id=current_app.config["RAZORPAY_KEY_ID"],
+            amount_minor=int(round(float(transaction.amount) * 100)),
+            csrf_value=generate_csrf(),
+        )
     return redirect(url_for("traveler.bookings"))
+
+
+@marketplace_bp.route("/payments/<string:booking_reference>/verify", methods=["POST"])
+@traveler_required
+def verify_payment_callback(booking_reference):
+    booking = Booking.query.filter_by(booking_reference=booking_reference, traveler_phone=session.get("phone_number")).first_or_404()
+    transaction = PaymentTransaction.query.filter_by(booking_id=booking.id).first_or_404()
+    if transaction.status == "paid":
+        return jsonify({"paid": True}), 200
+    if transaction.status not in {"pending", "failed"}:
+        return jsonify({"paid": False, "error": "invalid_state"}), 409
+    payment_id = request.form.get("razorpay_payment_id", "")
+    order_id = request.form.get("razorpay_order_id", "")
+    signature = request.form.get("razorpay_signature", "")
+    try:
+        verified = verify_transaction(transaction, payment_id, order_id, signature)
+    except PaymentError:
+        current_app.logger.exception("Payment verification request failed")
+        return jsonify({"paid": False, "error": "verification_unavailable"}), 503
+    if not verified:
+        return jsonify({"paid": False, "error": "verification_failed"}), 400
+    return jsonify({"paid": True}), 200
+
+
+@marketplace_bp.route("/payments/razorpay/webhook", methods=["POST"])
+@csrf.exempt
+def razorpay_webhook():
+    raw_body = request.get_data(cache=False)
+    event_id = request.headers.get("x-razorpay-event-id", "")
+    signature = request.headers.get("x-razorpay-signature", "")
+    if not verify_webhook(raw_body, signature, event_id):
+        return jsonify({"error": "invalid_signature"}), 401
+    try:
+        result = process_webhook(raw_body, event_id)
+    except (ValueError, PaymentError):
+        current_app.logger.exception("Razorpay webhook could not be processed")
+        return jsonify({"error": "webhook_processing_failed"}), 503
+    return jsonify({"status": result}), 200
 
 
 @marketplace_bp.route("/reviews/<int:booking_id>", methods=["POST"])

@@ -37,6 +37,9 @@ class Config:
     ENVIRONMENT = os.getenv("APP_ENV", "development").strip().lower()
     OTP_PROVIDER = os.getenv("OTP_PROVIDER", "console").strip().lower()
     PAYMENT_PROVIDER = os.getenv("PAYMENT_PROVIDER", "disabled").strip().lower()
+    RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID", "").strip()
+    RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET", "").strip()
+    RAZORPAY_WEBHOOK_SECRET = os.getenv("RAZORPAY_WEBHOOK_SECRET", "").strip()
     STORAGE_PROVIDER = os.getenv("STORAGE_PROVIDER", "local").strip().lower()
     TRUSTED_HOSTS = [host.strip() for host in os.getenv("TRUSTED_HOSTS", "").split(",") if host.strip()]
 
@@ -63,8 +66,10 @@ class Config:
         raise RuntimeError("Twilio Verify credentials are required in production.")
     if _is_production() and PAYMENT_PROVIDER == "mock":
         raise RuntimeError("PAYMENT_PROVIDER=mock is not allowed in production.")
-    if PAYMENT_PROVIDER not in {"disabled", "mock"}:
-        raise RuntimeError("The configured PAYMENT_PROVIDER has no implemented adapter.")
+    if PAYMENT_PROVIDER not in {"disabled", "mock", "razorpay"}:
+        raise RuntimeError("Unsupported PAYMENT_PROVIDER.")
+    if PAYMENT_PROVIDER == "razorpay" and not all((RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, RAZORPAY_WEBHOOK_SECRET)):
+        raise RuntimeError("Razorpay key and webhook credentials are required when PAYMENT_PROVIDER=razorpay.")
     if _is_production() and STORAGE_PROVIDER != "s3":
         raise RuntimeError("STORAGE_PROVIDER=s3 is required in production.")
     if STORAGE_PROVIDER not in {"local", "s3"}:

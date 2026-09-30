@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Secure payment | AAROHA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}">
+</head>
+<body class="traveler-page">
+  <header class="site-header"><a href="{{ url_for('home.index') }}" class="site-brand"><img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA"></a><nav><a href="{{ url_for('traveler.bookings') }}">Bookings</a></nav></header>
+  <main class="traveler-shell payment-checkout-shell">
+    <section class="payment-checkout-card">
+      <span class="payment-checkout-kicker">SECURE CHECKOUT</span>
+      <h1>Complete your booking</h1>
+      <p>{{ booking.provider_name or booking.destination or 'AAROHA service' }} · {{ booking.booking_reference }}</p>
+      <strong class="payment-checkout-amount">₹{{ '%.2f'|format(transaction.amount) }} <small>{{ transaction.currency }}</small></strong>
+      <p class="payment-checkout-note">Your payment details are entered with Razorpay. AAROHA does not receive or store card numbers or CVV.</p>
+      <button id="pay-button" class="primary-button" type="button">Continue to secure payment</button>
+      <p id="payment-message" role="status" aria-live="polite"></p>
+      <a class="secondary-action" href="{{ url_for('traveler.bookings') }}">Return to bookings</a>
+    </section>
+  </main>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    const payButton = document.getElementById('pay-button');
+    const message = document.getElementById('payment-message');
+    payButton.addEventListener('click', () => {
+      if (!window.Razorpay) { message.textContent = 'Secure checkout is unavailable. Please try again shortly.'; return; }
+      payButton.disabled = true;
+      const checkout = new Razorpay({
+        key: {{ razorpay_key_id|tojson }},
+        amount: {{ amount_minor }},
+        currency: {{ transaction.currency|tojson }},
+        name: 'AAROHA',
+        description: {{ (booking.booking_type|title ~ ' booking ' ~ booking.booking_reference)|tojson }},
+        order_id: {{ transaction.provider_order_id|tojson }},
+        theme: { color: '#0d4944' },
+        handler: async (response) => {
+          message.textContent = 'Verifying your payment securely…';
+          const body = new URLSearchParams({
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature
+          });
+          try {
+            const result = await fetch({{ url_for('marketplace.verify_payment_callback', booking_reference=booking.booking_reference)|tojson }}, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRFToken': {{ csrf_value|tojson }} },
+              body,
+              credentials: 'same-origin'
+            });
+            const data = await result.json();
+            if (result.ok && data.paid) { window.location.assign({{ url_for('traveler.bookings')|tojson }}); return; }
+            message.textContent = 'We could not confirm this payment. Check your bookings before retrying.';
+            payButton.disabled = false;
+          } catch (_) {
+            message.textContent = 'Payment status is being checked. Refresh your bookings in a moment.';
+            payButton.disabled = false;
+          }
+        },
+        modal: { ondismiss: () => { payButton.disabled = false; } }
+      });
+      checkout.open();
+    });
+  </script>
+</body>
+</html>

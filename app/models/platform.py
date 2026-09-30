@@ -205,14 +205,28 @@ class PaymentTransaction(db.Model):
     booking_id = db.Column(db.Integer, db.ForeignKey("bookings.id"), nullable=False, unique=True, index=True)
     booking_reference = db.Column(db.String(24), nullable=False, index=True)
     gateway_reference = db.Column(db.String(180), nullable=True, unique=True)
+    provider_order_id = db.Column(db.String(180), nullable=True, unique=True)
     amount = db.Column(db.Float, nullable=False)
     currency = db.Column(db.String(3), nullable=False, default="INR")
     status = db.Column(db.String(30), nullable=False, default="created")
     idempotency_key = db.Column(db.String(180), nullable=False, unique=True)
+    refund_reference = db.Column(db.String(180), nullable=True, unique=True)
+    refund_status = db.Column(db.String(30), nullable=True)
+    refund_amount_minor = db.Column(db.Integer, nullable=True)
     created_at = db.Column(db.DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
     updated_at = db.Column(db.DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
 
     booking = db.relationship("Booking", backref=db.backref("payment_transaction", uselist=False))
+
+
+class PaymentWebhookEvent(db.Model):
+    __tablename__ = "payment_webhook_events"
+
+    id = db.Column(db.Integer, primary_key=True)
+    event_id = db.Column(db.String(180), nullable=False, unique=True, index=True)
+    event_type = db.Column(db.String(80), nullable=False)
+    payload_sha256 = db.Column(db.String(64), nullable=False)
+    processed_at = db.Column(db.DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
 
 
 class Review(db.Model):

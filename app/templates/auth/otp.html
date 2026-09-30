@@ -39,7 +39,7 @@
 
             <p>
                 Enter the 6-digit code sent to
-                <strong>+91 {{ phone }}</strong>
+                <strong>{{ phone }}</strong>
             </p>
 
         </div>
@@ -92,9 +92,9 @@
 
         </div>
 
-        <div class="development-note">
-            {% if config.ENVIRONMENT != "production" %}Development OTP is printed in the Flask terminal when OTP_PROVIDER=console.{% endif %}
-        </div>
+        {% if config.ENVIRONMENT != "production" %}
+        <div class="development-note">Development OTP is printed in the Flask terminal when OTP_PROVIDER=console.</div>
+        {% endif %}
 
     </div>
 

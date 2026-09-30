@@ -28,7 +28,7 @@ copy .env.example .env
 python run.py
 ```
 
-The local mock OTP prints its code to the server console. The development payment mock can be confirmed locally and generates its synthetic reference internally; it is not a payment integration. Local storage writes under `instance/uploads`.
+The local mock OTP prints its code to the server console. `PAYMENT_PROVIDER=mock` is development only; it generates a synthetic reference and does not move money. Production checkout is implemented with Razorpay Standard Checkout and is disabled until its credentials and webhook secret are configured. Local storage writes under `instance/uploads`.
 
 Create an administrator password hash with:
 
@@ -56,7 +56,7 @@ Route ownership rules and security boundaries are documented in [docs/authorizat
 
 ## Known Production Gaps
 
-The repository has no production payment-provider adapter and no refund flow. Keep `PAYMENT_PROVIDER=disabled` until a server-side provider adapter, signed callback verification, refund handling, and provider-specific tests are implemented. A real Twilio account, Redis-compatible shared limiter, PostgreSQL database, and S3-compatible bucket are also external requirements; they have not been exercised by the local test suite.
+Razorpay Checkout, server-side payment verification, signed/idempotent webhooks, and administrator initiated full refunds are implemented. Automated tests mock the external transport; no live or sandbox Razorpay request has been made. Keep `PAYMENT_PROVIDER=disabled` until configuring `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET`, and the HTTPS webhook events described in [docs/payments.md](docs/payments.md). A real Twilio account, Redis-compatible shared limiter, PostgreSQL database, S3-compatible bucket, and deployed Linux runtime are also external requirements and have not been exercised locally.
 
 For repeatable local demo data only:
 
