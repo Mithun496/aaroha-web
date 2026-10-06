@@ -1338,3 +1338,15 @@ input:focus, select:focus, textarea:focus, .form-input:focus, .form-textarea:foc
 .sos-choice-row label { color:var(--aaroha-ivory); border-color:var(--aaroha-green-border); }
 .emergency-card span { color:var(--aaroha-muted); }
 .admin-empty-state > div { color:#B8E4D0; border-color:var(--aaroha-green-border); }
+
+/* Final homepage logo presentation: transparent asset, 20% larger on screen. */
+.home-page .navbar .brand img {
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  transform:scale(1.067);
+}
+@media (max-width:640px) {
+  .home-page .navbar .brand img { transform:scale(1.1); }
+}
