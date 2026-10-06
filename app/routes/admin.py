@@ -14,7 +14,7 @@ from flask import (
 
 from werkzeug.security import check_password_hash
 
-from app.extensions import db
+from app.extensions import db, limiter
 from app.models.guide import GuideApplication
 from app.models.platform import AuditLog, PaymentTransaction
 from app.services.payment import PaymentError, refund_payment
@@ -69,6 +69,7 @@ def audit(action, object_type, object_id, metadata=None):
     "/login",
     methods=["GET", "POST"]
 )
+@limiter.limit("5 per minute")
 def login():
 
     if session.get("admin_authenticated"):

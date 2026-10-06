@@ -77,6 +77,16 @@ def create_app(config_object=Config):
         response.headers.setdefault("X-Frame-Options", "SAMEORIGIN")
         response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
         response.headers.setdefault("Permissions-Policy", "geolocation=(self), microphone=()")
+        response.headers.setdefault(
+            "Content-Security-Policy",
+            "default-src 'self'; base-uri 'self'; object-src 'none'; "
+            "frame-ancestors 'self'; form-action 'self'; "
+            "img-src 'self' data: https:; font-src 'self' data: https:; "
+            "style-src 'self' 'unsafe-inline' https:; "
+            "script-src 'self' 'unsafe-inline' https://checkout.razorpay.com https://api.razorpay.com; "
+            "connect-src 'self' https:; "
+            "frame-src 'self' https://api.razorpay.com https://checkout.razorpay.com",
+        )
         if app.config["ENVIRONMENT"] == "production":
             response.headers.setdefault("Strict-Transport-Security", "max-age=31536000; includeSubDomains")
         return response

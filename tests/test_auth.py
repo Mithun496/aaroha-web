@@ -47,6 +47,12 @@ class AuthFlowTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.get_json()['status'], 'ok')
 
+    def test_security_headers_are_present(self):
+        response = self.client.get('/')
+        self.assertEqual(response.headers.get('X-Content-Type-Options'), 'nosniff')
+        self.assertEqual(response.headers.get('X-Frame-Options'), 'SAMEORIGIN')
+        self.assertIn("object-src 'none'", response.headers.get('Content-Security-Policy', ''))
+
     def test_end_to_end_route_smoke_pages(self):
         public_paths = (
             '/', '/health', '/explore', '/guides', '/bikes', '/auto', '/coracles',

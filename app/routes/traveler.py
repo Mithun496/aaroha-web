@@ -4,7 +4,7 @@ from types import SimpleNamespace
 
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash, jsonify, Response
 
-from app.extensions import db
+from app.extensions import db, limiter
 from app.models.destination import Destination
 from app.models.guide import GuideApplication
 from app.models.platform import (
@@ -423,6 +423,7 @@ def offline_hampi():
 
 @traveler_bp.route("/sos", methods=["GET", "POST"])
 @traveler_required
+@limiter.limit("5 per minute", methods=["POST"])
 def sos():
     incident = SOSIncident.query.filter_by(traveler_phone=current_phone()).order_by(SOSIncident.created_at.desc()).first()
     if request.method == "POST":

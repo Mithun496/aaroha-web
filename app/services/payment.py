@@ -266,6 +266,14 @@ def _mark_refunded(transaction):
 
 
 def refund_payment(transaction, actor):
+    # Serialize refund initiation on the transaction row. This keeps parallel
+    # admin requests from each reaching the provider with the same payment.
+    transaction = db.session.execute(
+        db.select(PaymentTransaction)
+        .where(PaymentTransaction.id == transaction.id)
+        .with_for_update()
+        .execution_options(populate_existing=True)
+    ).scalar_one()
     if transaction.status == "refunded" or transaction.refund_reference or transaction.refund_status:
         return transaction
     if transaction.status != "paid":

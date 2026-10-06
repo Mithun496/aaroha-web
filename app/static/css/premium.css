@@ -1037,3 +1037,304 @@ body > footer { background:var(--aaroha-forest-950); }
     line-height:20px;
   }
 }
+
+/* Final AAROHA palette tokens. Layout and component structure remain unchanged. */
+:root {
+  color-scheme:dark;
+  --aaroha-black:#07110F;
+  --aaroha-night:#07110F;
+  --aaroha-deep:#06241F;
+  --aaroha-forest:#0B3D2E;
+  --aaroha-emerald:#0B5138;
+  --aaroha-green:#0B5138;
+  --aaroha-parrot:#7ED321;
+  --aaroha-parrot-bright:#9BEA2F;
+  --aaroha-gold:#EFBF4A;
+  --aaroha-gold-deep:#C99A27;
+  --aaroha-ivory:#F7F4E9;
+  --aaroha-white:#FFFFFF;
+  --aaroha-text:#F4F2E9;
+  --aaroha-muted:#A8B9AE;
+  --aaroha-border:rgba(239,191,74,.24);
+  --aaroha-green-border:rgba(126,211,33,.24);
+  --aaroha-forest-brand:var(--aaroha-black);
+  --aaroha-forest-950:var(--aaroha-black);
+  --aaroha-forest-900:var(--aaroha-deep);
+  --aaroha-forest-800:var(--aaroha-forest);
+  --aaroha-forest-700:var(--aaroha-emerald);
+  --aaroha-teal:var(--aaroha-emerald);
+  --aaroha-gold-bright:#FFD45A;
+  --aaroha-gold-soft:var(--aaroha-gold);
+  --aaroha-sand:var(--aaroha-night);
+  --aaroha-ivory-soft:var(--aaroha-deep);
+  --aaroha-sage-700:var(--aaroha-muted);
+  --aaroha-sage-500:#82978D;
+  --aaroha-sage-200:var(--aaroha-muted);
+  --aaroha-sage-100:var(--aaroha-night);
+  --aaroha-ink:var(--aaroha-ivory);
+  --aaroha-text-dark:var(--aaroha-ivory);
+  --aaroha-text-muted:var(--aaroha-muted);
+  --text-primary:var(--aaroha-ivory);
+  --text-secondary:var(--aaroha-muted);
+  --text-muted:var(--aaroha-muted);
+  --text-on-dark:var(--aaroha-text);
+  --text-on-accent:var(--aaroha-black);
+  --text-gold-on-light:var(--aaroha-gold);
+  --surface:var(--aaroha-deep);
+  --surface-soft:var(--aaroha-forest);
+  --border:var(--aaroha-green-border);
+  --brand-teal:var(--aaroha-emerald);
+  --brand-teal-dark:var(--aaroha-deep);
+  --brand-gold:var(--aaroha-gold);
+  --brand-gold-soft:var(--aaroha-gold-deep);
+  --aroha-ink:var(--aaroha-ivory);
+  --aroha-teal:var(--aaroha-emerald);
+  --aroha-teal-deep:var(--aaroha-deep);
+  --aroha-gold:var(--aaroha-gold);
+  --aroha-gold-soft:var(--aaroha-gold-deep);
+  --aroha-paper:var(--aaroha-black);
+  --aroha-surface:var(--surface);
+  --aroha-muted:var(--aaroha-muted);
+  --aroha-line:var(--aaroha-green-border);
+  --aaroha-shadow:0 18px 50px rgba(0,0,0,.3);
+}
+
+body, body:not(.traveler-page):not(.admin-page):not(.partner-dashboard-page),
+.home-page, .traveler-page, .partner-dashboard-page, .admin-page {
+  background:var(--aaroha-black);
+  color:var(--aaroha-text);
+}
+.home-page main, .traveler-page main, .partner-dashboard-main, .admin-dashboard { background:transparent; color:var(--aaroha-text); }
+.traveler-shell { background:transparent; color:var(--aaroha-text); }
+.navbar, .site-header {
+  background:var(--aaroha-black);
+  color:var(--aaroha-ivory);
+  border-bottom-color:var(--aaroha-green-border);
+  box-shadow:0 8px 24px rgba(0,0,0,.28);
+}
+.navbar nav a, .site-header nav a { color:var(--aaroha-ivory); }
+.navbar nav a:hover, .site-header nav a:hover { color:var(--aaroha-gold); }
+.navbar nav a.active, .site-header nav a.active { color:var(--aaroha-gold); }
+.site-header nav a.active::after { background:var(--aaroha-gold); }
+.login-button, .login-link, .site-actions .login-link { background:var(--aaroha-parrot); color:var(--aaroha-black); border-color:var(--aaroha-green-border); }
+.login-button:hover, .login-link:hover { background:var(--aaroha-forest); }
+.navbar .sos-button, .site-header .sos-link { background:transparent; border-color:rgba(247,243,232,.62); color:var(--aaroha-ivory); }
+.navbar .sos-button:hover, .site-header .sos-link:hover { background:rgba(247,243,232,.08); }
+.navbar .notifications-link, .site-header .notifications-link { background:var(--aaroha-deep); border-color:var(--aaroha-green-border); color:var(--aaroha-ivory); }
+.notification-badge { background:#B8473D; color:#fff; }
+.brand img, .site-brand img { background:var(--aaroha-ivory); }
+.home-page .navbar .mobile-nav-action { background:transparent; color:var(--aaroha-ivory); border-color:rgba(247,243,232,.36); }
+
+/* Cinematic homepage surfaces keep the approved Hampi hero image and layout. */
+.hero {
+  background-image:linear-gradient(90deg,rgba(6,36,31,.78) 0%,rgba(6,36,31,.48) 48%,rgba(6,36,31,.12) 100%),url("../images/hampi-hero.jpg");
+}
+.hero::after { background:linear-gradient(transparent,rgba(7,17,15,.4)); }
+.hero h1 { color:var(--aaroha-ivory); }
+.hero p { color:var(--aaroha-text); }
+.eyebrow, .section-heading span, .culture-content > span, .offline-section > div > span { color:var(--aaroha-gold); }
+.hero .primary-button { background:var(--aaroha-gold); color:var(--aaroha-black); }
+.hero .primary-button:hover { background:#F5D18A; }
+.secondary-button, .dashboard-secondary-button { border-color:rgba(247,243,232,.68); color:var(--aaroha-ivory); }
+.secondary-button:hover { background:var(--aaroha-ivory); color:var(--aaroha-black); }
+.hero-search { background:rgba(13,40,33,.96); border-color:var(--aaroha-border); }
+.hero-search label { color:var(--aaroha-ivory); }
+.hero-search input { background:var(--aaroha-ivory)!important; color:#17241F!important; }
+.hero-search input::placeholder { color:#596B61; }
+.hero-search button { background:var(--aaroha-emerald); color:var(--aaroha-ivory); }
+.hero-search button:hover { background:var(--aaroha-forest); }
+.features, .planner, .culture-section, .offline-section { background:var(--aaroha-night); color:var(--aaroha-text); }
+.section-heading h2, .culture-content h2, .offline-section h2 { color:var(--aaroha-ivory); }
+.section-heading p, .culture-content p, .offline-section p { color:var(--aaroha-muted); }
+.section-heading span, .culture-content > span, .offline-section > div > span { color:var(--aaroha-gold); }
+.feature-grid .feature-card { background:var(--aaroha-deep); border-color:var(--aaroha-green-border); }
+.feature-grid .feature-card:nth-child(3n+2) { background:var(--aaroha-forest); }
+.feature-grid .feature-card:nth-child(3n) { background:var(--aaroha-emerald); }
+.feature-grid .feature-card h3, .feature-grid .feature-card:nth-child(n) h3 { color:var(--aaroha-ivory); }
+.feature-grid .feature-card p, .feature-grid .feature-card:nth-child(n) p { color:var(--aaroha-muted); }
+.feature-grid .feature-card .home-card-kicker, .feature-grid .feature-card:nth-child(n) .home-card-kicker { color:var(--aaroha-gold); }
+.feature-grid .feature-card .icon, .feature-grid .feature-card:nth-child(n) .icon { background:rgba(247,243,232,.07); border-color:rgba(247,243,232,.09); color:var(--aaroha-ivory); }
+.feature-grid .feature-card:nth-child(3n+2) .icon, .feature-grid .feature-card:nth-child(3n) .icon { color:var(--aaroha-gold); }
+.feature-grid .feature-card .home-card-link, .feature-grid .feature-card:nth-child(n) .home-card-link { color:var(--aaroha-ivory); }
+.feature-grid .feature-card .home-card-link b { color:var(--aaroha-gold); }
+.culture-section { background:var(--aaroha-deep); }
+.culture-content ul { color:var(--aaroha-muted); }
+.home-culture-note { color:var(--aaroha-ivory); }
+.home-culture-note span { color:var(--aaroha-gold); }
+.home-culture-note a { color:var(--aaroha-ivory); }
+.home-offline { background:var(--aaroha-forest); color:var(--aaroha-text); }
+.home-offline h2 { color:var(--aaroha-ivory); }
+.home-offline p { color:var(--aaroha-muted); }
+.home-offline > div > span { color:var(--aaroha-gold); }
+.cta { background:var(--aaroha-deep); color:var(--aaroha-text); }
+.cta h2 { color:var(--aaroha-ivory); }
+.cta p { color:var(--aaroha-muted); }
+body > footer { background:var(--aaroha-black); color:var(--aaroha-ivory); border-top:1px solid var(--aaroha-green-border); }
+.footer-brand p, .copyright { color:var(--aaroha-muted); }
+.footer-links a { color:var(--aaroha-text); }
+.footer-links a:hover { color:var(--aaroha-gold); }
+
+/* Shared traveler/editorial pages */
+.page-hero h1, .page-hero h2, .destination-detail-hero h1 { color:var(--aaroha-ivory); }
+.page-hero > span, .page-hero .eyebrow { color:var(--aaroha-gold); }
+.page-hero p { color:var(--aaroha-muted); }
+.destination-card { color:var(--aaroha-ivory); background:var(--aaroha-deep); }
+.destination-card::after { background:linear-gradient(0deg,rgba(7,17,15,.95),rgba(13,40,33,.40) 65%,rgba(7,17,15,.12)); }
+.destination-card > span, .destination-card p { color:var(--aaroha-muted); }
+.destination-card h2 { color:var(--aaroha-ivory); }
+.destination-card-footer b { color:var(--aaroha-gold); }
+.guide-card, .info-card, .culture-grid article, .emergency-card, .booking-row,
+.destination-detail-fact, .guide-detail-fact, .nearby-services, .offline-grid article {
+  color:var(--aaroha-text);
+  background:var(--aaroha-deep);
+  border-color:var(--aaroha-green-border);
+  box-shadow:0 12px 32px rgba(0,0,0,.2);
+}
+.guide-card h2, .guide-card h3, .info-card h2, .info-card h3, .culture-grid h2, .culture-grid h3,
+.emergency-card h2, .booking-row h2 { color:var(--aaroha-ivory); }
+.guide-card p, .info-card p, .culture-grid p, .booking-row p, .booking-row small,
+.guide-card .guide-location, .guide-card .guide-service-meta span, .guide-card-footer small { color:var(--aaroha-muted); }
+.guide-card .verified-label, .guide-card .guide-rating, .guide-card-footer a { color:var(--aaroha-gold); }
+.guide-card .guide-rating span, .guide-card .tag-list span { color:var(--aaroha-text); }
+.guide-card .tag-list span, .tag-list span, .tags span, .planner-summary span { background:var(--aaroha-forest); border-color:var(--aaroha-green-border); }
+.guide-card .guide-service-meta strong, .guide-card-footer span { color:var(--aaroha-ivory); }
+.guide-card-footer { border-color:var(--aaroha-green-border); }
+.avatar { border-color:var(--aaroha-green-border); background:var(--aaroha-forest); color:var(--aaroha-ivory); }
+.culture-grid article:nth-child(even) { background:var(--aaroha-forest); border-color:var(--aaroha-green-border); }
+.culture-grid article:nth-child(even) h2, .culture-grid article:nth-child(even) h3 { color:var(--aaroha-ivory); }
+.culture-grid article:nth-child(even) p { color:var(--aaroha-muted); }
+.destination-detail-hero { color:var(--aaroha-ivory); background-image:linear-gradient(0deg,rgba(7,17,15,.92),rgba(13,40,33,.12)),url("https://images.unsplash.com/photo-1600100397608-f010e04c7a7a?auto=format&fit=crop&w=1800&q=85"),url("../images/hampi-hero.jpg"); }
+.destination-detail-hero h1, .destination-detail-hero p { color:var(--aaroha-ivory); }
+.destination-detail-hero > span { color:var(--aaroha-gold); }
+.destination-detail-fact strong, .guide-detail-fact strong { color:var(--aaroha-ivory); }
+.rule-row { border-color:var(--aaroha-green-border); color:var(--aaroha-muted); }
+.guide-profile-large, .guide-profile-content { color:var(--aaroha-text); background:var(--aaroha-deep); border-color:var(--aaroha-green-border); }
+.guide-profile-large h1, .guide-profile-content h2 { color:var(--aaroha-ivory); }
+.booking-row h2 { color:var(--aaroha-ivory); }
+.booking-amount { color:var(--aaroha-ivory); }
+.booking-type-mark { background:var(--aaroha-forest); color:var(--aaroha-gold); }
+.status-pill { border-color:var(--aaroha-green-border); background:var(--aaroha-forest); color:var(--aaroha-text); }
+.status-pill.pending, .status-pill.requested { background:rgba(214,166,82,.16); color:#F2CF86; }
+.status-pill.cancelled, .status-pill.rejected { background:rgba(184,71,61,.18); color:#FFB2A9; }
+.status-pill.completed, .status-pill.confirmed, .status-pill.approved, .status-pill.accepted { background:rgba(23,98,79,.42); color:#B8E4D0; }
+.payment-state { color:var(--aaroha-muted); }
+.review-indicator { color:#B8E4D0; }
+
+/* Dark trip-planning workspace; retain light fields for input clarity. */
+.planner-intro { background:linear-gradient(120deg,var(--aaroha-deep),var(--aaroha-forest)); color:var(--aaroha-text); }
+.planner-intro h1, .planner-intro h2 { color:var(--aaroha-ivory); }
+.planner-intro p { color:var(--aaroha-muted); }
+.planner-intro .planner-kicker { color:var(--aaroha-gold); }
+.planner-intro .planner-mark { background:rgba(247,243,232,.07); color:var(--aaroha-gold); border-color:var(--aaroha-green-border); }
+.planner-form { background:var(--aaroha-deep); border-color:var(--aaroha-green-border); color:var(--aaroha-text); }
+.planner-form legend, .planner-form label, .planner-form .form-group label { color:var(--aaroha-ivory); }
+.planner-form p, .planner-form .field-hint { color:var(--aaroha-muted); }
+.choice, .choice-chip { background:var(--aaroha-forest); border-color:var(--aaroha-green-border); color:var(--aaroha-text); }
+.choice:has(input:checked), .choice-chip.selected { background:var(--aaroha-emerald); border-color:var(--aaroha-gold-deep); color:var(--aaroha-ivory); }
+.day-card { background:var(--aaroha-deep); border-color:var(--aaroha-green-border); color:var(--aaroha-text); }
+.day-card h2, .day-card h3, .day-card strong { color:var(--aaroha-ivory); }
+.day-card p, .day-card li, .day-card span, .day-card small { color:var(--aaroha-muted); }
+.day-index { background:var(--aaroha-forest); color:var(--aaroha-gold); }
+.itinerary-row { border-color:var(--aaroha-green-border); }
+.itinerary-row time { color:var(--aaroha-gold); }
+.planner-notes { background:var(--aaroha-forest); color:var(--aaroha-muted); }
+.planner-notes strong { color:var(--aaroha-gold); }
+.planner-result-heading h2 { color:var(--aaroha-ivory); }
+.planner-summary span { color:var(--aaroha-text); }
+
+/* Traveler account and notifications */
+.profile-hero { background:linear-gradient(115deg,var(--aaroha-black),var(--aaroha-forest)); color:var(--aaroha-text); border:1px solid var(--aaroha-green-border); }
+.profile-hero h1, .profile-hero p, .profile-trip-link { color:var(--aaroha-ivory); }
+.profile-hero > div:nth-child(2) > span, .profile-section-kicker { color:var(--aaroha-gold); }
+.profile-avatar { background:var(--aaroha-forest); border:1px solid var(--aaroha-green-border); color:var(--aaroha-ivory); }
+.profile-detail-list small { color:var(--aaroha-muted); }
+.profile-detail-list strong { color:var(--aaroha-text); }
+.notification-item { background:var(--aaroha-deep); border:1px solid var(--aaroha-green-border); color:var(--aaroha-text); }
+.notification-item.unread { background:linear-gradient(100deg,rgba(23,98,79,.3),var(--aaroha-deep) 45%); border-color:rgba(100,160,135,.42); }
+.notification-item :is(strong,h2,h3) { color:var(--aaroha-ivory); }
+.notification-item p, .notification-item small { color:var(--aaroha-muted); }
+.notification-status { color:#B8E4D0; }
+.notification-status.read { color:var(--aaroha-muted); }
+
+/* Calm emergency surfaces retain explicit semantic red controls and labels. */
+.sos-section { background:var(--aaroha-night); }
+.sos-content h2, .sos-content p { color:var(--aaroha-ivory); }
+.sos-panel, .sos-card, .contact-card { background:var(--aaroha-deep); color:var(--aaroha-text); border-color:var(--aaroha-green-border); }
+.emergency-card { background:var(--aaroha-deep); }
+.emergency-number, .emergency-card strong { color:#FFB2A9; }
+
+/* Auth, partner and admin use the same dark system while keeping usable inputs. */
+.auth-page { background:radial-gradient(ellipse at 12% 10%,var(--aaroha-deep),transparent 42%),var(--aaroha-black); color:var(--aaroha-text); }
+.auth-page .auth-header { background:var(--aaroha-black); border-color:var(--aaroha-green-border); }
+.auth-page .auth-container, .auth-page .auth-card, .auth-page .profile-edit-card,
+.auth-page .partner-form-section { background:var(--aaroha-deep); color:var(--aaroha-text); border-color:var(--aaroha-green-border); }
+.auth-page :is(h1,h2,h3,h4), .auth-page .account-heading h1 { color:var(--aaroha-ivory); }
+.auth-page :is(p,li,.section-description,.profile-note,.profile-edit-heading p,.registration-step small),
+.auth-page .auth-heading p, .auth-page .terms { color:var(--aaroha-muted); }
+.auth-page :is(.eyebrow,.profile-edit-heading > span,.profile-edit-back,.section-number) { color:var(--aaroha-gold); }
+.auth-page label, .auth-page .form-group label { color:var(--aaroha-ivory); }
+.auth-page .account-card { background:linear-gradient(145deg,var(--aaroha-forest),var(--aaroha-deep)); border-color:var(--aaroha-green-border); }
+.auth-page .account-card:hover { background:linear-gradient(145deg,var(--aaroha-emerald),var(--aaroha-deep)); }
+.auth-page .account-card :is(h2,p) { color:var(--aaroha-ivory); }
+.auth-page .account-card .card-arrow, .auth-page .account-icon { color:var(--aaroha-gold); }
+.auth-page .terms a, .auth-page .resend a { color:#B8E4D0; }
+.auth-page .primary-button { background:var(--aaroha-emerald); color:var(--aaroha-ivory); }
+.auth-page .primary-button:hover { background:var(--aaroha-forest); }
+.auth-page input:not([type=checkbox]):not([type=radio]):not([type=hidden]), .auth-page select,
+.auth-page textarea, .auth-page .form-input, .auth-page .form-textarea,
+.planner-form input:not([type=checkbox]):not([type=radio]), .planner-form select, .planner-form textarea {
+  color:#17241F;
+  background:var(--aaroha-ivory);
+  border-color:rgba(169,183,175,.45);
+  color-scheme:light;
+}
+.auth-page input::placeholder, .planner-form input::placeholder, .planner-form textarea::placeholder { color:#596B61; opacity:1; }
+.auth-page .phone-input { background:var(--aaroha-forest); border-color:var(--aaroha-green-border); }
+.auth-page .phone-input input { color:#17241F; }
+.auth-page .country-code { color:var(--aaroha-text); background:var(--aaroha-forest); border-color:var(--aaroha-green-border); }
+.auth-page .development-note { color:var(--aaroha-text); background:var(--aaroha-forest); border-color:var(--aaroha-gold-deep); }
+.partner-dashboard-page, .admin-page { background:var(--aaroha-black); color:var(--aaroha-text); }
+.partner-dashboard-header, .admin-header { background:var(--aaroha-black); color:var(--aaroha-ivory); border-color:var(--aaroha-green-border); }
+.partner-dashboard-main { background:var(--aaroha-night); }
+.partner-sidebar { background:var(--aaroha-black); border-color:var(--aaroha-green-border); }
+.partner-nav-item.active, .partner-nav-item[aria-current="page"] { background:var(--aaroha-emerald); color:var(--aaroha-ivory); }
+.partner-dashboard-section, .dashboard-stat, .dashboard-content-card, .dashboard-profile-card,
+.dashboard-price-card, .admin-section, .admin-detail-card, .admin-application-card,
+.admin-stat-card, .admin-empty-state, .admin-decision-card { background:var(--aaroha-deep); border-color:var(--aaroha-green-border); color:var(--aaroha-text); }
+.partner-dashboard-section :is(h1,h2,h3), .admin-page :is(h1,h2,h3), .admin-stat-card strong { color:var(--aaroha-ivory); }
+.partner-dashboard-section p, .admin-page p, .admin-stat-card small { color:var(--aaroha-muted); }
+.admin-header-brand img { background:var(--aaroha-ivory); }
+.admin-header-brand span, .admin-header-actions span, .admin-header-actions a { color:var(--aaroha-ivory); }
+.admin-section-heading > div > span, .admin-page-heading > div > span { color:var(--aaroha-gold); }
+.admin-filter { background:var(--aaroha-forest); border-color:var(--aaroha-green-border); color:var(--aaroha-text); }
+.admin-empty-state h3 { color:var(--aaroha-ivory); }
+.admin-empty-state p { color:var(--aaroha-muted); }
+.admin-stat-card.pending strong { color:#F2CF86; }
+.admin-stat-card.approved strong { color:#B8E4D0; }
+.admin-stat-card.changes strong { color:#F1C17F; }
+.admin-stat-card.rejected strong { color:#FFB2A9; }
+.admin-table-wrap { background:var(--aaroha-night); border-color:var(--aaroha-green-border); }
+.admin-table { background:var(--aaroha-night); color:var(--aaroha-text); }
+.admin-table th { background:var(--aaroha-forest); color:var(--aaroha-ivory); }
+.admin-table td, .admin-table tr:nth-child(even) td, .admin-table tr:nth-child(odd) td { background:var(--aaroha-deep); color:var(--aaroha-text); border-color:var(--aaroha-green-border); }
+.admin-view-button, .admin-back-link { color:#B8E4D0; }
+
+/* Keep accessible light input surfaces; all major page and card surfaces stay dark. */
+input:not([type=checkbox]):not([type=radio]):not([type=hidden]), select, textarea,
+.form-input, .form-textarea {
+  background:var(--aaroha-ivory);
+  color:#17241F;
+  border-color:rgba(169,183,175,.5);
+  color-scheme:light;
+}
+input::placeholder, textarea::placeholder, .form-input::placeholder, .form-textarea::placeholder { color:#596B61; opacity:1; }
+input:focus, select:focus, textarea:focus, .form-input:focus, .form-textarea:focus { outline-color:var(--aaroha-gold); border-color:var(--aaroha-emerald); box-shadow:0 0 0 3px rgba(23,98,79,.28); }
+.primary-button { background:var(--aaroha-emerald); color:var(--aaroha-ivory); }
+.primary-button:hover { background:var(--aaroha-forest); }
+.secondary-action, .secondary-action-button { background:var(--aaroha-forest); border-color:var(--aaroha-green-border); color:var(--aaroha-ivory); }
+.secondary-action:hover, .secondary-action-button:hover { background:var(--aaroha-emerald); color:var(--aaroha-ivory); }
+
+/* Preserve clear safety-choice labels over the dark incident form. */
+.sos-choice-row label { color:var(--aaroha-ivory); border-color:var(--aaroha-green-border); }
+.emergency-card span { color:var(--aaroha-muted); }
+.admin-empty-state > div { color:#B8E4D0; border-color:var(--aaroha-green-border); }

@@ -50,8 +50,9 @@ def generate_code() -> str:
 def send_code(phone_number: str, code: str) -> bool:
     provider = _provider()
     if provider == "console":
-        if not _is_production():
-            print(f"AAROHA DEVELOPMENT OTP for {phone_number}: {code}")
+        if _is_production():
+            raise RuntimeError("Console OTP is disabled in production.")
+        print(f"AAROHA DEVELOPMENT OTP for {phone_number}: {code}")
         return True
     if provider == "twilio":
         service_sid = os.getenv("TWILIO_VERIFY_SERVICE_SID", "").strip()

@@ -5,7 +5,7 @@ from flask import Blueprint, current_app, flash, jsonify, redirect, render_templ
 from flask_wtf.csrf import generate_csrf
 from sqlalchemy import and_, or_
 
-from app.extensions import csrf, db
+from app.extensions import csrf, db, limiter
 from app.models.platform import (
     AutoCaptain,
     Booking,
@@ -64,6 +64,7 @@ def notify(phone, notification_type, title, message, related_type=None, related_
 
 
 @marketplace_bp.route("/auto", methods=["GET", "POST"])
+@limiter.limit("10 per minute", methods=["POST"])
 def auto():
     captains = AutoCaptain.query.filter_by(status="approved", is_online=True).order_by(AutoCaptain.full_name.asc()).all()
     if request.method == "POST":
@@ -101,6 +102,7 @@ def auto():
 
 
 @marketplace_bp.route("/coracles", methods=["GET", "POST"])
+@limiter.limit("10 per minute", methods=["POST"])
 def coracles():
     operators = CoracleOperator.query.filter_by(status="approved").order_by(CoracleOperator.business_name.asc()).all()
     if request.method == "POST":
@@ -199,6 +201,7 @@ def service_booking_decision(booking_id):
 
 @marketplace_bp.route("/payments/<string:booking_reference>", methods=["POST"])
 @traveler_required
+@limiter.limit("10 per minute")
 def start_payment(booking_reference):
     booking = Booking.query.filter_by(booking_reference=booking_reference, traveler_phone=session.get("phone_number")).first_or_404()
     if booking.status not in {"pending", "confirmed"} or booking.payment_status == "paid":
@@ -227,6 +230,7 @@ def start_payment(booking_reference):
 
 @marketplace_bp.route("/payments/<string:booking_reference>/verify", methods=["POST"])
 @traveler_required
+@limiter.limit("10 per minute")
 def verify_payment_callback(booking_reference):
     booking = Booking.query.filter_by(booking_reference=booking_reference, traveler_phone=session.get("phone_number")).first_or_404()
     transaction = PaymentTransaction.query.filter_by(booking_id=booking.id).first_or_404()
