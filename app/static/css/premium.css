@@ -1406,6 +1406,17 @@ body { color:var(--color-text-primary); }
   box-shadow:none!important;
   object-fit:contain;
 }
+.auth-page .auth-logo {
+  width:136px;
+  height:auto;
+  max-height:68px;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  object-fit:contain;
+}
 .navbar .nav-actions, .site-header .site-actions, .admin-header-actions { display:flex; flex:0 0 auto; flex-wrap:wrap; align-items:center; gap:9px; }
 .login-button, .login-link, .site-actions .login-link { background:var(--color-brand-parrot); color:var(--color-brand-forest-dark)!important; box-shadow:none; }
 .login-button:hover, .login-link:hover { background:#A0E344; color:var(--color-brand-forest-dark)!important; }
