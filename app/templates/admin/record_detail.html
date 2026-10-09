@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }} record {{ record.id }} | AAROHA Admin</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}">
+</head>
+<body class="admin-page">
+  <header class="admin-header">
+    <a class="admin-header-brand" href="{{ url_for('admin.dashboard') }}"><img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA"><span>ADMIN</span></a>
+    <nav class="admin-header-actions" aria-label="Admin navigation"><a href="{{ url_for('admin.dashboard') }}">Dashboard</a><a href="{{ url_for('admin.operations') }}">Operations</a><a href="{{ url_for('admin.audit_logs') }}">Audit logs</a><a href="{{ url_for('admin.logout') }}">Logout</a></nav>
+  </header>
+  <main class="admin-dashboard">
+    <section class="admin-page-heading"><div><span>READ ONLY RECORD DETAIL</span><h1>{{ title }} · #{{ record.id }}</h1><p>Sensitive credentials and private document paths are excluded from this view.</p></div></section>
+    <section class="admin-section admin-record-detail"><dl>{% for label, value in values %}<div><dt>{{ label }}</dt><dd>{{ value }}</dd></div>{% endfor %}</dl>
+      <a class="admin-view-button" href="{{ url_for('admin.operational_records', category=category) }}">Back to {{ title|lower }}</a>
+    </section>
+  </main>
+</body>
+</html>

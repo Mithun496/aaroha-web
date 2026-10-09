@@ -18,6 +18,7 @@ from app.models.otp import OTPChallenge
 from app.models.platform import AutoCaptain, BikeVehicle, Booking, CoracleOperator, EmergencyContact, Notification, PartnerApplication, PaymentTransaction, RentalPartner, Review, SOSIncident, TravelerProfile
 from app.models.user import User
 from app.services.storage import get_private_file, get_public_media_bytes, save_image, save_private_file
+from app.routes.traveler import DESTINATION_PHOTOS, HIGHLIGHT_PHOTOS
 from config import Config
 
 
@@ -86,6 +87,53 @@ class AuthFlowTests(unittest.TestCase):
         for label in ('Bookings', 'Profile', 'Notifications', 'My account'):
             self.assertIn(label, traveler)
         self.assertNotIn('>Sign in</a>', traveler)
+
+    def test_destination_photo_variants_are_local_and_credited(self):
+        image_root = Path(self.app.static_folder) / 'images' / 'destinations'
+        for slug, photo in DESTINATION_PHOTOS.items():
+            with self.subTest(destination=slug):
+                self.assertTrue(photo['alt'])
+                self.assertTrue(photo['credit'])
+                self.assertTrue(photo['source'].startswith('https://'))
+                self.assertTrue(photo['license'])
+                self.assertTrue((image_root / f"{photo['stem']}-1200x900.jpg").is_file() or slug == 'gangavathi')
+                desktop = '1600x750' if slug == 'sanapur' else ('1200x562' if slug == 'gangavathi' else '1920x900')
+                mobile = '682x853' if slug == 'gangavathi' else '800x1000'
+                self.assertTrue((image_root / f"{photo['stem']}-{desktop}.jpg").is_file())
+                self.assertTrue((image_root / f"{photo['stem']}-{mobile}.jpg").is_file())
+                self.assertTrue((image_root / f"{photo['stem']}-480x360.jpg").is_file())
+        for landmark in HIGHLIGHT_PHOTOS:
+            with self.subTest(landmark=landmark['stem']):
+                for variant in ('1920x900', '1200x900', '800x1000', '480x360'):
+                    self.assertTrue((image_root / f"{landmark['stem']}-{variant}.jpg").is_file())
+                self.assertTrue(landmark['alt'] and landmark['credit'] and landmark['license'] and landmark['source'])
+        credit_doc = Path(self.app.root_path).parent / 'docs' / 'destination-photo-credits.md'
+        self.assertTrue(credit_doc.is_file())
+
+    def test_otp_profile_edit_navigation_refresh_and_logout_regression(self):
+        phone = '9999999977'
+        with patch('app.routes.auth.generate_code', return_value='654321'), patch('app.routes.auth.send_code', return_value=True):
+            self.assertEqual(self.client.post('/auth/account-type', data={'account_type': 'traveler'}).status_code, 302)
+            self.assertEqual(self.client.post('/auth/phone', data={'phone_number': phone}).status_code, 302)
+            self.assertEqual(self.client.post('/auth/otp', data={'otp': '654321'}).status_code, 302)
+
+        profile_save = self.client.post('/auth/profile', data={
+            'first_name': 'Asha', 'last_name': 'Rao', 'email': 'asha@example.test',
+            'country': 'India', 'travel_style': 'Culture', 'trip_duration': '3 days',
+            'interests': ['heritage'],
+        })
+        self.assertEqual(profile_save.status_code, 302)
+        for path in ('/profile', '/explore', '/bookings', '/notifications', '/notifications'):
+            with self.subTest(path=path):
+                response = self.client.get(path)
+                self.assertEqual(response.status_code, 200)
+                with self.client.session_transaction() as session:
+                    self.assertTrue(session.get('authenticated'))
+                    self.assertEqual(session.get('account_type'), 'traveler')
+
+        self.assertEqual(self.client.post('/auth/logout').status_code, 302)
+        self.assertNotIn('Bookings', self.client.get('/explore').get_data(as_text=True))
+        self.assertEqual(self.client.get('/bookings').status_code, 302)
 
     def test_end_to_end_route_smoke_pages(self):
         public_paths = (
@@ -253,6 +301,43 @@ class AuthFlowTests(unittest.TestCase):
         filtered = self.client.get('/admin/operations?q=nonexistent&status=pending&page=1')
         self.assertEqual(filtered.status_code, 200)
         self.assertIn('Apply filters', filtered.get_data(as_text=True))
+
+    def test_admin_operational_category_list_and_detail_are_read_only_and_authorized(self):
+        categories = (
+            'users', 'traveler-profiles', 'destinations', 'bookings', 'guides', 'emergency-contacts',
+            'partner-applications', 'providers', 'bike-vehicles', 'resorts', 'auto',
+            'coracle', 'sos-incidents', 'reviews', 'notifications', 'payment-transactions', 'audit-logs',
+        )
+        self.assertEqual(self.client.get('/admin/records/users').status_code, 302)
+        with self.app.app_context():
+            user = User(phone_number='+919800000099', role='traveler', email='admin-test@example.test')
+            destination = Destination(name='Test Hampi', slug='test-hampi', region='Karnataka', category='heritage', description='A test destination.', is_published=True)
+            db.session.add_all((user, destination))
+            db.session.commit()
+            user_id, destination_id = user.id, destination.id
+        with self.client.session_transaction() as session:
+            session.update(admin_authenticated=True, admin_email='admin@example.test')
+        for category in categories:
+            with self.subTest(category=category):
+                response = self.client.get(f'/admin/records/{category}')
+                self.assertEqual(response.status_code, 200)
+                self.assertIn('No matching records' if category not in {'users', 'destinations'} else 'View record', response.get_data(as_text=True))
+        user_detail = self.client.get(f'/admin/records/users/{user_id}')
+        self.assertEqual(user_detail.status_code, 200)
+        self.assertIn('admin-test@example.test', user_detail.get_data(as_text=True))
+        destination_detail = self.client.get(f'/admin/records/destinations/{destination_id}')
+        self.assertEqual(destination_detail.status_code, 200)
+        self.assertIn('Test Hampi', destination_detail.get_data(as_text=True))
+        self.assertEqual(self.client.get('/admin/records/not-a-category').status_code, 404)
+        self.assertEqual(self.client.get('/admin/records/users/999999').status_code, 404)
+        with self.app.app_context():
+            paid_booking = Booking(traveler_phone='+919800000099', booking_type='guide', provider_id=2, provider_name='Paid test booking', status='pending', payment_status='paid')
+            db.session.add(paid_booking)
+            db.session.commit()
+            paid_reference = paid_booking.booking_reference
+        paid_filter = self.client.get('/admin/records/bookings?status=paid')
+        self.assertEqual(paid_filter.status_code, 200)
+        self.assertIn(paid_reference, paid_filter.get_data(as_text=True))
 
     def test_private_file_download_is_admin_only_and_missing_files_are_404(self):
         with tempfile.TemporaryDirectory() as temporary_directory, patch.dict(os.environ, {'STORAGE_PROVIDER': 'local'}):

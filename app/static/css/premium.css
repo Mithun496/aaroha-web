@@ -1446,6 +1446,37 @@ body { color:var(--color-text-primary); }
 .admin-operations-filter label { color:var(--color-text-primary); font-size:13px; font-weight:700; }
 .admin-pagination { display:flex; justify-content:flex-end; align-items:center; gap:14px; margin-top:12px; color:var(--color-text-muted); font-size:13px; }
 .admin-pagination a { color:var(--color-brand-green); font-weight:700; }
+.admin-section-heading h2 a { color:var(--color-text-primary); text-decoration:none; }
+.admin-section-heading h2 a:hover, .admin-section-heading > span a { color:var(--color-brand-green); text-underline-offset:3px; }
+.admin-page .admin-section-heading h2, .admin-page .admin-section-heading > span { color:var(--color-text-inverse); }
+.admin-page .admin-section-heading h2 a, .admin-page .admin-section-heading > span a { color:var(--color-brand-gold); }
+.admin-page .admin-section { min-width:0; }
+.admin-page .admin-table-wrap { width:100%; max-width:100%; box-sizing:border-box; }
+.admin-dashboard-links { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 16px; }
+.admin-record-detail { padding:clamp(18px,4vw,32px); }
+.admin-record-detail dl { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 24px; margin:0 0 24px; }
+.admin-record-detail dl > div { min-width:0; padding:14px 0; border-bottom:1px solid var(--color-border); }
+.admin-record-detail dt { margin-bottom:5px; color:var(--color-text-muted); font-size:12px; font-weight:750; text-transform:uppercase; letter-spacing:.04em; }
+.admin-record-detail dd { margin:0; color:var(--color-text-primary); overflow-wrap:anywhere; white-space:pre-wrap; }
+.admin-page .admin-stat-card small { color:#50665D; }
+.admin-page .admin-record-detail dt { color:#C4D2C9; }
+.admin-page .admin-record-detail dd { color:var(--color-text-inverse); }
+.sos-panel .sos-choice-row label { color:var(--color-text-primary); }
+.booking-row .status-pill.pending, .booking-row .status-pill.requested { background:#F1E5BF; color:#5F4710; }
+.booking-row .status-pill.cancelled, .booking-row .status-pill.rejected { background:#F6E1DE; color:#7D2D27; }
+.booking-row .status-pill.completed, .booking-row .status-pill.confirmed, .booking-row .status-pill.approved, .booking-row .status-pill.accepted { background:#DFEDE3; color:#20563D; }
+.booking-row .payment-state { color:var(--color-text-muted); }
+.guide-card .guide-location, .guide-card .guide-service-meta span, .guide-card-footer small { color:var(--color-text-muted); }
+.guide-card .verified-label, .guide-card .guide-rating, .guide-card-footer a { color:var(--color-warning); }
+.planner-form :is(.planner-summary span,.tags span,.tag-list span) { color:var(--color-text-inverse); }
+.guide-profile-large { color:var(--color-text-primary); background:var(--color-surface-ivory); border-color:var(--color-border); }
+.guide-profile-large :is(h1,h2,h3) { color:var(--color-text-primary); }
+.guide-profile-large :is(p,.guide-location,.guide-rating > span:last-child) { color:var(--color-text-muted); }
+.guide-profile-large .verified-label, .guide-profile-large .guide-rating > span:first-child { color:var(--color-warning); }
+.guide-profile-large .tag-list span { color:var(--color-text-inverse); background:var(--color-brand-forest); }
+.admin-application-card :is(p,small) { color:var(--color-text-muted); }
+.admin-application-card .admin-status.status-pending { color:#5F4710; background:#F1E5BF; }
+.admin-application-card .admin-view-button { color:var(--color-brand-green); }
 
 /* Destination photography is served from local, attributed responsive files. */
 .hero { position:relative; isolation:isolate; overflow:hidden; background:var(--color-brand-forest); }
@@ -1483,7 +1514,10 @@ body { color:var(--color-text-primary); }
 .destination-card:not(.destination-featured-photo)::after { display:block; z-index:0; background:linear-gradient(0deg,rgba(6,36,31,.92),rgba(6,36,31,.05) 78%); }
 .destination-card:not(.destination-featured-photo) :is(h2,p,span,small,b) { color:var(--color-text-inverse); }
 .destination-card-content { display:block; color:inherit; text-decoration:none; }
-.destination-detail-hero { position:relative; min-height:420px; overflow:hidden; isolation:isolate; background:var(--color-surface-ivory); }
+.destination-detail-hero { position:relative; width:100%; max-width:100%; min-width:0; box-sizing:border-box; min-height:420px; overflow:hidden; isolation:isolate; background:var(--color-surface-ivory); }
+.destination-detail-hero > .detail-hero-copy { width:100%; max-width:100%; min-width:0; box-sizing:border-box; }
+.destination-detail-hero > .detail-hero-copy p { width:100%; max-width:100%; min-width:0; overflow-wrap:anywhere; }
+.destination-hero-actions { max-width:100%; min-width:0; }
 .detail-hero-picture { position:absolute; z-index:-2; inset:0; display:block; background:var(--color-brand-forest); }
 .detail-hero-picture img { width:100%; height:100%; display:block; object-fit:cover; object-position:center 48%; }
 .destination-detail-hero.has-destination-photo::after { content:""; position:absolute; z-index:-1; inset:0; background:linear-gradient(0deg,rgba(6,36,31,.88),rgba(6,36,31,.10) 85%); }
@@ -1507,6 +1541,7 @@ body { color:var(--color-text-primary); }
 .page-hero h1 { max-width:100%; overflow-wrap:anywhere; }
 
 @media (max-width:640px) {
+  .admin-record-detail dl { grid-template-columns:1fr; }
   .home-page .hero-caption { display:flex; left:20px; right:20px; bottom:14px; align-items:flex-start; font-size:9px; }
   .home-hero-photo img { object-position:center 45%; }
   .home-hero-photo::after { background:linear-gradient(90deg,rgba(6,45,38,.78),rgba(6,45,38,.30)); }
@@ -1540,6 +1575,11 @@ body { color:var(--color-text-primary); }
   .navbar .nav-actions, .site-header .site-actions { margin-left:auto; }
   .hero h1 { font-size:clamp(38px,11vw,50px); overflow-wrap:anywhere; }
   .admin-table { min-width:760px; }
+  .admin-header { flex-wrap:wrap; justify-content:flex-start; gap:6px 12px; padding:8px 12px; }
+  .admin-header-brand { min-width:0; }
+  .admin-header-brand img { width:100px; }
+  .admin-header-actions { flex:1 1 100%; min-width:0; justify-content:flex-start; gap:8px 14px; }
+  .admin-dashboard { width:calc(100% - 24px); max-width:100%; min-width:0; }
 }
 
 .guide-cover { background-image:linear-gradient(0deg,rgba(6,45,38,.82),rgba(6,45,38,.08)),var(--guide-cover,url("../images/destinations/hampi-matanga-1920x900.jpg")); }

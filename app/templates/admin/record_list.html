@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }} | AAROHA Admin</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}">
+</head>
+<body class="admin-page">
+  <header class="admin-header">
+    <a class="admin-header-brand" href="{{ url_for('admin.dashboard') }}"><img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA"><span>ADMIN</span></a>
+    <nav class="admin-header-actions" aria-label="Admin navigation"><a href="{{ url_for('admin.dashboard') }}">Dashboard</a><a href="{{ url_for('admin.operations') }}">Operations</a><a href="{{ url_for('admin.audit_logs') }}">Audit logs</a><a href="{{ url_for('admin.logout') }}">Logout</a></nav>
+  </header>
+  <main class="admin-dashboard">
+    <section class="admin-page-heading"><div><span>READ ONLY OPERATIONS</span><h1>{{ title }}</h1><p>{{ total }} matching record{{ '' if total == 1 else 's' }}. Record details are read-only.</p></div></section>
+    <form class="admin-operations-filter" method="get" role="search">
+      <label for="record-search">Search</label><input id="record-search" name="q" type="search" maxlength="120" value="{{ search }}" placeholder="Search this dataset">
+      <label for="record-status">Status</label><select id="record-status" name="status"><option value="">All statuses</option>{% for status in ['pending','requested','accepted','confirmed','completed','approved','needs_changes','rejected','cancelled','paid','failed','refunded','open','resolved','initiated','created'] %}<option value="{{ status }}" {% if status_filter == status %}selected{% endif %}>{{ status|replace('_',' ')|title }}</option>{% endfor %}</select>
+      <button class="primary-button" type="submit">Filter records</button>{% if search or status_filter %}<a href="{{ url_for('admin.operational_records', category=category) }}">Clear</a>{% endif %}
+    </form>
+    <section class="admin-section" aria-label="{{ title }} records">
+      <div class="admin-table-wrap"><table class="admin-table"><thead><tr>{% for field in fields %}<th scope="col">{{ field|replace('_',' ')|title }}</th>{% endfor %}<th scope="col">Detail</th></tr></thead>
+        <tbody>{% for row in rows %}<tr>{% for value in row['values'] %}<td>{{ value }}</td>{% endfor %}<td><a href="{{ url_for('admin.operational_record_detail', category=category, record_id=row['id']) }}">View record</a></td></tr>{% else %}<tr><td colspan="{{ fields|length + 1 }}">No matching records. Try a different search or status.</td></tr>{% endfor %}</tbody>
+      </table></div>
+      <nav class="admin-pagination" aria-label="Pagination">{% if page > 1 %}<a href="{{ url_for('admin.operational_records', category=category, q=search, status=status_filter, page=page-1) }}">Previous</a>{% endif %}<span>Page {{ page }} of {{ pages }}</span>{% if page < pages %}<a href="{{ url_for('admin.operational_records', category=category, q=search, status=status_filter, page=page+1) }}">Next</a>{% endif %}</nav>
+    </section>
+  </main>
+</body>
+</html>

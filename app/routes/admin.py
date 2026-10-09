@@ -461,8 +461,7 @@ def partner_application_decision(application_id):
 @admin_bp.route("/audit-logs")
 @admin_required
 def audit_logs():
-    logs = AuditLog.query.order_by(AuditLog.created_at.desc()).limit(200).all()
-    return render_template("admin/audit_logs.html", logs=logs)
+    return operational_records("audit-logs")
 
 
 @admin_bp.route("/operations")
@@ -509,7 +508,10 @@ def operations():
                 cast(getattr(model, field), String).ilike(f"%{search}%")
                 for field in fields
             ]))
-        if status_filter and hasattr(model, "status"):
+        payment_states = {"unpaid", "paid", "failed", "refunded"}
+        if status_filter in payment_states and hasattr(model, "payment_status"):
+            query = query.filter(model.payment_status == status_filter)
+        elif status_filter and hasattr(model, "status"):
             query = query.filter(model.status == status_filter)
         elif status_filter and hasattr(model, "payment_status"):
             query = query.filter(model.payment_status == status_filter)
@@ -543,7 +545,111 @@ def operations():
         section("Emergency contacts", ["ID", "Traveler", "Contact", "Phone", "Relationship", "Created"], EmergencyContact, ["id", "user_phone", "name", "phone", "relationship", "created_at"]),
         section("Audit logs", ["ID", "Actor", "Action", "Object", "Created"], AuditLog, ["id", "actor_email", "action", "object_type", "created_at"]),
     ]
+    category_by_title = {
+        "Users": "users", "Traveler profiles": "traveler-profiles", "Destinations": "destinations",
+        "Bookings": "bookings", "Guide applications": "guides", "Partner applications": "partner-applications",
+        "Rental partners": "providers", "Bike vehicles": "bike-vehicles", "Resorts": "resorts",
+        "Emergency contacts": "emergency-contacts",
+        "Auto captains": "auto", "Coracle operators": "coracle", "SOS incidents": "sos-incidents",
+        "Reviews": "reviews", "Notifications": "notifications", "Payment transactions": "payment-transactions",
+        "Audit logs": "audit-logs",
+    }
+    for dataset in datasets:
+        dataset["category"] = category_by_title[dataset["title"]]
     return render_template("admin/operations.html", datasets=datasets, search=search, status_filter=status_filter, page=page)
+
+
+# Read-only operational records. Keep this registry explicit so adding a model
+# never exposes its entire schema (for example payout or private file fields).
+def _operational_record_registry():
+    from app.models.destination import Destination
+    from app.models.platform import (
+        AutoCaptain, BikeVehicle, Booking, CoracleOperator, EmergencyContact, Notification,
+        PartnerApplication, PaymentTransaction, RentalPartner, ResortListing,
+        Review, SOSIncident, TravelerProfile,
+    )
+    from app.models.user import User
+
+    return {
+        "users": ("Users", User, ("id", "phone_number", "role", "email", "first_name", "last_name", "is_active", "last_login_at", "created_at")),
+        "traveler-profiles": ("Traveler profiles", TravelerProfile, ("id", "phone_number", "first_name", "last_name", "country", "travel_style", "trip_duration", "interests", "created_at", "updated_at")),
+        "destinations": ("Destinations", Destination, ("id", "name", "slug", "region", "category", "description", "latitude", "longitude", "opening_hours", "cultural_info", "safety_info", "highlights", "rules", "is_published", "created_at", "updated_at")),
+        "bookings": ("Bookings", Booking, ("id", "booking_reference", "traveler_phone", "booking_type", "provider_id", "service_id", "provider_name", "destination", "booking_date", "booking_time", "duration_days", "guests", "amount", "currency", "status", "payment_status", "created_at", "updated_at")),
+        "guides": ("Guide applications", GuideApplication, ("id", "first_name", "last_name", "phone_number", "email", "location", "experience_years", "bio", "languages", "services", "areas", "status", "submitted_at", "reviewed_at", "created_at")),
+        "partner-applications": ("Partner applications", PartnerApplication, ("id", "phone_number", "category", "owner_name", "business_name", "location", "whatsapp", "description", "details", "status", "submitted_at", "reviewed_at", "created_at")),
+        "providers": ("Rental partners", RentalPartner, ("id", "phone_number", "owner_name", "business_name", "location", "whatsapp", "description", "status", "created_at", "updated_at")),
+        "emergency-contacts": ("Emergency contacts", EmergencyContact, ("id", "user_phone", "name", "phone", "relationship", "is_primary", "created_at", "updated_at")),
+        "bike-vehicles": ("Bike vehicles", BikeVehicle, ("id", "provider_id", "name", "vehicle_type", "location", "price", "pricing_unit", "is_active", "created_at", "updated_at")),
+        "resorts": ("Resorts", ResortListing, ("id", "provider_phone", "provider_id", "name", "description", "address", "contact", "whatsapp", "amenities", "room_info", "photos", "status", "created_at", "updated_at")),
+        "auto": ("Auto captains", AutoCaptain, ("id", "phone_number", "owner_name", "full_name", "location", "vehicle_number", "vehicle_type", "status", "is_online", "created_at", "updated_at")),
+        "coracle": ("Coracle operators", CoracleOperator, ("id", "phone_number", "business_name", "location", "boat_capacity", "price", "status", "created_at", "updated_at")),
+        "sos-incidents": ("SOS incidents", SOSIncident, ("id", "traveler_phone", "safety_response", "mode", "location_text", "latitude", "longitude", "status", "created_at")),
+        "reviews": ("Reviews", Review, ("id", "booking_id", "traveler_phone", "provider_id", "rating", "text", "created_at", "updated_at")),
+        "notifications": ("Notifications", Notification, ("id", "user_id", "recipient_phone", "notification_type", "title", "message", "related_type", "related_id", "is_read", "read_at", "created_at")),
+        "payment-transactions": ("Payment transactions", PaymentTransaction, ("id", "booking_id", "booking_reference", "gateway_reference", "amount", "currency", "status", "refund_reference", "refund_status", "refund_amount_minor", "created_at", "updated_at")),
+        "audit-logs": ("Audit logs", AuditLog, ("id", "actor_email", "action", "object_type", "object_id", "metadata_json", "created_at")),
+    }
+
+
+def _operational_value(value):
+    if value is None or value == "":
+        return "—"
+    if hasattr(value, "strftime"):
+        return value.strftime("%Y-%m-%d %H:%M UTC")
+    if isinstance(value, (dict, list)):
+        import json
+        return json.dumps(value, ensure_ascii=False, sort_keys=True)
+    return str(value)
+
+
+@admin_bp.route("/records/<category>")
+@admin_required
+def operational_records(category):
+    from sqlalchemy import String, cast, or_
+
+    registry = _operational_record_registry()
+    definition = registry.get(category)
+    if definition is None:
+        return render_template("errors/404.html"), 404
+    title, model, fields = definition
+    search = request.args.get("q", "").strip()[:120]
+    status_filter = request.args.get("status", "").strip()[:40]
+    try:
+        page = max(1, int(request.args.get("page", "1")))
+    except ValueError:
+        page = 1
+    query = model.query
+    if search:
+        searchable = [field for field in fields if field not in {"metadata_json", "details", "highlights", "rules", "interests", "amenities", "room_info", "photos"}]
+        query = query.filter(or_(*[cast(getattr(model, field), String).ilike(f"%{search}%") for field in searchable]))
+    payment_states = {"unpaid", "paid", "failed", "refunded"}
+    if status_filter in payment_states and hasattr(model, "payment_status"):
+        query = query.filter(model.payment_status == status_filter)
+    elif status_filter and hasattr(model, "status"):
+        query = query.filter(model.status == status_filter)
+    elif status_filter and hasattr(model, "payment_status"):
+        query = query.filter(model.payment_status == status_filter)
+    total = query.count()
+    page_size = 25
+    pages = max(1, (total + page_size - 1) // page_size)
+    page = min(page, pages)
+    records = query.order_by(model.id.desc()).offset((page - 1) * page_size).limit(page_size).all()
+    rows = [{"id": record.id, "values": [_operational_value(getattr(record, field)) for field in fields]} for record in records]
+    return render_template("admin/record_list.html", title=title, category=category, fields=fields, rows=rows, search=search, status_filter=status_filter, total=total, page=page, pages=pages)
+
+
+@admin_bp.route("/records/<category>/<int:record_id>")
+@admin_required
+def operational_record_detail(category, record_id):
+    definition = _operational_record_registry().get(category)
+    if definition is None:
+        return render_template("errors/404.html"), 404
+    title, model, fields = definition
+    record = db.session.get(model, record_id)
+    if record is None:
+        return render_template("errors/404.html"), 404
+    values = [(field.replace("_", " ").title(), _operational_value(getattr(record, field))) for field in fields]
+    return render_template("admin/record_detail.html", title=title, category=category, record=record, values=values)
 
 
 @admin_bp.route("/payments/<int:transaction_id>/refund", methods=["POST"])

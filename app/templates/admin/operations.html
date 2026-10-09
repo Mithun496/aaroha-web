@@ -13,8 +13,9 @@
       <img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA">
       <span>ADMIN</span>
     </div>
-    <div class="admin-header-actions">
+    <nav class="admin-header-actions" aria-label="Admin navigation">
       <a href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('admin.operations') }}">Operations</a>
       <a href="{{ url_for('admin.audit_logs') }}">Audit logs</a>
       <a href="{{ url_for('admin.logout') }}">Logout</a>
     </div>
@@ -38,8 +39,8 @@
     {% for dataset in datasets %}
       <section class="admin-section" aria-labelledby="dataset-{{ loop.index }}">
         <div class="admin-section-heading">
-          <div><span>OPERATIONS</span><h2 id="dataset-{{ loop.index }}">{{ dataset.title }}</h2></div>
-          <span>{{ dataset.total }} matching · page {{ dataset.page }} of {{ dataset.pages }}</span>
+          <div><span>OPERATIONS</span><h2 id="dataset-{{ loop.index }}"><a href="{{ url_for('admin.operational_records', category=dataset.category, q=search, status=status_filter) }}">{{ dataset.title }}</a></h2></div>
+          <span>{{ dataset.total }} matching · page {{ dataset.page }} of {{ dataset.pages }} · <a href="{{ url_for('admin.operational_records', category=dataset.category, q=search, status=status_filter) }}">Open full listing</a></span>
         </div>
         {% if dataset.pages > 1 %}<nav class="admin-pagination" aria-label="{{ dataset.title }} pages">{% if page > 1 %}<a href="{{ url_for('admin.operations', q=search, status=status_filter, page=page-1) }}">Previous</a>{% endif %}<span>Page {{ page }} of {{ dataset.pages }}</span>{% if page < dataset.pages %}<a href="{{ url_for('admin.operations', q=search, status=status_filter, page=page+1) }}">Next</a>{% endif %}</nav>{% endif %}
         <div class="admin-table-wrap" style="overflow-x:auto">
