@@ -7,7 +7,7 @@
   <meta name="description" content="Discover Hampi with trusted local guides, practical trip tools and thoughtful travel support from AAROHA.">
   <title>AAROHA | Your Hampi travel companion</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}?v=20261009-photos">
 </head>
 <body class="home-page">
   <header class="navbar" aria-label="Main navigation">
@@ -33,6 +33,7 @@
 
   <main>
     <section class="hero" aria-labelledby="home-title">
+      <picture class="home-hero-photo"><source media="(max-width: 640px)" srcset="{{ url_for('static', filename='images/destinations/hampi-matanga-800x1000.jpg') }}"><source media="(min-width: 641px)" srcset="{{ url_for('static', filename='images/destinations/hampi-matanga-1920x900.jpg') }}"><img src="{{ url_for('static', filename='images/destinations/hampi-matanga-1920x900.jpg') }}" width="1920" height="900" alt="Boulder landscape around Hampi at sunset, seen from Matanga Hill" fetchpriority="high" decoding="async" data-image-fallback></picture>
       <div class="hero-content">
         <span class="eyebrow">A THOUGHTFUL WAY TO EXPLORE HAMPI</span>
         <h1 id="home-title">A slower journey.<br>Closer to the place.</h1>
@@ -46,7 +47,7 @@
           <div><input id="destination-search" name="q" type="search" placeholder="Search Hampi, Anegundi…"><button type="submit" aria-label="Search destinations">Search</button></div>
         </form>
       </div>
-      <div class="hero-caption"><span>HAMPI · KARNATAKA</span><span>Heritage, culture & local life</span></div>
+      <div class="hero-caption"><span>HAMPI · KARNATAKA</span><span>Heritage, culture & local life</span><span class="hero-photo-credit">Photo cropped/resized: <a href="https://commons.wikimedia.org/wiki/File:Hampi_landscape_from_Matanga_Hill,_Hampi,_India.jpg" target="_blank" rel="noopener noreferrer">Vyacheslav Argenberg · CC BY 4.0</a></span></div>
     </section>
 
     <section class="features home-discovery" aria-labelledby="discover-title">
@@ -69,7 +70,7 @@
 
     <section class="culture-section home-culture">
       <div class="culture-content"><span>LOCAL CONTEXT</span><h2>Arrive with a little more understanding.</h2><p>Read practical guidance on site etiquette, photography, dress and respecting local spaces.</p><a href="{{ url_for('traveler.culture_guide') }}" class="primary-button">Visit the Culture Guide <span aria-hidden="true">→</span></a></div>
-      <div class="home-culture-note"><span>TRAVEL WITH CARE</span><strong>Know the place.<br>Respect the people.</strong><a href="{{ url_for('traveler.offline') }}">Prepare an offline pack →</a></div>
+      <figure class="home-culture-note"><picture><source media="(max-width: 640px)" srcset="{{ url_for('static', filename='images/destinations/hampi-vittala-stone-chariot-800x1000.jpg') }}"><source media="(min-width: 641px)" srcset="{{ url_for('static', filename='images/destinations/hampi-vittala-stone-chariot-1200x900.jpg') }}"><img src="{{ url_for('static', filename='images/destinations/hampi-vittala-stone-chariot-1200x900.jpg') }}" width="1200" height="900" alt="Stone chariot at the Vittala Temple complex in Hampi" loading="lazy" decoding="async" data-image-fallback></picture><span>TRAVEL WITH CARE</span><strong>Know the place.<br>Respect the people.</strong><a href="{{ url_for('traveler.offline') }}">Prepare an offline pack →</a><figcaption>Photo cropped/resized: <a href="https://commons.wikimedia.org/wiki/File:Stone_Chariot_of_Vitthala_Temple,_Hampi.jpg" target="_blank" rel="noopener noreferrer">Sid Mohanty · source</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="license noopener noreferrer">CC BY-SA 4.0</a></figcaption></figure>
     </section>
 
     <section class="offline-section home-offline">
@@ -81,5 +82,6 @@
     <div class="footer-links"><a href="{{ url_for('traveler.explore') }}">Explore</a><a href="{{ url_for('traveler.support') }}">Help & support</a><a href="{{ url_for('traveler.offline') }}">Offline pack</a><a href="{{ url_for('traveler.sos') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}">Safety</a></div>
     <p class="copyright">© 2026 AAROHA. Travel with care.</p>
   </footer>
+  <script src="{{ url_for('static', filename='js/destination-images.js') }}" defer></script>
 </body>
 </html>

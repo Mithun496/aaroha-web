@@ -24,6 +24,22 @@ from app.models.platform import Review
 
 traveler_bp = Blueprint("traveler", __name__)
 
+# Verified destination photographs and their required attribution.  Derivatives
+# remain under the source image's original Creative Commons/Pixabay terms.
+DESTINATION_PHOTOS = {
+    "hampi": {"stem": "hampi-matanga", "alt": "Boulder landscape around Hampi at sunset, seen from Matanga Hill", "credit": "Vyacheslav Argenberg", "source": "https://commons.wikimedia.org/wiki/File:Hampi_landscape_from_Matanga_Hill,_Hampi,_India.jpg", "license": "CC BY 4.0", "license_url": "https://creativecommons.org/licenses/by/4.0/", "w": 1920, "h": 900},
+    "anegundi": {"stem": "anegundi-anjaneya", "alt": "Anjaneya Hill and hilltop temple at Anegundi, Karnataka", "credit": "Ingo Mehling", "source": "https://commons.wikimedia.org/wiki/File:Anegundi_-_Anjaneya_Hill.jpg", "license": "CC BY-SA 4.0", "license_url": "https://creativecommons.org/licenses/by-sa/4.0/", "w": 1920, "h": 900},
+    "gangavathi": {"stem": "gangavathi-rice-fields", "alt": "Green rice fields and a lone tree in the Gangavathi region of Karnataka", "credit": "sarangib", "source": "https://pixabay.com/photos/rice-fields-gangavati-karnataka-204139/", "license": "Pixabay Content License", "license_url": "https://pixabay.com/service/license-summary/", "w": 1200, "h": 562},
+    "hosapete": {"stem": "hosapete-tungabhadra-dam-gates", "alt": "Tungabhadra Dam and reservoir near Hosapete, Karnataka", "credit": "Harvinder Chandigarh", "source": "https://commons.wikimedia.org/wiki/File:The_Tungabhadra_Dam_02.jpg", "license": "CC BY 4.0", "license_url": "https://creativecommons.org/licenses/by/4.0/", "w": 1920, "h": 900},
+    "sanapur": {"stem": "sanapur-lake", "alt": "Boulder-strewn shoreline beside Sanapur Lake near Hampi", "credit": "Christopher Soghoian", "source": "https://commons.wikimedia.org/wiki/File:Sanapur_lake,_Hampi.jpg", "license": "CC BY-SA 2.0", "license_url": "https://creativecommons.org/licenses/by-sa/2.0/", "w": 1600, "h": 750},
+    "kamalapura": {"stem": "kamalapura-krishna-market", "alt": "Historic market ruins facing the Krishna Temple in Kamalapura, Hampi", "credit": "Ms Sarah Welch", "source": "https://commons.wikimedia.org/wiki/File:16th-century_traders_market_ruins_facing_Krishna_temple,_Kamalapura_Hampi_Hindu_monuments_Karnataka.jpg", "license": "CC BY-SA 4.0", "license_url": "https://creativecommons.org/licenses/by-sa/4.0/", "w": 1920, "h": 900},
+}
+
+HIGHLIGHT_PHOTOS = [
+    {"stem": "hampi-virupaksha", "alt": "Virupaksha Temple gopuram at dusk in Hampi", "credit": "Nlgirish", "source": "https://commons.wikimedia.org/wiki/File:Virupaksha_temple_hampi.jpg", "license": "CC BY-SA 4.0", "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"},
+    {"stem": "hampi-vittala-stone-chariot", "alt": "Stone chariot at the Vittala Temple complex in Hampi", "credit": "Sid Mohanty", "source": "https://commons.wikimedia.org/wiki/File:Stone_Chariot_of_Vitthala_Temple,_Hampi.jpg", "license": "CC BY-SA 4.0", "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"},
+]
+
 def serialize_destination(destination):
     return {
         "name": destination.name,
@@ -92,7 +108,7 @@ def explore():
     destinations = query.order_by(Destination.name.asc()).all()
     destination_map = {destination.slug: serialize_destination(destination) for destination in destinations}
     categories = [row[0] for row in db.session.query(Destination.category).filter_by(is_published=True).distinct().order_by(Destination.category.asc()).all()]
-    return render_template("traveler/explore.html", destinations=destination_map, categories=categories, search=search, selected_category=category)
+    return render_template("traveler/explore.html", destinations=destination_map, categories=categories, search=search, selected_category=category, destination_photos=DESTINATION_PHOTOS)
 
 
 @traveler_bp.route("/destination/<slug>")
@@ -100,7 +116,7 @@ def destination(slug):
     destination_entry = Destination.query.filter_by(slug=slug.lower(), is_published=True).first()
     if not destination_entry:
         return render_template("errors/404.html"), 404
-    return render_template("traveler/destination.html", destination=serialize_destination(destination_entry), slug=slug)
+    return render_template("traveler/destination.html", destination=serialize_destination(destination_entry), slug=slug, photo=DESTINATION_PHOTOS.get(slug.lower()), highlight_photos=HIGHLIGHT_PHOTOS if slug.lower() == "hampi" else [])
 
 
 @traveler_bp.route("/culture-guide")

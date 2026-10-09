@@ -1,7 +1,50 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Explore | AAROHA</title><link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}"></head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Explore | AAROHA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}?v=20261009-photos">
+</head>
 <body class="traveler-page">
-<header class="site-header"><a href="{{ url_for('home.index') }}" class="site-brand"><img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA"></a><nav aria-label="Primary"><a class="active" href="{{ url_for('traveler.explore') }}">Explore</a><a href="{{ url_for('traveler.guides') }}">Guides</a><a href="{{ url_for('traveler.trip_planner') }}">Plan</a><a href="{{ url_for('traveler.offline') }}">Offline Pack</a>{% if session.get('authenticated') and session.get('account_type') == 'traveler' %}<a href="{{ url_for('traveler.bookings') }}">Bookings</a><a href="{{ url_for('traveler.profile') }}">Profile</a><a href="{{ url_for('marketplace.notifications') }}">Notifications</a>{% endif %}</nav><div class="site-actions"><a href="{{ url_for('traveler.sos') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}" class="sos-link">Safety</a>{% if session.get('authenticated') and session.get('account_type') == 'traveler' %}<a href="{{ url_for('traveler.profile') }}" class="login-link">My account</a>{% else %}<a href="{{ url_for('auth.account_type') }}" class="login-link">Sign in</a>{% endif %}</div></header>
-<main class="traveler-shell"><section class="page-hero"><span>HAMPI & THE SURROUNDING REGION</span><h1>Let the landscape set the pace.</h1><p>Explore heritage places, nearby communities and practical visitor information before you head out.</p><form class="explore-search" action="{{ url_for('traveler.explore') }}" method="get" role="search"><label for="explore-search">Find a place</label><div><input id="explore-search" type="search" name="q" value="{{ search }}" placeholder="Search destinations or regions"><select aria-label="Filter by destination category" name="category"><option value="">All places</option>{% for category in categories %}<option value="{{ category }}" {% if selected_category == category %}selected{% endif %}>{{ category|title }}</option>{% endfor %}</select><button type="submit">Search</button></div></form></section>
-{% if destinations %}<section class="destination-grid" aria-label="Destinations">{% for slug,d in destinations.items() %}<a class="destination-card{% if slug == 'hampi' %} destination-featured-photo{% endif %}" href="{{ url_for('traveler.destination', slug=slug) }}">{% if slug == 'hampi' %}<img class="destination-card-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Hampi_landscape_from_Matanga_Hill%2C_Hampi%2C_India.jpg/1280px-Hampi_landscape_from_Matanga_Hill%2C_Hampi%2C_India.jpg" alt="Granite boulder landscape at sunset, viewed from Matanga Hill in Hampi" loading="lazy">{% endif %}<span>{{ d.region }} · {{ d.category }}</span><h2>{{ d.name }}</h2><p>{{ d.description }}</p><div class="destination-card-footer"><small>{{ d.highlights|length }} highlights</small><b>Explore place <span aria-hidden="true">→</span></b></div></a>{% endfor %}</section><div class="photo-credit">Hampi landscape: &copy; Vyacheslav Argenberg, <a href="https://commons.wikimedia.org/wiki/File:Hampi_landscape_from_Matanga_Hill,_Hampi,_India.jpg" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a>, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>.</div>{% else %}<div class="empty-state info-card"><span class="empty-symbol" aria-hidden="true">⌖</span><h2>No destinations found</h2><p>Try a different place name or clear your search.</p><a class="primary-button" href="{{ url_for('traveler.explore') }}">View all destinations</a></div>{% endif %}</main></body></html>
+<header class="site-header">
+  <a href="{{ url_for('home.index') }}" class="site-brand"><img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA" width="150" height="52"></a>
+  <nav aria-label="Primary"><a class="active" href="{{ url_for('traveler.explore') }}">Explore</a><a href="{{ url_for('traveler.guides') }}">Guides</a><a href="{{ url_for('traveler.trip_planner') }}">Plan</a><a href="{{ url_for('traveler.offline') }}">Offline Pack</a>{% if session.get('authenticated') and session.get('account_type') == 'traveler' %}<a href="{{ url_for('traveler.bookings') }}">Bookings</a><a href="{{ url_for('traveler.profile') }}">Profile</a><a href="{{ url_for('marketplace.notifications') }}">Notifications</a>{% endif %}</nav>
+  <div class="site-actions"><a href="{{ url_for('traveler.sos') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}" class="sos-link">Safety</a>{% if session.get('authenticated') and session.get('account_type') == 'traveler' %}<a href="{{ url_for('traveler.profile') }}" class="login-link">My account</a>{% else %}<a href="{{ url_for('auth.account_type') }}" class="login-link">Sign in</a>{% endif %}</div>
+</header>
+<main class="traveler-shell">
+  <section class="page-hero">
+    <span>HAMPI & THE SURROUNDING REGION</span><h1>Let the landscape set the pace.</h1>
+    <p>Explore heritage places, nearby communities and practical visitor information before you head out.</p>
+    <form class="explore-search" action="{{ url_for('traveler.explore') }}" method="get" role="search">
+      <label for="explore-search">Find a place</label>
+      <div><input id="explore-search" type="search" name="q" value="{{ search }}" placeholder="Search destinations or regions"><select aria-label="Filter by destination category" name="category"><option value="">All places</option>{% for category in categories %}<option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>{{ category|title }}</option>{% endfor %}</select><button type="submit">Search</button></div>
+    </form>
+  </section>
+  {% if destinations %}
+  <section class="destination-grid" aria-label="Destinations">
+    {% for slug,d in destinations.items() %}
+      {% set photo=destination_photos.get(slug) %}
+      {% set desktop_card=url_for('static', filename='images/destinations/' ~ photo.stem ~ '-1200x900.jpg') if photo and slug != 'gangavathi' else (url_for('static', filename='images/destinations/gangavathi-rice-fields-1200x800.jpg') if photo else '') %}
+      {% set mobile_card=url_for('static', filename='images/destinations/' ~ photo.stem ~ '-800x1000.jpg') if photo and slug != 'gangavathi' else (url_for('static', filename='images/destinations/gangavathi-rice-fields-682x853.jpg') if photo else '') %}
+      <article class="destination-card{% if photo %} destination-featured-photo{% endif %}">
+        {% if photo %}
+        <picture class="destination-picture">
+          <source media="(max-width: 640px)" srcset="{{ mobile_card }}" sizes="(max-width: 640px) 90vw, 800px">
+          <source media="(min-width: 641px)" srcset="{{ url_for('static', filename='images/destinations/' ~ photo.stem ~ '-480x360.jpg') }} 480w, {{ desktop_card }} 1200w" sizes="(min-width: 1100px) 590px, 45vw">
+          <img class="destination-card-image" src="{{ desktop_card }}" srcset="{{ url_for('static', filename='images/destinations/' ~ photo.stem ~ '-480x360.jpg') }} 480w, {{ desktop_card }} 1200w" sizes="(max-width: 640px) 90vw, (max-width: 1100px) 45vw, 590px" width="1200" height="{{ 800 if slug == 'gangavathi' else 900 }}" alt="{{ photo.alt }}" loading="lazy" decoding="async" data-image-fallback>
+        </picture>
+        {% endif %}
+        <a class="destination-card-content" href="{{ url_for('traveler.destination', slug=slug) }}"><span>{{ d.region }} · {{ d.category }}</span><h2>{{ d.name }}</h2><p>{{ d.description }}</p><div class="destination-card-footer"><small>{{ d.highlights|length }} highlights</small><b>Explore place <span aria-hidden="true">→</span></b></div></a>
+        {% if photo %}<small class="image-attribution"><a href="{{ photo.source }}" target="_blank" rel="noopener noreferrer">Photo: {{ photo.credit }} (cropped)</a> · <a href="{{ photo.license_url }}" target="_blank" rel="license noopener noreferrer">{{ photo.license }}</a></small>{% endif %}
+      </article>
+    {% endfor %}
+  </section>
+  {% else %}
+  <div class="empty-state info-card"><span class="empty-symbol" aria-hidden="true">⌖</span><h2>No destinations found</h2><p>Try a different place name or clear your search.</p><a class="primary-button" href="{{ url_for('traveler.explore') }}">View all destinations</a></div>
+  {% endif %}
+</main>
+<script src="{{ url_for('static', filename='js/destination-images.js') }}" defer></script>
+</body>
+</html>
