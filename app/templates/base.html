@@ -12,15 +12,25 @@
         <a href="/" class="brand">
             <img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA">
         </a>
-        <nav>
+        <nav aria-label="Primary">
             <a href="/">Home</a>
             <a href="{{ url_for('traveler.explore') }}">Explore</a>
             <a href="{{ url_for('traveler.guides') }}">Guides</a>
-            <a href="{{ url_for('traveler.services') }}">Services</a>
-            <a href="{{ url_for('marketplace.auto') }}">Auto</a>
-            <a href="{{ url_for('marketplace.coracles') }}">Coracle</a>
-            <a href="{{ url_for('traveler.bookings') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}">Bookings</a>
-            {% if session.get('authenticated') and session.get('account_type') == 'traveler' %}<a href="{{ url_for('marketplace.notifications') }}">Notifications</a><a href="{{ url_for('marketplace.emergency_contacts') }}">Contacts</a>{% endif %}
+            {% if session.get('authenticated') and session.get('account_type') == 'traveler' %}
+                <a href="{{ url_for('traveler.trip_planner') }}">Plan</a>
+                <a href="{{ url_for('traveler.bookings') }}">Bookings</a>
+                <a href="{{ url_for('traveler.profile') }}">Profile</a>
+                <a href="{{ url_for('traveler.offline') }}">Offline Pack</a>
+                <a href="{{ url_for('marketplace.notifications') }}">Notifications</a>
+                <a href="{{ url_for('marketplace.emergency_contacts') }}">Safety contacts</a>
+            {% elif session.get('authenticated') and session.get('account_type') == 'partner' %}
+                <a href="{{ url_for('partner.dashboard') }}">Partner dashboard</a>
+                <a href="{{ url_for('auth.guide_application_status') if session.get('partner_category') == 'guide' else url_for('auth.partner_submitted') }}">Application</a>
+            {% else %}
+                <a href="{{ url_for('traveler.services') }}">Services</a>
+                <a href="{{ url_for('marketplace.auto') }}">Auto</a>
+                <a href="{{ url_for('marketplace.coracles') }}">Coracle</a>
+            {% endif %}
         </nav>
         <div class="nav-actions">
             {% if session.get('authenticated') and session.get('account_type') == 'traveler' %}
@@ -29,7 +39,7 @@
                     {% if notification_unread_count %}<span class="notification-badge">{{ notification_unread_count }}</span>{% endif %}
                 </a>
             {% endif %}
-            <a href="{{ url_for('traveler.sos') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}" class="sos-button">SOS</a>
+            <a href="{{ url_for('traveler.sos') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}" class="sos-button">Safety</a>
             {% if session.get('authenticated') %}
                 <form method="post" action="{{ url_for('auth.logout') }}" class="nav-logout-form">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">

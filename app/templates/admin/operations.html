@@ -24,15 +24,24 @@
       <div>
         <span>ADMIN OPERATIONS</span>
         <h1>Recent records</h1>
-        <p>Read-only operational visibility. Each section shows the latest 50 records.</p>
+        <p>Read-only operational visibility across the records held by AAROHA.</p>
       </div>
     </section>
+    <form class="admin-operations-filter" method="get" role="search">
+      <label for="operations-search">Search records</label>
+      <input id="operations-search" name="q" type="search" value="{{ search }}" placeholder="Name, phone, booking reference…">
+      <label for="operations-status">Status</label>
+      <select id="operations-status" name="status"><option value="">All statuses</option>{% for status in ['pending','requested','accepted','confirmed','completed','approved','needs_changes','rejected','cancelled','paid','failed','refunded','open','resolved'] %}<option value="{{ status }}" {% if status_filter == status %}selected{% endif %}>{{ status|replace('_',' ')|title }}</option>{% endfor %}</select>
+      <button class="primary-button" type="submit">Apply filters</button>
+      {% if search or status_filter %}<a class="admin-back-link" href="{{ url_for('admin.operations') }}">Clear</a>{% endif %}
+    </form>
     {% for dataset in datasets %}
       <section class="admin-section" aria-labelledby="dataset-{{ loop.index }}">
         <div class="admin-section-heading">
           <div><span>OPERATIONS</span><h2 id="dataset-{{ loop.index }}">{{ dataset.title }}</h2></div>
-          <span>{{ dataset.rows|length }} shown</span>
+          <span>{{ dataset.total }} matching · page {{ dataset.page }} of {{ dataset.pages }}</span>
         </div>
+        {% if dataset.pages > 1 %}<nav class="admin-pagination" aria-label="{{ dataset.title }} pages">{% if page > 1 %}<a href="{{ url_for('admin.operations', q=search, status=status_filter, page=page-1) }}">Previous</a>{% endif %}<span>Page {{ page }} of {{ dataset.pages }}</span>{% if page < dataset.pages %}<a href="{{ url_for('admin.operations', q=search, status=status_filter, page=page+1) }}">Next</a>{% endif %}</nav>{% endif %}
         <div class="admin-table-wrap" style="overflow-x:auto">
           <table class="admin-table">
             <thead><tr>{% for header in dataset.headers %}<th scope="col">{{ header }}</th>{% endfor %}{% if dataset.title == 'Payment transactions' %}<th scope="col">Action</th>{% endif %}</tr></thead>

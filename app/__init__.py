@@ -73,6 +73,11 @@ def create_app(config_object=Config):
 
     @app.after_request
     def add_security_headers(response):
+        # Authenticated HTML must not be resurrected from browser history after logout.
+        if (session.get("authenticated") or session.get("admin_authenticated")) and "Cache-Control" not in response.headers:
+            response.headers["Cache-Control"] = "private, no-store, no-cache, max-age=0, must-revalidate"
+            response.headers["Pragma"] = "no-cache"
+            response.headers["Expires"] = "0"
         response.headers.setdefault("X-Content-Type-Options", "nosniff")
         response.headers.setdefault("X-Frame-Options", "SAMEORIGIN")
         response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")

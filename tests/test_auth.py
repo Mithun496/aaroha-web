@@ -12,6 +12,7 @@ from werkzeug.security import generate_password_hash
 
 from app import create_app
 from app.extensions import db
+from app.models.destination import Destination
 from app.models.guide import GuideApplication
 from app.models.otp import OTPChallenge
 from app.models.platform import AutoCaptain, BikeVehicle, Booking, CoracleOperator, EmergencyContact, Notification, PartnerApplication, PaymentTransaction, RentalPartner, Review, SOSIncident, TravelerProfile
@@ -52,6 +53,39 @@ class AuthFlowTests(unittest.TestCase):
         self.assertEqual(response.headers.get('X-Content-Type-Options'), 'nosniff')
         self.assertEqual(response.headers.get('X-Frame-Options'), 'SAMEORIGIN')
         self.assertIn("object-src 'none'", response.headers.get('Content-Security-Policy', ''))
+
+    def test_authenticated_pages_are_not_cached_for_browser_back_after_logout(self):
+        with self.client.session_transaction() as session:
+            session.update(authenticated=True, account_type='traveler', phone_number='+919800000082')
+
+        response = self.client.get('/profile')
+        self.assertIn('no-store', response.headers.get('Cache-Control', ''))
+        self.assertEqual(response.headers.get('Pragma'), 'no-cache')
+
+        logout = self.client.post('/auth/logout')
+        self.assertEqual(logout.status_code, 302)
+        protected = self.client.get('/profile')
+        self.assertEqual(protected.status_code, 302)
+
+    def test_traveler_navigation_remains_authenticated_across_public_routes(self):
+        with self.app.app_context():
+            db.session.add(Destination(
+                name='Hampi', slug='hampi', region='Karnataka', category='heritage',
+                description='A heritage landscape.', is_published=True,
+            ))
+            db.session.commit()
+        guest = self.client.get('/explore').get_data(as_text=True)
+        self.assertIn('Sign in', guest)
+        self.assertNotIn('>Bookings</a>', guest)
+        self.assertIn('destination-card-image', guest)
+        self.assertIn('CC BY 4.0', guest)
+
+        with self.client.session_transaction() as session:
+            session.update(authenticated=True, account_type='traveler', phone_number='+919800000083')
+        traveler = self.client.get('/explore').get_data(as_text=True)
+        for label in ('Bookings', 'Profile', 'Notifications', 'My account'):
+            self.assertIn(label, traveler)
+        self.assertNotIn('>Sign in</a>', traveler)
 
     def test_end_to_end_route_smoke_pages(self):
         public_paths = (
@@ -216,6 +250,9 @@ class AuthFlowTests(unittest.TestCase):
         body = response.get_data(as_text=True)
         for title in ('Users', 'Traveler profiles', 'Destinations', 'Bookings', 'SOS incidents', 'Payment transactions', 'Audit logs'):
             self.assertIn(title, body)
+        filtered = self.client.get('/admin/operations?q=nonexistent&status=pending&page=1')
+        self.assertEqual(filtered.status_code, 200)
+        self.assertIn('Apply filters', filtered.get_data(as_text=True))
 
     def test_private_file_download_is_admin_only_and_missing_files_are_404(self):
         with tempfile.TemporaryDirectory() as temporary_directory, patch.dict(os.environ, {'STORAGE_PROVIDER': 'local'}):

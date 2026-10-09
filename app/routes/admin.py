@@ -468,6 +468,7 @@ def audit_logs():
 @admin_bp.route("/operations")
 @admin_required
 def operations():
+    from sqlalchemy import String, cast, or_
     from app.models.destination import Destination
     from app.models.platform import (
         AutoCaptain,
@@ -493,12 +494,34 @@ def operations():
             return value.strftime("%Y-%m-%d %H:%M UTC")
         return str(value)
 
+    search = request.args.get("q", "").strip()[:120]
+    status_filter = request.args.get("status", "").strip()[:40]
+    try:
+        page = max(1, min(int(request.args.get("page", "1")), 10000))
+    except ValueError:
+        page = 1
+    page_size = 25
+
     def section(title, headers, model, fields):
-        records = model.query.order_by(model.created_at.desc()).limit(50).all()
+        query = model.query
+        if search:
+            query = query.filter(or_(*[
+                cast(getattr(model, field), String).ilike(f"%{search}%")
+                for field in fields
+            ]))
+        if status_filter and hasattr(model, "status"):
+            query = query.filter(model.status == status_filter)
+        elif status_filter and hasattr(model, "payment_status"):
+            query = query.filter(model.payment_status == status_filter)
+        total = query.count()
+        records = query.order_by(model.created_at.desc()).offset((page - 1) * page_size).limit(page_size).all()
         return {
             "title": title,
             "headers": headers,
             "rows": [[display(getattr(record, field)) for field in fields] for record in records],
+            "total": total,
+            "page": page,
+            "pages": max(1, (total + page_size - 1) // page_size),
         }
 
     datasets = [
@@ -520,7 +543,7 @@ def operations():
         section("Emergency contacts", ["ID", "Traveler", "Contact", "Phone", "Relationship", "Created"], EmergencyContact, ["id", "user_phone", "name", "phone", "relationship", "created_at"]),
         section("Audit logs", ["ID", "Actor", "Action", "Object", "Created"], AuditLog, ["id", "actor_email", "action", "object_type", "created_at"]),
     ]
-    return render_template("admin/operations.html", datasets=datasets)
+    return render_template("admin/operations.html", datasets=datasets, search=search, status_filter=status_filter, page=page)
 
 
 @admin_bp.route("/payments/<int:transaction_id>/refund", methods=["POST"])

@@ -1350,3 +1350,128 @@ input:focus, select:focus, textarea:focus, .form-input:focus, .form-textarea:foc
 @media (max-width:640px) {
   .home-page .navbar .brand img { transform:scale(1.1); }
 }
+
+/* AAROHA production design tokens and shared surface corrections. */
+:root {
+  --color-brand-forest: #062D26;
+  --color-brand-forest-dark: #09221C;
+  --color-brand-green: #0C5945;
+  --color-brand-parrot: #82D51F;
+  --color-brand-gold: #F3BF43;
+  --color-surface-ivory: #F7F3E8;
+  --color-surface-sage: #E6EEE7;
+  --color-text-primary: #173A30;
+  --color-text-muted: #4E655C;
+  --color-text-inverse: #F7F5ED;
+  --color-border: #C9D8CE;
+  --color-focus: #F3BF43;
+  --color-danger: #A33D35;
+  --color-success: #276248;
+  --color-warning: #765819;
+}
+
+html { scroll-behavior:smooth; }
+body { color:var(--color-text-primary); }
+:focus-visible { outline:3px solid var(--color-focus)!important; outline-offset:3px; }
+
+/* Keep the shared header consistent on public, traveler, partner and admin pages. */
+.navbar, .site-header, .admin-header, .partner-dashboard-header {
+  box-sizing:border-box;
+  min-height:80px;
+  height:auto;
+  padding:10px clamp(16px,4vw,56px);
+  background:var(--color-brand-forest)!important;
+  color:var(--color-text-inverse)!important;
+  border-bottom:1px solid rgba(243,191,67,.25)!important;
+  box-shadow:0 5px 20px rgba(6,45,38,.13)!important;
+}
+.navbar, .site-header { display:flex; flex-wrap:wrap; align-items:center; gap:16px 28px; }
+.navbar nav, .site-header nav { display:flex; flex:1 1 420px; flex-wrap:wrap; justify-content:center; gap:8px clamp(10px,1.7vw,24px); }
+.navbar nav a, .site-header nav a, .admin-header-actions a, .partner-dashboard-header a {
+  color:var(--color-text-inverse)!important;
+  text-decoration:none;
+}
+.navbar nav a:hover, .site-header nav a:hover { color:var(--color-brand-parrot)!important; }
+.site-header nav a.active::after { background:var(--color-brand-gold); }
+.brand, .site-brand, .admin-header-brand, .partner-dashboard-logo { display:flex; flex:0 0 auto; align-items:center; }
+.brand img, .site-brand img, .admin-header-brand img, .partner-dashboard-logo img {
+  display:block;
+  width:clamp(126px,11vw,150px);
+  max-height:66px;
+  padding:0!important;
+  margin:0;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  object-fit:contain;
+}
+.navbar .nav-actions, .site-header .site-actions, .admin-header-actions { display:flex; flex:0 0 auto; flex-wrap:wrap; align-items:center; gap:9px; }
+.login-button, .login-link, .site-actions .login-link { background:var(--color-brand-parrot); color:var(--color-brand-forest-dark)!important; box-shadow:none; }
+.login-button:hover, .login-link:hover { background:#A0E344; color:var(--color-brand-forest-dark)!important; }
+.sos-button, .sos-link { color:#8D302A!important; background:#FFF5F1; border-color:#E7A79E; }
+.home-page .navbar .brand img { transform:none; }
+
+/* Card collections use a light content surface so their boundaries read clearly. */
+.feature-card, .destination-card:not([style*="--destination-image"]), .guide-card,
+.info-card, .culture-grid article, .emergency-card, .booking-row, .day-card,
+.admin-stat-card, .admin-empty-state, .admin-application-card, .admin-detail-card,
+.admin-decision-card, .partner-dashboard-section, .dashboard-stat,
+.dashboard-content-card, .dashboard-profile-card, .dashboard-price-card {
+  color:var(--color-text-primary);
+  background:var(--color-surface-ivory);
+  border-color:var(--color-border);
+}
+.feature-card :is(h2,h3,strong), .guide-card :is(h2,h3,strong), .info-card :is(h2,h3,strong),
+.culture-grid article :is(h2,h3,strong), .booking-row h2, .day-card :is(h2,h3,strong),
+.admin-page :is(.admin-stat-card strong,.admin-empty-state h3) { color:var(--color-text-primary); }
+.feature-card p, .guide-card p, .info-card p, .culture-grid p, .booking-row p,
+.day-card p, .admin-empty-state p { color:var(--color-text-muted); }
+.planner-form, .planner-intro { background:var(--color-surface-ivory); color:var(--color-text-primary); border-color:var(--color-border); }
+.planner-form :is(label,legend), .planner-intro :is(h1,h2,p) { color:var(--color-text-primary); }
+.admin-table-wrap { overflow-x:auto; }
+.admin-table { min-width:680px; }
+.admin-operations-filter { display:flex; flex-wrap:wrap; align-items:end; gap:10px; margin:0 0 24px; padding:18px; border:1px solid var(--color-border); border-radius:16px; background:var(--color-surface-ivory); }
+.admin-operations-filter label { color:var(--color-text-primary); font-size:13px; font-weight:700; }
+.admin-pagination { display:flex; justify-content:flex-end; align-items:center; gap:14px; margin-top:12px; color:var(--color-text-muted); font-size:13px; }
+.admin-pagination a { color:var(--color-brand-green); font-weight:700; }
+
+/* The single verified destination photograph is Hampi. Other towns stay image-free. */
+.hero, .home-culture-note, .destination-detail-hero {
+  background-image:linear-gradient(90deg,rgba(6,45,38,.84),rgba(6,45,38,.28)),
+    url("https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Hampi_landscape_from_Matanga_Hill%2C_Hampi%2C_India.jpg/1280px-Hampi_landscape_from_Matanga_Hill%2C_Hampi%2C_India.jpg");
+  background-position:center;
+  background-size:cover;
+}
+.destination-art-0, .destination-art-1, .destination-art-2, .destination-art-3, .destination-art-4 { --destination-image:none; }
+.destination-card::before { background-image:var(--destination-image, none)!important; }
+.destination-card:not(.destination-featured-photo) { color:var(--color-text-primary); background:var(--color-surface-ivory); }
+.destination-card:not(.destination-featured-photo)::after { display:none; }
+.destination-card:not(.destination-featured-photo) > span, .destination-card:not(.destination-featured-photo) p,
+.destination-card:not(.destination-featured-photo) h2 { color:var(--color-text-primary); }
+.destination-card:not(.destination-featured-photo) p { color:var(--color-text-muted); }
+.destination-featured-photo { color:var(--color-text-inverse); }
+.destination-card-image { position:absolute; z-index:-2; inset:0; width:100%; height:100%; object-fit:cover; }
+.destination-detail-hero { background-image:linear-gradient(0deg,rgba(6,45,38,.12),rgba(6,45,38,.04)); }
+.destination-detail-hero:not(.hampi-photo) { background:var(--color-surface-ivory); color:var(--color-text-primary); border:1px solid var(--color-border); box-shadow:none; }
+.destination-detail-hero:not(.hampi-photo) :is(h1,p) { color:var(--color-text-primary); }
+.destination-detail-hero.hampi-photo { background-image:linear-gradient(0deg,rgba(6,45,38,.87),rgba(6,45,38,.15)),url("https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Hampi_landscape_from_Matanga_Hill%2C_Hampi%2C_India.jpg/1280px-Hampi_landscape_from_Matanga_Hill%2C_Hampi%2C_India.jpg"); }
+.culture-section::after { background-image:linear-gradient(0deg,rgba(6,45,38,.2),rgba(6,45,38,.04)),url("https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Hampi_landscape_from_Matanga_Hill%2C_Hampi%2C_India.jpg/1280px-Hampi_landscape_from_Matanga_Hill%2C_Hampi%2C_India.jpg"); }
+
+.photo-credit { padding:10px 20px; color:var(--color-text-muted); background:var(--color-surface-ivory); text-align:center; font-size:12px; }
+.photo-credit a { color:var(--color-brand-green); }
+.primary-button, .hero .primary-button { background:var(--color-brand-parrot); color:var(--color-brand-forest-dark); }
+.primary-button:hover, .hero .primary-button:hover { background:#A0E344; color:var(--color-brand-forest-dark); }
+
+@media (max-width:700px) {
+  .navbar, .site-header { justify-content:space-between; gap:8px 12px; padding:9px 14px; }
+  .navbar nav, .site-header nav { order:3; flex:1 0 100%; justify-content:flex-start; gap:4px 15px; max-height:none; overflow:visible; }
+  .navbar nav a, .site-header nav a { min-height:40px; display:inline-flex; align-items:center; font-size:13px; }
+  .brand img, .site-brand img, .admin-header-brand img, .partner-dashboard-logo img { width:122px; max-height:54px; }
+  .navbar .nav-actions, .site-header .site-actions { margin-left:auto; }
+  .hero h1 { font-size:clamp(38px,11vw,50px); overflow-wrap:anywhere; }
+  .admin-table { min-width:760px; }
+}
+
+.guide-cover { background-image:linear-gradient(0deg,rgba(6,45,38,.82),rgba(6,45,38,.08)),var(--guide-cover,url("https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Hampi_landscape_from_Matanga_Hill%2C_Hampi%2C_India.jpg/1280px-Hampi_landscape_from_Matanga_Hill%2C_Hampi%2C_India.jpg")); }
+.destination-card.destination-featured-photo { color:var(--color-text-inverse); background:var(--color-brand-forest); }
