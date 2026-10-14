@@ -49,6 +49,40 @@ class AuthFlowTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.get_json()['status'], 'ok')
 
+    def test_homepage_story_renders_real_destinations_and_local_assets(self):
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+        html = response.get_data(as_text=True)
+        for target in (
+            '/destination/hampi', '/destination/anegundi', '/destination/sanapur',
+            '/destination/kamalapura', '/destination/gangavathi', '/destination/hosapete',
+            '/trip-planner', '/culture-guide', '/offline', '/guides', '/services',
+        ):
+            with self.subTest(target=target):
+                self.assertIn(target, html)
+        self.assertIn('no live AI', html)
+        self.assertIn('do not dispatch emergency services', html)
+        self.assertIn('category=heritage', html)
+        self.assertIn('Become a partner', html)
+        self.assertIn('data-image-fallback', html)
+        for asset in (
+            'images/destinations/hampi-matanga-1920x900.jpg',
+            'images/destinations/hampi-matanga-800x1000.jpg',
+            'images/destinations/hampi-virupaksha-1200x900.jpg',
+            'images/destinations/sanapur-lake-1200x900.jpg',
+            'images/destinations/anegundi-anjaneya-1200x900.jpg',
+            'images/destinations/hampi-vittala-stone-chariot-1920x900.jpg',
+            'images/destinations/anegundi-anjaneya-800x1000.jpg',
+            'images/destinations/sanapur-lake-800x1000.jpg',
+            'images/destinations/kamalapura-krishna-market-1200x900.jpg',
+            'images/destinations/gangavathi-rice-fields-1200x800.jpg',
+            'images/destinations/hosapete-tungabhadra-dam-gates-1200x900.jpg',
+            'images/logo/aaroha-logo.png',
+            'js/home-story.js',
+        ):
+            with self.subTest(asset=asset):
+                self.assertTrue((Path(self.app.static_folder) / asset).is_file())
+
     def test_security_headers_are_present(self):
         response = self.client.get('/')
         self.assertEqual(response.headers.get('X-Content-Type-Options'), 'nosniff')

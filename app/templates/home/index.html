@@ -7,11 +7,13 @@
   <meta name="description" content="Discover Hampi with trusted local guides, practical trip tools and thoughtful travel support from AAROHA.">
   <title>AAROHA | Your Hampi travel companion</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}?v=20261009-photos">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}?v=20261014-story">
 </head>
 <body class="home-page">
   <header class="navbar" aria-label="Main navigation">
-    <a href="{{ url_for('home.index') }}" class="brand" aria-label="AAROHA home"><img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA — Your Journey. Our Care."></a>
+    <a href="{{ url_for('home.index') }}" class="brand" aria-label="AAROHA home">
+<img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA — Your Journey. Our Care.">
+</a>
     <nav aria-label="Primary">
       <a href="{{ url_for('traveler.explore') }}">Explore</a>
       <a href="{{ url_for('traveler.guides') }}">Local guides</a>
@@ -32,56 +34,302 @@
   </header>
 
   <main>
-    <section class="hero" aria-labelledby="home-title">
-      <picture class="home-hero-photo"><source media="(max-width: 640px)" srcset="{{ url_for('static', filename='images/destinations/hampi-matanga-800x1000.jpg') }}"><source media="(min-width: 641px)" srcset="{{ url_for('static', filename='images/destinations/hampi-matanga-1920x900.jpg') }}"><img src="{{ url_for('static', filename='images/destinations/hampi-matanga-1920x900.jpg') }}" width="1920" height="900" alt="Boulder landscape around Hampi at sunset, seen from Matanga Hill" fetchpriority="high" decoding="async" data-image-fallback></picture>
+    <section class="hero story-hero" aria-labelledby="home-title">
+      <picture class="home-hero-photo">
+<source media="(max-width: 640px)" srcset="{{ url_for('static', filename='images/destinations/hampi-matanga-800x1000.jpg') }}">
+<source media="(min-width: 641px)" srcset="{{ url_for('static', filename='images/destinations/hampi-matanga-1920x900.jpg') }}">
+<img src="{{ url_for('static', filename='images/destinations/hampi-matanga-1920x900.jpg') }}" width="1920" height="900" alt="Boulder landscape around Hampi at sunset, seen from Matanga Hill" fetchpriority="high" decoding="async" data-image-fallback>
+</picture>
       <div class="hero-content">
         <span class="eyebrow">A THOUGHTFUL WAY TO EXPLORE HAMPI</span>
         <h1 id="home-title">A slower journey.<br>Closer to the place.</h1>
         <p>Find your way through ancient landscapes,<br class="mobile-only-break"> meet local guides and keep the<br class="mobile-only-break"> practical details of your trip close at hand.</p>
         <div class="hero-buttons">
-          <a href="{{ url_for('traveler.explore') }}" class="primary-button">Explore Hampi <span aria-hidden="true">→</span></a>
+          <a href="{{ url_for('traveler.explore') }}" class="primary-button">Explore Hampi <span aria-hidden="true">→</span>
+</a>
           <a href="{{ url_for('traveler.trip_planner') }}" class="secondary-button">Plan your visit</a>
         </div>
         <form class="hero-search" action="{{ url_for('traveler.explore') }}" method="get" role="search">
           <label for="destination-search">Where would you like to go?</label>
-          <div><input id="destination-search" name="q" type="search" placeholder="Search Hampi, Anegundi…"><button type="submit" aria-label="Search destinations">Search</button></div>
+          <div>
+<input id="destination-search" name="q" type="search" placeholder="Search Hampi, Anegundi…">
+<button type="submit" aria-label="Search destinations">Search</button>
+</div>
         </form>
       </div>
-      <div class="hero-caption"><span>HAMPI · KARNATAKA</span><span>Heritage, culture & local life</span><span class="hero-photo-credit">Photo cropped/resized: <a href="https://commons.wikimedia.org/wiki/File:Hampi_landscape_from_Matanga_Hill,_Hampi,_India.jpg" target="_blank" rel="noopener noreferrer">Vyacheslav Argenberg · CC BY 4.0</a></span></div>
+      <a class="scroll-cue" href="#experience-title">
+<span aria-hidden="true">↓</span> Begin exploring</a>
     </section>
 
-    <section class="features home-discovery" aria-labelledby="discover-title">
-      <div class="section-heading">
-        <span>YOUR JOURNEY, IN ONE PLACE</span>
-        <h2 id="discover-title">Make room for the moments that matter.</h2>
-        <p>Explore thoughtfully, find trusted local services and feel prepared before you set out.</p>
+  <section class="home-section experience-section" aria-labelledby="experience-title">
+      <div class="editorial-heading" data-reveal>
+<span class="section-kicker">FIND YOUR WAY IN</span>
+<h2 id="experience-title">What draws you <em>here?</em>
+</h2>
+<p>Start with a place, a point of view or the kind of day you want to have.</p>
+</div>
+      <p class="mobile-hero-credit">Hero photograph: <a href="https://commons.wikimedia.org/wiki/File:Hampi_landscape_from_Matanga_Hill,_Hampi,_India.jpg" target="_blank" rel="license noopener noreferrer">Vyacheslav Argenberg · CC BY 4.0</a>
+</p>
+      <div class="experience-grid">
+        <a class="experience-card experience-card-wide" href="{{ url_for('traveler.explore', category='heritage') }}" data-reveal>
+<img src="{{ url_for('static', filename='images/destinations/hampi-virupaksha-1200x900.jpg') }}" alt="Virupaksha Temple and surrounding Hampi landscape" loading="lazy" decoding="async" data-image-fallback>
+<span>HERITAGE & ARCHITECTURE</span>
+<strong>Follow the stories in stone</strong>
+</a>
+        <a class="experience-card" href="{{ url_for('traveler.explore', q='Sanapur') }}" data-reveal>
+<img src="{{ url_for('static', filename='images/destinations/sanapur-lake-1200x900.jpg') }}" alt="Rocky landscape beside Sanapur Lake" loading="lazy" decoding="async" data-image-fallback>
+<span>LANDSCAPES</span>
+<strong>Take the scenic way</strong>
+</a>
+        <a class="experience-card" href="{{ url_for('traveler.guides') }}" data-reveal>
+<img src="{{ url_for('static', filename='images/destinations/anegundi-anjaneya-1200x900.jpg') }}" alt="Anjaneya Hill near Anegundi" loading="lazy" decoding="async" data-image-fallback>
+<span>LOCAL CONTEXT</span>
+<strong>Explore with a local guide</strong>
+</a>
+        <a class="experience-card" href="{{ url_for('traveler.trip_planner') }}" data-reveal>
+<img src="{{ url_for('static', filename='images/destinations/hampi-vittala-stone-chariot-1200x900.jpg') }}" alt="Stone chariot at the Vijaya Vittala Temple complex" loading="lazy" decoding="async" data-image-fallback>
+<span>PHOTOGRAPHY & HERITAGE</span>
+<strong>Make time for the light</strong>
+</a>
       </div>
-      <div class="feature-grid">
-        <a class="feature-card home-service-card home-card-explore" href="{{ url_for('traveler.explore') }}"><span class="home-card-kicker">01 · PLACES</span><div class="icon" aria-hidden="true">⌖</div><h3>Explore Hampi</h3><p>Discover the heritage region and its surrounding places at your own pace.</p><span class="home-card-link">Explore destinations <b>→</b></span></a>
-        <a class="feature-card home-service-card" href="{{ url_for('traveler.trip_planner') }}"><span class="home-card-kicker">02 · PLAN</span><div class="icon" aria-hidden="true">✳</div><h3>Plan your trip</h3><p>Shape a practical itinerary around your time, budget and interests.</p><span class="home-card-link">Open trip planner <b>→</b></span></a>
-        <a class="feature-card home-service-card" href="{{ url_for('traveler.guides') }}"><span class="home-card-kicker">03 · PEOPLE</span><div class="icon" aria-hidden="true">♙</div><h3>Find a local guide</h3><p>Compare approved guides, their languages, areas and listed rates.</p><span class="home-card-link">Meet the guides <b>→</b></span></a>
-        <a class="feature-card home-service-card" href="{{ url_for('traveler.bikes') }}"><span class="home-card-kicker">04 · GET AROUND</span><div class="icon" aria-hidden="true">↗</div><h3>Rent a bike</h3><p>Browse available rentals from approved local providers.</p><span class="home-card-link">View rentals <b>→</b></span></a>
-        <a class="feature-card home-service-card" href="{{ url_for('marketplace.auto') }}"><span class="home-card-kicker">05 · LOCAL RIDES</span><div class="icon" aria-hidden="true">⌁</div><h3>Book an auto</h3><p>Send a ride request to an approved local auto captain.</p><span class="home-card-link">Request a ride <b>→</b></span></a>
-        <a class="feature-card home-service-card" href="{{ url_for('marketplace.coracles') }}"><span class="home-card-kicker">06 · ON THE RIVER</span><div class="icon" aria-hidden="true">≈</div><h3>Book a coracle</h3><p>See local operators, capacity and available ride details.</p><span class="home-card-link">View coracles <b>→</b></span></a>
-        <a class="feature-card home-service-card" href="{{ url_for('traveler.stays') }}"><span class="home-card-kicker">07 · STAY</span><div class="icon" aria-hidden="true">⌂</div><h3>Stay nearby</h3><p>Explore local resort listings and contact providers directly.</p><span class="home-card-link">Browse stays <b>→</b></span></a>
-        <a class="feature-card home-service-card home-safety-card" href="{{ url_for('traveler.sos') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}"><span class="home-card-kicker">08 · FEEL PREPARED</span><div class="icon" aria-hidden="true">+</div><h3>Travel safely</h3><p>Keep trusted contacts and emergency numbers easy to reach.</p><span class="home-card-link">Open safety tools <b>→</b></span></a>
-      </div>
+      <p class="section-footnote">Discovery ideas, not bookable activities. Browse current local listings in <a href="{{ url_for('traveler.services') }}">Explore services</a>.</p>
+      <p class="photo-attribution">Photography: Virupaksha Temple by <a href="https://commons.wikimedia.org/wiki/File:Virupaksha_temple_hampi.jpg" target="_blank" rel="license noopener noreferrer">Nlgirish · CC BY-SA 4.0</a>; Sanapur by <a href="https://commons.wikimedia.org/wiki/File:Sanapur_lake,_Hampi.jpg" target="_blank" rel="license noopener noreferrer">Christopher Soghoian · CC BY-SA 2.0</a>; Anegundi by <a href="https://commons.wikimedia.org/wiki/File:Anegundi_-_Anjaneya_Hill.jpg" target="_blank" rel="license noopener noreferrer">Ingo Mehling · CC BY-SA 4.0</a>; Vittala Temple by <a href="https://commons.wikimedia.org/wiki/File:Stone_Chariot_of_Vitthala_Temple,_Hampi.jpg" target="_blank" rel="license noopener noreferrer">Sid Mohanty · CC BY-SA 4.0</a>. Full credits are in <a href="https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia" target="_blank" rel="noopener noreferrer">source records</a>.</p>
     </section>
 
+    <section class="home-section places-section" aria-labelledby="places-title">
+      <div class="editorial-heading" data-reveal>
+<span class="section-kicker">BEYOND THE FAMILIAR</span>
+<h2 id="places-title">A region of <em>many rhythms.</em>
+</h2>
+<p>Move between heritage landmarks, village life and the landscapes around the Tungabhadra.</p>
+</div>
+      <div class="place-story-grid">
+        <a class="place-story place-story-large" href="{{ url_for('traveler.destination', slug='hampi') }}" data-reveal>
+<img src="{{ url_for('static', filename='images/destinations/hampi-vittala-stone-chariot-1920x900.jpg') }}" alt="Stone chariot at Vijaya Vittala Temple, Hampi" loading="lazy" decoding="async" data-image-fallback>
+<span>01 · HERITAGE LANDSCAPE</span>
+<strong>Hampi</strong>
+<small>Temples, boulder country and the Tungabhadra riverside.</small>
+</a>
+        <a class="place-story" href="{{ url_for('traveler.destination', slug='anegundi') }}" data-reveal>
+<img src="{{ url_for('static', filename='images/destinations/anegundi-anjaneya-800x1000.jpg') }}" alt="Anjaneya Hill near Anegundi" loading="lazy" decoding="async" data-image-fallback>
+<span>02 · RIVERSIDE VILLAGE</span>
+<strong>Anegundi</strong>
+<small>A living village across the river from Hampi.</small>
+</a>
+        <a class="place-story" href="{{ url_for('traveler.destination', slug='sanapur') }}" data-reveal>
+<img src="{{ url_for('static', filename='images/destinations/sanapur-lake-800x1000.jpg') }}" alt="Sanapur Lake and rocky shore" loading="lazy" decoding="async" data-image-fallback>
+<span>03 · LAKE & LANDSCAPE</span>
+<strong>Sanapur</strong>
+<small>Lake, rocky views and a quieter rural setting.</small>
+</a>
+        <a class="place-story" href="{{ url_for('traveler.destination', slug='kamalapura') }}" data-reveal>
+<img src="{{ url_for('static', filename='images/destinations/kamalapura-krishna-market-1200x900.jpg') }}" alt="Historic market ruins near Krishna Temple in Kamalapura" loading="lazy" decoding="async" data-image-fallback>
+<span>04 · HERITAGE ACCESS</span>
+<strong>Kamalapura</strong>
+<small>A gateway for museums and nearby monuments.</small>
+</a>
+        <a class="place-story" href="{{ url_for('traveler.destination', slug='gangavathi') }}" data-reveal>
+<img src="{{ url_for('static', filename='images/destinations/gangavathi-rice-fields-1200x800.jpg') }}" alt="Rice fields near Gangavathi" loading="lazy" decoding="async" data-image-fallback>
+<span>05 · REGIONAL LIFE</span>
+<strong>Gangavathi</strong>
+<small>Local markets, regional food and transport connections.</small>
+</a>
+        <a class="place-story" href="{{ url_for('traveler.destination', slug='hosapete') }}" data-reveal>
+<img src="{{ url_for('static', filename='images/destinations/hosapete-tungabhadra-dam-gates-1200x900.jpg') }}" alt="Tungabhadra Dam near Hosapete" loading="lazy" decoding="async" data-image-fallback>
+<span>06 · REGIONAL HUB</span>
+<strong>Hosapete</strong>
+<small>A transport base for exploring the wider region.</small>
+</a>
+      </div>
+      <p class="photo-attribution">Destination photographs: Hampi — <a href="https://commons.wikimedia.org/wiki/File:Stone_Chariot_of_Vitthala_Temple,_Hampi.jpg" target="_blank" rel="license noopener noreferrer">Sid Mohanty · CC BY-SA 4.0</a>; Anegundi — <a href="https://commons.wikimedia.org/wiki/File:Anegundi_-_Anjaneya_Hill.jpg" target="_blank" rel="license noopener noreferrer">Ingo Mehling · CC BY-SA 4.0</a>; Sanapur — <a href="https://commons.wikimedia.org/wiki/File:Sanapur_lake,_Hampi.jpg" target="_blank" rel="license noopener noreferrer">Christopher Soghoian · CC BY-SA 2.0</a>; Kamalapura — <a href="https://commons.wikimedia.org/wiki/File:16th-century_traders_market_ruins_facing_Krishna_temple,_Kamalapura_Hampi_Hindu_monuments_Karnataka.jpg" target="_blank" rel="license noopener noreferrer">Ms Sarah Welch · CC BY-SA 4.0</a>; Gangavathi — <a href="https://pixabay.com/photos/rice-fields-gangavati-karnataka-204139/" target="_blank" rel="license noopener noreferrer">sarangib · Pixabay Content License</a>; Hosapete — <a href="https://commons.wikimedia.org/wiki/File:The_Tungabhadra_Dam_02.jpg" target="_blank" rel="license noopener noreferrer">Harvinder Chandigarh · CC BY 4.0</a>.</p>
+      <a class="text-link" href="{{ url_for('traveler.explore') }}">Explore all destinations →</a>
+    </section>
+
+    <section class="planner-story" aria-labelledby="planner-story-title">
+      <div class="planner-story-copy" data-reveal>
+<span class="section-kicker">YOUR TRIP, TAKING SHAPE</span>
+<h2 id="planner-story-title">A good plan leaves room for <em>surprise.</em>
+</h2>
+<p>Choose your interests, trip length and budget. AAROHA's guided planner arranges a practical Hampi outline you can adapt before you go.</p>
+<div class="prompt-list">
+<a href="{{ url_for('traveler.trip_planner') }}">“Plan a two-day heritage trip” <span>↗</span>
+</a>
+<a href="{{ url_for('traveler.trip_planner') }}">“Include photography and nature” <span>↗</span>
+</a>
+<a href="{{ url_for('traveler.trip_planner') }}">“Plan around my budget” <span>↗</span>
+</a>
+</div>
+<a class="primary-button" href="{{ url_for('traveler.trip_planner') }}">Open the trip planner →</a>
+<p class="planner-honesty">Guided rule-based planner · no live AI, opening hours or availability data</p>
+</div>
+      <div class="planner-preview" aria-label="Example trip planner preferences" data-reveal>
+<div class="planner-preview-top">
+<span>TRIP PREFERENCES</span>
+<span aria-hidden="true">✳</span>
+</div>
+<div class="preview-control">
+<span>Time in the region</span>
+<strong>2 days</strong>
+<div class="preview-track">
+<i>
+</i>
+</div>
+</div>
+<div class="preview-control">
+<span>Travel style</span>
+<strong>Heritage · Nature</strong>
+<div class="preview-tags">
+<b>History</b>
+<b>Photography</b>
+<b>Local life</b>
+</div>
+</div>
+<div class="preview-control">
+<span>Your pace</span>
+<strong>Leave space to wander</strong>
+</div>
+<div class="preview-output">
+<span>PLANNER PREVIEW</span>
+<strong>Heritage, riverside and time for the light.</strong>
+<small>Example only. Build an itinerary with the real planner.</small>
+</div>
+</div>
+    </section>
+
+    <section class="how-section" aria-labelledby="how-title">
+<div class="editorial-heading" data-reveal>
+<span class="section-kicker">THE AAROHA APPROACH</span>
+<h2 id="how-title">Discover. Plan. <em>Go with care.</em>
+</h2>
+</div>
+<div class="steps-grid">
+<article data-reveal>
+<span>01</span>
+<h3>Discover</h3>
+<p>Find places and services across the Hampi region.</p>
+</article>
+<article data-reveal>
+<span>02</span>
+<h3>Plan</h3>
+<p>Build a simple itinerary around your time and interests.</p>
+</article>
+<article data-reveal>
+<span>03</span>
+<h3>Explore with confidence</h3>
+<p>Keep practical travel and safety details close by.</p>
+</article>
+</div>
+</section>
+
+    <section class="safety-story" aria-labelledby="safety-title">
+<div class="safety-copy" data-reveal>
+<span class="section-kicker">PREPAREDNESS, BUILT IN</span>
+<h2 id="safety-title">Feel more prepared <em>as you go.</em>
+</h2>
+<p>Save trusted emergency contacts, review regional safety information and keep an offline travel pack with practical essentials.</p>
+<p class="safety-note">AAROHA safety tools do not dispatch emergency services. For urgent danger, contact local emergency services directly.</p>
+<div class="safety-actions">
+<a class="primary-button" href="{{ url_for('traveler.sos') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}">Open safety tools</a>
+<a class="text-link" href="{{ url_for('traveler.offline') }}">See offline pack</a>
+</div>
+</div>
+<div class="safety-list" data-reveal>
+<a href="{{ url_for('traveler.sos') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}">
+<span>01</span>
+<div>
+<strong>SOS & emergency information</strong>
+<small>Review the available safety workflow and resources.</small>
+</div>
+<b>↗</b>
+</a>
+<a href="{{ url_for('marketplace.emergency_contacts') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}">
+<span>02</span>
+<div>
+<strong>Trusted contacts</strong>
+<small>Manage contacts when signed in.</small>
+</div>
+<b>↗</b>
+</a>
+<a href="{{ url_for('traveler.offline') }}">
+<span>03</span>
+<div>
+<strong>Offline essentials</strong>
+<small>Download the current Hampi travel pack.</small>
+</div>
+<b>↗</b>
+</a>
+</div>
+</section>
+
+    <section class="services-story" aria-labelledby="services-title">
+<div class="services-photo" role="img" aria-label="Hampi boulder landscape at sunset">
+</div>
+<div class="services-copy" data-reveal>
+<span class="section-kicker">LOCAL KNOWLEDGE, CLOSE BY</span>
+<h2 id="services-title">Meet the people who know this place.</h2>
+<p>Browse listed local guides, rentals, autos, coracle operators and stays. Provider details and availability vary by listing.</p>
+<div class="service-links">
+<a href="{{ url_for('traveler.guides') }}">Find a local guide <span>→</span>
+</a>
+<a href="{{ url_for('traveler.services') }}">Explore local services <span>→</span>
+</a>
+</div>
+<div class="partner-invite">
+<span>SHARE WHAT YOU DO</span>
+<p>Are you a local provider? Apply to join AAROHA.</p>
+<a href="{{ url_for('auth.partner_category') }}">Become a partner <span>→</span>
+</a>
+</div>
+</div>
+</section>
     <section class="culture-section home-culture">
-      <div class="culture-content"><span>LOCAL CONTEXT</span><h2>Arrive with a little more understanding.</h2><p>Read practical guidance on site etiquette, photography, dress and respecting local spaces.</p><a href="{{ url_for('traveler.culture_guide') }}" class="primary-button">Visit the Culture Guide <span aria-hidden="true">→</span></a></div>
-      <figure class="home-culture-note"><picture><source media="(max-width: 640px)" srcset="{{ url_for('static', filename='images/destinations/hampi-vittala-stone-chariot-800x1000.jpg') }}"><source media="(min-width: 641px)" srcset="{{ url_for('static', filename='images/destinations/hampi-vittala-stone-chariot-1200x900.jpg') }}"><img src="{{ url_for('static', filename='images/destinations/hampi-vittala-stone-chariot-1200x900.jpg') }}" width="1200" height="900" alt="Stone chariot at the Vittala Temple complex in Hampi" loading="lazy" decoding="async" data-image-fallback></picture><span>TRAVEL WITH CARE</span><strong>Know the place.<br>Respect the people.</strong><a href="{{ url_for('traveler.offline') }}">Prepare an offline pack →</a><figcaption>Photo cropped/resized: <a href="https://commons.wikimedia.org/wiki/File:Stone_Chariot_of_Vitthala_Temple,_Hampi.jpg" target="_blank" rel="noopener noreferrer">Sid Mohanty · source</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="license noopener noreferrer">CC BY-SA 4.0</a></figcaption></figure>
+      <div class="culture-content">
+<span>LOCAL CONTEXT</span>
+<h2>Arrive with a little more understanding.</h2>
+<p>Read practical guidance on site etiquette, photography, dress and respecting local spaces.</p>
+<a href="{{ url_for('traveler.culture_guide') }}" class="primary-button">Visit the Culture Guide <span aria-hidden="true">→</span>
+</a>
+</div>
+      <figure class="home-culture-note">
+<picture>
+<source media="(max-width: 640px)" srcset="{{ url_for('static', filename='images/destinations/hampi-vittala-stone-chariot-800x1000.jpg') }}">
+<source media="(min-width: 641px)" srcset="{{ url_for('static', filename='images/destinations/hampi-vittala-stone-chariot-1200x900.jpg') }}">
+<img src="{{ url_for('static', filename='images/destinations/hampi-vittala-stone-chariot-1200x900.jpg') }}" width="1200" height="900" alt="Stone chariot at the Vittala Temple complex in Hampi" loading="lazy" decoding="async" data-image-fallback>
+</picture>
+<span>TRAVEL WITH CARE</span>
+<strong>Know the place.<br>Respect the people.</strong>
+<a href="{{ url_for('traveler.offline') }}">Prepare an offline pack →</a>
+<figcaption>Photo cropped/resized: <a href="https://commons.wikimedia.org/wiki/File:Stone_Chariot_of_Vitthala_Temple,_Hampi.jpg" target="_blank" rel="noopener noreferrer">Sid Mohanty · source</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="license noopener noreferrer">CC BY-SA 4.0</a>
+</figcaption>
+</figure>
     </section>
 
     <section class="offline-section home-offline">
-      <div><span>READY WHEN YOU ARE</span><h2>Keep the essentials close, even when the signal fades.</h2><p>Download the Hampi essentials pack with destination basics and safety information. It does not include live maps or booking synchronization.</p><a href="{{ url_for('traveler.offline') }}" class="primary-button">View offline travel pack <span aria-hidden="true">→</span></a></div>
+      <div>
+<span>READY WHEN YOU ARE</span>
+<h2>Keep the essentials close, even when the signal fades.</h2>
+<p>Download the Hampi essentials pack with destination basics and safety information. It does not include live maps or booking synchronization.</p>
+<a href="{{ url_for('traveler.offline') }}" class="primary-button">View offline travel pack <span aria-hidden="true">→</span>
+</a>
+</div>
     </section>
   </main>
   <footer class="home-footer">
-    <div class="footer-brand"><img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA"><p>Your Journey. Our Care.</p></div>
-    <div class="footer-links"><a href="{{ url_for('traveler.explore') }}">Explore</a><a href="{{ url_for('traveler.support') }}">Help & support</a><a href="{{ url_for('traveler.offline') }}">Offline pack</a><a href="{{ url_for('traveler.sos') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}">Safety</a></div>
+    <div class="footer-brand">
+<img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA">
+<p>Your Journey. Our Care.</p>
+</div>
+    <div class="footer-links">
+<a href="{{ url_for('traveler.explore') }}">Explore</a>
+<a href="{{ url_for('traveler.support') }}">Help & support</a>
+<a href="{{ url_for('traveler.offline') }}">Offline pack</a>
+<a href="{{ url_for('traveler.sos') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}">Safety</a>
+</div>
     <p class="copyright">© 2026 AAROHA. Travel with care.</p>
   </footer>
-  <script src="{{ url_for('static', filename='js/destination-images.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/destination-images.js') }}" defer>
+</script>
+  <script src="{{ url_for('static', filename='js/home-story.js') }}" defer>
+</script>
 </body>
 </html>
