@@ -1770,3 +1770,109 @@ body { color:var(--color-text-primary); }
  .story-hero .hero-content>*,.scroll-cue span { animation:none; }
  .reveal-ready [data-reveal] { opacity:1; transform:none; transition:none; }
 }
+
+/* Final application-wide refinements. Keep the shared mark on the header surface. */
+.brand, .site-brand, .admin-header-brand, .partner-dashboard-logo {
+  background:transparent!important; border:0!important; box-shadow:none!important;
+  padding:0!important; border-radius:0!important;
+}
+.brand img, .site-brand img, .admin-header-brand img, .partner-dashboard-logo img {
+  display:block; object-fit:contain; padding:0!important; border:0!important;
+  border-radius:0!important; background:transparent!important; box-shadow:none!important;
+}
+.navbar, .site-header, .admin-header, .partner-dashboard-header {
+  min-height:76px; box-sizing:border-box; align-items:center;
+}
+.navbar nav a, .site-header nav a, .admin-header-actions a, .partner-navigation a {
+  min-height:40px; display:inline-flex; align-items:center; text-decoration:none;
+  transition:color .18s ease, background-color .18s ease, border-color .18s ease;
+}
+.navbar nav a:focus-visible, .site-header nav a:focus-visible,
+.admin-header-actions a:focus-visible, .partner-navigation a:focus-visible {
+  outline:3px solid var(--color-brand-gold); outline-offset:3px; border-radius:4px;
+}
+.traveler-page :is(.info-card,.day-card,.notification-item,.booking-card,.profile-card),
+.partner-dashboard-page :is(.info-card,.partner-panel,.profile-edit-form),
+.admin-page :is(.admin-section,.admin-detail-card,.admin-stat-card,.admin-application-card) {
+  min-width:0; box-sizing:border-box;
+}
+.traveler-page :is(.info-card,.day-card,.notification-item,.booking-card,.profile-card) {
+  background:var(--color-surface-ivory); color:var(--color-text-primary);
+  border:1px solid var(--color-border); box-shadow:0 12px 32px rgba(6,45,38,.07);
+}
+.traveler-page :is(.info-card,.day-card,.notification-item,.booking-card,.profile-card) :is(h2,h3,strong) {
+  color:var(--color-text-primary);
+}
+.traveler-page :is(.info-card,.day-card,.notification-item,.booking-card,.profile-card) p {
+  color:var(--color-text-muted); line-height:1.65;
+}
+.traveler-page .emergency-card strong { color:var(--color-danger); }
+.traveler-page .emergency-card span { color:var(--color-text-primary); }
+.traveler-page :is(input,select,textarea), .partner-dashboard-page :is(input,select,textarea),
+.auth-page :is(input,select,textarea), .admin-page :is(input,select,textarea) {
+  min-height:44px; box-sizing:border-box;
+}
+.traveler-page :is(input,select,textarea):focus-visible,
+.partner-dashboard-page :is(input,select,textarea):focus-visible,
+.auth-page :is(input,select,textarea):focus-visible,
+.admin-page :is(input,select,textarea):focus-visible {
+  outline:3px solid rgba(243,191,67,.8); outline-offset:2px;
+}
+.traveler-page :is(button,.primary-button,.secondary-button,.secondary-action-button),
+.partner-dashboard-page :is(button,.primary-button,.secondary-button),
+.admin-page :is(button,.primary-button,.secondary-button) {
+  transition:transform .16s ease, background-color .16s ease, box-shadow .16s ease;
+}
+.traveler-page :is(button,.primary-button,.secondary-button,.secondary-action-button):hover,
+.partner-dashboard-page :is(button,.primary-button,.secondary-button):hover,
+.admin-page :is(button,.primary-button,.secondary-button):hover {
+  transform:translateY(-1px);
+}
+@media (max-width:760px) {
+  .navbar, .site-header, .admin-header, .partner-dashboard-header {
+    flex-wrap:wrap; gap:8px 14px; padding:10px 16px;
+  }
+  .navbar nav, .site-header nav, .admin-header-actions, .partner-navigation {
+    min-width:0; max-width:100%; flex-wrap:wrap; justify-content:flex-start;
+    gap:4px 12px; overflow:visible;
+  }
+  .navbar nav a, .site-header nav a, .admin-header-actions a, .partner-navigation a {
+    min-height:38px; font-size:13px;
+  }
+  .traveler-shell, .admin-dashboard, .partner-dashboard-layout {
+    max-width:100%; box-sizing:border-box;
+  }
+}
+@media (max-width:640px) {
+  .traveler-page { width:100vw; max-width:100vw; overflow-x:hidden; }
+  .traveler-page main { width:100vw; max-width:100vw; overflow-x:clip; }
+  .navbar, .site-header { display:flex; height:auto; max-height:none; flex-wrap:wrap; align-items:center; }
+  .navbar nav, .site-header nav {
+    order:3; flex:1 0 100%; width:100%; min-width:0; max-width:100%; height:auto;
+    flex-wrap:wrap; justify-content:flex-start; overflow:visible;
+    white-space:normal; scrollbar-width:none; gap:2px 12px;
+  }
+  .navbar nav a, .site-header nav a { flex:0 0 auto; white-space:nowrap; }
+  .traveler-shell { width:calc(100vw - 32px)!important; max-width:calc(100vw - 32px); margin-inline:16px; padding:28px 0 56px; }
+  .traveler-shell > * { width:100%; min-width:0; max-width:100%; box-sizing:border-box; }
+  .traveler-page :is(h1,h2,h3,p,small,strong,span,a) { max-width:100%; white-space:normal!important; overflow-wrap:anywhere; }
+  .traveler-page :is(input,select,textarea,button) { max-width:100%; min-width:0; box-sizing:border-box; }
+  .site-header .site-actions { max-width:calc(100% - 88px); flex-wrap:wrap; justify-content:flex-end; gap:4px; }
+  .planner-intro { min-width:0; flex-wrap:wrap; gap:14px; padding:20px; }
+  .planner-intro > div { flex:1 1 180px; min-width:0; max-width:100%; }
+  .planner-form .choice-grid { width:100%; grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .planner-form-grid { grid-template-columns:minmax(0,1fr); }
+  .profile-hero { min-width:0; gap:12px; padding:18px; }
+  .profile-hero > div:nth-child(2) { flex:1 1 150px; min-width:0; }
+  .profile-trip-link { width:100%; min-width:0; margin:0!important; }
+  .profile-dashboard-grid, .profile-dashboard-grid > * { min-width:0; }
+  .sos-panel .sos-choice-row { display:grid; grid-template-columns:minmax(0,1fr); }
+  .sos-panel .sos-choice-row label { min-width:0; white-space:normal; overflow-wrap:anywhere; }
+  .auth-page { width:100%; max-width:100%; box-sizing:border-box; padding-inline:16px; overflow-x:hidden; }
+  .auth-page .auth-container { width:calc(100vw - 32px)!important; max-width:500px; box-sizing:border-box; padding:24px 20px; }
+  .auth-page .profile-page, .auth-page .auth-container { min-width:0; }
+}
+@media (prefers-reduced-motion:reduce) {
+  html { scroll-behavior:auto; }
+  *, *::before, *::after { scroll-behavior:auto!important; transition-duration:.01ms!important; animation-duration:.01ms!important; animation-iteration-count:1!important; }
+}

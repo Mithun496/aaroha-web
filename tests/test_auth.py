@@ -121,6 +121,10 @@ class AuthFlowTests(unittest.TestCase):
         for label in ('Bookings', 'Profile', 'Notifications', 'My account'):
             self.assertIn(label, traveler)
         self.assertNotIn('>Sign in</a>', traveler)
+        profile = self.client.get('/profile').get_data(as_text=True)
+        for label in ('Explore', 'Guides', 'Plan', 'Bookings', 'Profile', 'Offline Pack', 'Notifications', 'Safety'):
+            self.assertIn(label, profile)
+        self.assertIn('<div class="profile-avatar">A</div>', profile)
 
     def test_destination_photo_variants_are_local_and_credited(self):
         image_root = Path(self.app.static_folder) / 'images' / 'destinations'
@@ -196,6 +200,41 @@ class AuthFlowTests(unittest.TestCase):
         for path in ('/admin/dashboard', '/admin/operations', '/admin/audit-logs', '/admin/partners'):
             with self.subTest(path=path):
                 self.assertEqual(self.client.get(path).status_code, 200)
+
+    def test_trip_planner_uses_selected_party_and_pace_without_live_ai_claims(self):
+        with self.app.app_context():
+            db.session.add_all([
+                Destination(name='Hampi', slug='hampi', region='Karnataka', category='heritage', description='Known heritage region.', is_published=True),
+                Destination(name='Sanapur', slug='sanapur', region='Karnataka', category='nature', description='Known nature destination.', is_published=True),
+                Destination(name='Hidden Place', slug='hidden-place', region='Karnataka', category='nature', description='Unpublished.', is_published=False),
+            ])
+            db.session.commit()
+        self.assertEqual(self.client.get('/trip-planner').status_code, 200)
+        response = self.client.post('/trip-planner', data={
+            'days': '2', 'budget': '12000', 'interests': ['nature', 'made-up-value'],
+            'party_type': 'family', 'pace': 'relaxed',
+        })
+        self.assertEqual(response.status_code, 200)
+        html = response.get_data(as_text=True)
+        self.assertIn('Family · Relaxed pace', html)
+        self.assertIn('rule-based planner', html)
+        self.assertIn('href="/destination/sanapur"', html)
+        self.assertIn('Sanapur</a>', html)
+        self.assertNotIn('Hidden Place', html)
+        self.assertEqual(html.count('class="itinerary-row"'), 4)
+        self.assertNotIn('made-up-value', html)
+        balanced = self.client.post('/trip-planner', data={
+            'days': '2', 'budget': '12000', 'interests': ['nature'],
+            'party_type': 'family', 'pace': 'balanced',
+        }).get_data(as_text=True)
+        self.assertEqual(balanced.count('class="itinerary-row"'), 6)
+
+    def test_trip_planner_does_not_invent_destinations_without_published_records(self):
+        response = self.client.post('/trip-planner', data={'days': '1', 'budget': '5000', 'pace': 'balanced'})
+        self.assertEqual(response.status_code, 200)
+        html = response.get_data(as_text=True)
+        self.assertIn('No published destinations are currently available', html)
+        self.assertNotIn('Virupaksha Temple', html)
 
     def test_csrf_rejects_state_change_without_token(self):
         csrf_app = create_app(self.TestConfig)

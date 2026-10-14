@@ -130,7 +130,14 @@ def trip_planner():
     result = None
     if request.method == "POST":
         raw_interests = request.form.getlist("interests")
-        interests = raw_interests or ["history"]
+        allowed_interests = {"history", "spiritual", "adventure", "photography", "food", "nature", "architecture", "nightlife"}
+        interests = [value for value in raw_interests if value in allowed_interests] or ["history"]
+        party_type = request.form.get("party_type", "solo")
+        if party_type not in {"solo", "couple", "family", "friends"}:
+            party_type = "solo"
+        pace = request.form.get("pace", "balanced")
+        if pace not in {"relaxed", "balanced", "full"}:
+            pace = "balanced"
         try:
             days = max(1, min(14, float(request.form.get("days", "2.5"))))
         except ValueError:
@@ -140,45 +147,46 @@ def trip_planner():
         except ValueError:
             budget = 15000
 
-        slots = [
-            ("09:00", "Heritage start", "Virupaksha Temple"),
-            ("11:00", "Local context", "Hampi heritage walk with a local guide"),
-            ("13:00", "Lunch", "Local Karnataka meal"),
-            ("15:00", "Monument visit", "Vijaya Vittala Temple"),
-            ("17:30", "Sunset", "Hemakuta Hill or a safe viewpoint"),
-            ("19:00", "Dinner", "Local restaurant or resort dining"),
-        ]
-        if "nature" in interests or "photography" in interests:
-            slots[4] = ("17:30", "Golden hour", "Sanapur Lake / nearby viewpoint")
-        if "spiritual" in interests:
-            slots[0] = ("08:30", "Temple visit", "Virupaksha Temple")
+        destinations = Destination.query.filter_by(is_published=True).order_by(Destination.name.asc()).all()
+        interest_categories = set()
+        if {"history", "spiritual", "architecture"} & set(interests):
+            interest_categories.update({"heritage", "culture"})
+        if {"nature", "photography", "adventure"} & set(interests):
+            interest_categories.add("nature")
         if "food" in interests:
-            slots[2] = ("13:00", "Local food stop", "Regional thali and local specialties")
-
+            interest_categories.update({"local-life", "hub"})
+        destinations.sort(key=lambda item: (item.category not in interest_categories, item.name.casefold()))
+        stops_per_day = {"relaxed": 2, "balanced": 3, "full": 4}[pace]
+        times = ("09:00", "12:00", "15:30", "17:30")
+        activities = ("Morning visit", "Local context", "Afternoon visit", "Evening visit")
         day_count = int(days) + (1 if days % 1 else 0)
         itinerary_days = []
         for idx in range(day_count):
+            day_items = []
+            for stop_index in range(stops_per_day):
+                if not destinations:
+                    break
+                destination = destinations[(idx * stops_per_day + stop_index) % len(destinations)]
+                day_items.append((times[stop_index], activities[stop_index], destination.name, destination.slug))
             itinerary_days.append({
                 "day": idx + 1,
-                "title": "Heritage & local life" if idx == 0 else "Explore beyond the core",
-                "items": slots if idx == 0 else [
-                    ("08:30", "Morning", "Anegundi village or Kamalapura"),
-                    ("11:30", "Culture", "Museum / heritage interpretation"),
-                    ("13:30", "Lunch", "Local meal"),
-                    ("16:00", "Riverside / nature", "Tungabhadra area, subject to conditions"),
-                    ("18:00", "Sunset", "Choose a safe, permitted viewpoint"),
-                ],
+                "title": "A day at your preferred pace",
+                "items": day_items,
             })
         result = {
             "days": days,
             "budget": budget,
             "interests": interests,
+            "party_type": party_type,
+            "pace": pace,
             "itinerary_days": itinerary_days,
             "notes": [
                 "This planner is a deterministic MVP and does not yet fetch live traffic, opening hours or weather.",
                 "Always confirm monument hours and local conditions before a timed visit.",
             ],
         }
+        if not destinations:
+            result["notes"].insert(0, "No published destinations are currently available, so no places have been added to this outline.")
     return render_template("traveler/trip_planner.html", result=result)
 
 
