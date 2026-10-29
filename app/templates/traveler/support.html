@@ -1,2 +1,29 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Support | AAROHA</title><link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}"></head><body class="traveler-page"><main class="simple-state-page"><div><span class="eyebrow">AAROHA SUPPORT</span><h1>Travel support, kept simple.</h1><p>For production, connect this page to email/chat support and your verified emergency partner workflow.</p><a class="primary-button" href="{{ url_for('home.index') }}">Back to AAROHA →</a></div></main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Help and support | AAROHA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/travel-app.css') }}">
+</head>
+<body class="traveler-page">
+  <header class="site-header"><a href="{{ url_for('home.index') }}" class="site-brand"><img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA"></a></header>
+  <main class="traveler-shell support-shell">
+    <section class="page-hero compact"><span>HELP & INFORMATION</span><h1>Support for your trip</h1><p>Find the right AAROHA travel tools and account pages.</p></section>
+    <section class="info-card support-notice" role="status"><h2>Contact support</h2><p>A staffed chat or support contact channel is not currently available through this site.</p></section>
+    <div class="support-link-grid">
+      <a class="info-card support-link-card" href="{{ url_for('traveler.explore') }}"><strong>Explore the region</strong><span>Browse published destinations and available services.</span><b aria-hidden="true">→</b></a>
+      {% if session.get('authenticated') and session.get('account_type') == 'traveler' %}
+      <a class="info-card support-link-card" href="{{ url_for('traveler.bookings') }}"><strong>Review your trips</strong><span>See current booking and request statuses.</span><b aria-hidden="true">→</b></a>
+      <a class="info-card support-link-card" href="{{ url_for('marketplace.emergency_contacts') }}"><strong>Emergency contacts</strong><span>Manage contacts saved to your account.</span><b aria-hidden="true">→</b></a>
+      <a class="info-card support-link-card" href="{{ url_for('traveler.sos') }}"><strong>Safety information</strong><span>Review the SOS workflow and emergency call links.</span><b aria-hidden="true">→</b></a>
+      {% else %}
+      <a class="info-card support-link-card" href="{{ url_for('auth.account_type') }}"><strong>Sign in to manage trips</strong><span>Access bookings and account safety contacts.</span><b aria-hidden="true">→</b></a>
+      {% endif %}
+    </div>
+    <p class="support-emergency-note">If there is immediate danger, contact local emergency services directly. AAROHA does not dispatch emergency responders.</p>
+  </main>
+  {% include 'components/traveler_bottom_nav.html' %}
+</body>
+</html>

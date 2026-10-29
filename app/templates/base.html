@@ -6,8 +6,9 @@
     <title>{% block title %}AAROHA{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/travel-app.css') }}">
 </head>
-<body>
+<body class="traveler-page">
     <header class="navbar">
         <a href="/" class="brand">
             <img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA">
@@ -63,5 +64,8 @@
         {% endwith %}
         {% block content %}{% endblock %}
     </main>
+    {% if session.get('account_type') != 'partner' and not session.get('admin_authenticated') %}
+        {% include 'components/traveler_bottom_nav.html' %}
+    {% endif %}
 </body>
 </html>

@@ -1,1 +1,31 @@
-<!doctype html><html><head><meta charset="utf-8"><title>Auto | AAROHA</title></head><body><main><h1>Request an auto</h1>{% if error %}<p>{{ error }}</p>{% endif %}<form method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label>Pickup <input name="pickup" required></label><label>Destination <input name="destination" required></label><label>Captain <select name="captain_id" required>{% for captain in captains %}<option value="{{ captain.id }}">{{ captain.full_name }} · {{ captain.vehicle_number or 'Auto' }}</option>{% else %}<option disabled>No approved captains online</option>{% endfor %}</select></label><button type="submit">Request auto</button></form></main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Request an auto | AAROHA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/travel-app.css') }}">
+</head>
+<body class="traveler-page">
+  <header class="site-header">
+    <a href="{{ url_for('home.index') }}" class="site-brand"><img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA"></a>
+    <nav aria-label="Primary"><a href="{{ url_for('traveler.explore') }}">Explore</a><a href="{{ url_for('traveler.bookings') }}">Trips</a><a href="{{ url_for('traveler.trip_planner') }}">Plan</a><a href="{{ url_for('traveler.profile') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}">Profile</a></nav>
+  </header>
+  <main class="traveler-shell">
+    <section class="page-hero compact"><span>LOCAL TRANSPORT</span><h1>Request an auto</h1><p>Choose from the listed captains and enter your pickup and destination. The request will appear in Trips.</p></section>
+    <section class="info-card service-request-card">
+      {% if error %}<div class="form-error" role="alert">{{ error }}</div>{% endif %}
+      <form method="post" class="service-request-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label for="auto-pickup">Pickup point<input id="auto-pickup" name="pickup" autocomplete="street-address" required></label>
+        <label for="auto-destination">Destination<input id="auto-destination" name="destination" required></label>
+        <label for="auto-captain">Available captain<select id="auto-captain" name="captain_id" required>{% for captain in captains %}<option value="{{ captain.id }}">{{ captain.full_name }} · {{ captain.vehicle_number or 'Auto' }}</option>{% else %}<option value="" disabled selected>No approved captains listed</option>{% endfor %}</select></label>
+        <p class="form-hint">This submits a request; it does not provide live tracking or confirm immediate dispatch.</p>
+        <button type="submit" class="primary-button" {% if not captains %}disabled{% endif %}>Send auto request</button>
+      </form>
+    </section>
+  </main>
+  {% include 'components/traveler_bottom_nav.html' %}
+</body>
+</html>

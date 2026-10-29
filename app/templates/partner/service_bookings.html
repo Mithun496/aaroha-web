@@ -1,1 +1,37 @@
-<!doctype html><html><head><meta charset="utf-8"><title>Service requests | AAROHA</title></head><body><main><h1>Service requests</h1>{% for booking in bookings %}<article><h2>{{ booking.booking_reference }} · {{ booking.booking_type|title }}</h2><p>{{ booking.message or booking.destination }} · {{ booking.status }}</p><form method="post" action="{{ url_for('marketplace.service_booking_decision', booking_id=booking.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">{% if booking.status == 'requested' or booking.status == 'pending' %}<button name="action" value="accept">Accept</button><button name="action" value="reject">Reject</button>{% elif booking.status == 'accepted' %}<button name="action" value="arriving">Arriving</button>{% elif booking.status == 'arriving' %}<button name="action" value="started">Started</button>{% elif booking.status in ['started','confirmed'] %}<button name="action" value="complete">Complete</button>{% endif %}</form></article>{% else %}<p>No service requests.</p>{% endfor %}</main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Service requests | AAROHA Partner</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/travel-app.css') }}">
+</head>
+<body class="partner-dashboard-page">
+  <header class="partner-dashboard-header">
+    <a class="partner-brand" href="{{ url_for('partner.dashboard') }}"><img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA"><span>PARTNER</span></a>
+    <nav class="partner-navigation" aria-label="Partner navigation"><a href="{{ url_for('partner.dashboard') }}">Dashboard</a><a class="active" href="{{ url_for('marketplace.service_bookings') }}">Service requests</a></nav>
+  </header>
+  <main class="partner-dashboard-layout">
+    <section class="partner-page-heading"><span>OPERATIONS</span><h1>Service requests</h1><p>Review incoming auto and coracle requests and update their current status.</p></section>
+    {% if bookings %}
+      <div class="partner-booking-list">
+      {% for booking in bookings %}
+        <article class="partner-panel partner-request-card">
+          <div><span class="request-reference">{{ booking.booking_reference }} · {{ booking.booking_type|replace('_',' ')|title }}</span><h2>{{ booking.destination or 'Service request' }}</h2><p>{{ booking.message or 'No additional details provided.' }}</p><span class="status-pill {{ booking.status }}">{{ booking.status|replace('_',' ')|title }}</span></div>
+          <form method="post" action="{{ url_for('marketplace.service_booking_decision', booking_id=booking.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            {% if booking.status == 'requested' or booking.status == 'pending' %}<button name="action" value="accept" class="primary-button">Accept request</button><button name="action" value="reject" class="secondary-button">Decline</button>
+            {% elif booking.status == 'accepted' %}<button name="action" value="arriving" class="primary-button">Mark arriving</button>
+            {% elif booking.status == 'arriving' %}<button name="action" value="started" class="primary-button">Mark started</button>
+            {% elif booking.status in ['started','confirmed'] %}<button name="action" value="complete" class="primary-button">Complete service</button>{% endif %}
+          </form>
+        </article>
+      {% endfor %}
+      </div>
+    {% else %}
+      <section class="partner-panel partner-empty-state"><h2>No service requests yet</h2><p>Requests for your approved auto or coracle listing will appear here.</p></section>
+    {% endif %}
+  </main>
+</body>
+</html>

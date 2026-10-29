@@ -6,6 +6,7 @@
   <title>Explore | AAROHA</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}?v=20261009-photos">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/travel-app.css') }}">
 </head>
 <body class="traveler-page">
 <header class="site-header">
@@ -46,5 +47,6 @@
   {% endif %}
 </main>
 <script src="{{ url_for('static', filename='js/destination-images.js') }}" defer></script>
+{% include 'components/traveler_bottom_nav.html' %}
 </body>
 </html>

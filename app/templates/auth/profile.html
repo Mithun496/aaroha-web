@@ -18,10 +18,11 @@
     >
 <link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}">
 
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/travel-app.css') }}">
 </head>
 
 
-<body class="auth-page">
+<body class="auth-page traveler-onboarding-page">
 
     <div class="auth-background-glow"></div>
 
@@ -446,6 +447,7 @@
 
     </main>
 
+    {% include 'components/traveler_bottom_nav.html' %}
 </body>
 
 </html>

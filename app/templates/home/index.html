@@ -8,6 +8,7 @@
   <title>AAROHA | Your Hampi travel companion</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}?v=20261014-story">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/travel-app.css') }}">
 </head>
 <body class="home-page">
   <header class="navbar" aria-label="Main navigation">
@@ -327,6 +328,7 @@
 </div>
     <p class="copyright">© 2026 AAROHA. Travel with care.</p>
   </footer>
+  {% include 'components/traveler_bottom_nav.html' %}
   <script src="{{ url_for('static', filename='js/destination-images.js') }}" defer>
 </script>
   <script src="{{ url_for('static', filename='js/home-story.js') }}" defer>

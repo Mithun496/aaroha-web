@@ -1,1 +1,32 @@
-<!doctype html><html><head><meta charset="utf-8"><title>Coracles | AAROHA</title></head><body><main><h1>Book a coracle</h1>{% if error %}<p>{{ error }}</p>{% endif %}<form method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label>Operator <select name="operator_id" required>{% for operator in operators %}<option value="{{ operator.id }}">{{ operator.business_name }} · {{ operator.price }} INR per passenger</option>{% else %}<option disabled>No approved operators</option>{% endfor %}</select></label><label>Date <input type="date" name="booking_date" required></label><label>Time <input name="booking_time" required></label><label>Passengers <input type="number" name="passengers" min="1" required></label><button type="submit">Request coracle</button></form></main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Request a coracle ride | AAROHA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/travel-app.css') }}">
+</head>
+<body class="traveler-page">
+  <header class="site-header">
+    <a href="{{ url_for('home.index') }}" class="site-brand"><img src="{{ url_for('static', filename='images/logo/aaroha-logo.png') }}" alt="AAROHA"></a>
+    <nav aria-label="Primary"><a href="{{ url_for('traveler.explore') }}">Explore</a><a href="{{ url_for('traveler.bookings') }}">Trips</a><a href="{{ url_for('traveler.trip_planner') }}">Plan</a><a href="{{ url_for('traveler.profile') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}">Profile</a></nav>
+  </header>
+  <main class="traveler-shell">
+    <section class="page-hero compact"><span>RIVER EXPERIENCES</span><h1>Request a coracle ride</h1><p>Choose an approved operator, date and passenger count within the listed capacity.</p></section>
+    <section class="info-card service-request-card">
+      {% if error %}<div class="form-error" role="alert">{{ error }}</div>{% endif %}
+      <form method="post" class="service-request-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label for="coracle-operator">Operator<select id="coracle-operator" name="operator_id" required>{% for operator in operators %}<option value="{{ operator.id }}">{{ operator.business_name }} · ₹{{ operator.price }} per passenger · capacity {{ operator.boat_capacity or 'not listed' }}</option>{% else %}<option value="" disabled selected>No approved operators listed</option>{% endfor %}</select></label>
+        <label for="coracle-date">Preferred date<input id="coracle-date" type="date" name="booking_date" required></label>
+        <label for="coracle-time">Preferred time<input id="coracle-time" name="booking_time" placeholder="For example, 10:00 AM" required></label>
+        <label for="coracle-passengers">Passengers<input id="coracle-passengers" type="number" name="passengers" min="1" required></label>
+        <p class="form-hint">This sends a booking request. The operator must confirm the request.</p>
+        <button type="submit" class="primary-button" {% if not operators %}disabled{% endif %}>Send ride request</button>
+      </form>
+    </section>
+  </main>
+  {% include 'components/traveler_bottom_nav.html' %}
+</body>
+</html>

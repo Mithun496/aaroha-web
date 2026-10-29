@@ -1,5 +1,6 @@
 import unittest
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -125,6 +126,40 @@ class AuthFlowTests(unittest.TestCase):
         for label in ('Explore', 'Guides', 'Plan', 'Bookings', 'Profile', 'Offline Pack', 'Notifications', 'Safety'):
             self.assertIn(label, profile)
         self.assertIn('<div class="profile-avatar">A</div>', profile)
+
+    def test_five_tab_navigation_contract_and_favicon(self):
+        expected_labels = ('Home', 'Explore', 'Trips', 'AI', 'Profile')
+        guest_html = self.client.get('/auto').get_data(as_text=True)
+        nav = guest_html.split('class="traveler-bottom-nav"', 1)[1].split('</nav>', 1)[0]
+        self.assertEqual(re.findall(r'<a\b', nav), ['<a'] * 5)
+        for label in expected_labels:
+            self.assertIn(f'<small>{label}</small>', nav)
+        for target in ('href="/"', 'href="/explore"', 'href="/bookings"', 'href="/trip-planner"', 'href="/auth/account-type"'):
+            self.assertIn(target, nav)
+        favicon_response = self.client.get('/favicon.ico')
+        self.assertEqual(favicon_response.status_code, 200)
+        self.assertTrue(favicon_response.content_type.startswith('image/svg+xml'))
+        favicon_response.close()
+
+        with self.client.session_transaction() as session:
+            session.update(authenticated=True, account_type='traveler', phone_number='+919800000099')
+        traveler_html = self.client.get('/profile').get_data(as_text=True)
+        nav = traveler_html.split('class="traveler-bottom-nav"', 1)[1].split('</nav>', 1)[0]
+        self.assertEqual(re.findall(r'<a\b', nav), ['<a'] * 5)
+        self.assertIn('href="/profile"', nav)
+
+    def test_mobile_navigation_css_keeps_tabs_shrinkable_and_safe_area_aware(self):
+        stylesheet = Path(self.app.static_folder, 'css', 'travel-app.css').read_text(encoding='utf-8')
+        for rule in (
+            '@media (max-width: 700px)',
+            '.traveler-bottom-nav a { display:flex; flex:1 1 20%; width:20%; min-width:0;',
+            'min-height:calc(64px + env(safe-area-inset-bottom))',
+            'padding:6px 8px calc(6px + env(safe-area-inset-bottom))',
+            'padding-bottom:calc(78px + env(safe-area-inset-bottom))',
+            'main.traveler-shell { width:calc(100% - 32px)!important;',
+        ):
+            with self.subTest(rule=rule):
+                self.assertIn(rule, stylesheet)
 
     def test_destination_photo_variants_are_local_and_credited(self):
         image_root = Path(self.app.static_folder) / 'images' / 'destinations'

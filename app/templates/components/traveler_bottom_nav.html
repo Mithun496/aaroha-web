@@ -1,0 +1,17 @@
+<nav class="traveler-bottom-nav" aria-label="Traveler navigation">
+  <a href="{{ url_for('home.index') }}" {% if request.endpoint == 'home.index' %}aria-current="page" class="is-active"{% endif %}>
+    <span aria-hidden="true">⌂</span><small>Home</small>
+  </a>
+  <a href="{{ url_for('traveler.explore') }}" {% if request.endpoint in ['traveler.explore', 'traveler.destination', 'traveler.guides', 'traveler.guide_detail', 'traveler.bikes', 'traveler.bike_detail', 'traveler.resorts', 'traveler.resort_detail', 'traveler.services', 'marketplace.auto', 'marketplace.coracles'] %}aria-current="page" class="is-active"{% endif %}>
+    <span aria-hidden="true">⌕</span><small>Explore</small>
+  </a>
+  <a href="{{ url_for('traveler.bookings') }}" {% if request.endpoint == 'traveler.bookings' %}aria-current="page" class="is-active"{% endif %}>
+    <span aria-hidden="true">▤</span><small>Trips</small>
+  </a>
+  <a href="{{ url_for('traveler.trip_planner') }}" {% if request.endpoint == 'traveler.trip_planner' %}aria-current="page" class="is-active"{% endif %}>
+    <span aria-hidden="true">✳</span><small>AI</small>
+  </a>
+  <a href="{{ url_for('traveler.profile') if session.get('authenticated') and session.get('account_type') == 'traveler' else url_for('auth.account_type') }}" {% if request.endpoint in ['traveler.profile', 'auth.profile'] %}aria-current="page" class="is-active"{% endif %}>
+    <span aria-hidden="true">◉</span><small>Profile</small>
+  </a>
+</nav>

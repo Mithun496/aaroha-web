@@ -102,6 +102,10 @@ def create_app(config_object=Config):
             return jsonify({"error": "not_found"}), 404
         return render_template("errors/404.html"), 404
 
+    @app.route("/favicon.ico")
+    def favicon():
+        return app.send_static_file("favicon.svg")
+
     @app.errorhandler(500)
     def internal_error(_error):
         db.session.rollback()
